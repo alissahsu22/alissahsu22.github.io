@@ -1,8 +1,3 @@
-body {
-    margin: 0;
-    padding: 0;
-}
-
 #container {
     position: fixed;
     top: 18%;
@@ -16,79 +11,38 @@ body {
     border: 1px solid black;
 }
 
-nav {
-    position: absolute;
-    top: 8%;
-    left: 10%;
-    width: 80vw;
-    z-index: 10;
-}
-
-.navLinks {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 12rem;
-    list-style: none;
-    font-size: 1.5rem;
-}
-
-.logo{
-    position: absolute;
-    top:1%;
-    left:44%;
-    font-size: 3rem;
-}
-
-a {
-    color: black;
-    text-decoration: none;
-    text-decoration-color: white;
-}
-
-a:hover {
-    color: rgb(238, 79, 79);
-    text-decoration: underline;
-    text-underline-offset: .5rem;
-    text-decoration-color: rgb(255, 0, 0);
-}
-
-#container li{
+#container li {
     font-size: 1.5rem;
     padding: .5rem;
 }
 
-#container a:hover{
+#container a:hover {
     color: rgb(255, 96, 96);
     text-decoration-color: rgb(242, 0, 0);
 }
 
-
-
-.description{
+.description {
     font-family: Arial, Helvetica, sans-serif;
     position: absolute;
     top: 35%;
-    left:30%;
+    left: 30%;
     padding: 2rem;
-    font-weight:lighter;
+    font-weight: lighter;
 }
 
-.description h1{
+.description h1 {
     position: absolute;
     top: -35%;
-    left:4%;
-    font-size:3rem;
-    margin:0;
-    padding:0;
-    font-weight:lighter;
+    left: 4%;
+    font-size: 3rem;
+    margin: 0;
+    padding: 0;
+    font-weight: lighter;
 }
 
-.description h2{
-    font-weight:lighter;
-
+.description h2 {
+    font-weight: lighter;
 }
-
 
 .description .highlight {
     font-weight: bold;
@@ -99,7 +53,7 @@ a:hover {
 .profilePic {
     position: absolute;
     top: 22%;
-    left:5%;
+    left: 5%;
     width: 17rem;
     height: 17rem;
     border-radius: 50%;
@@ -112,4 +66,60 @@ a:hover {
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
+}
+
+@media (max-width: 576px) {
+    #container{
+        position: fixed;
+        top: 42%;
+        left: 8%;
+        min-height: 55%;
+        min-width: 87%;
+        width: 87vw;
+        height: 55vh;
+
+    }
+    .profilePic {
+        position: static;
+        width: 10rem;
+        height: 10rem;
+        margin:  1rem auto 0 1rem;
+        align-self: flex-end;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .profilePic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .description {
+        position: static;
+        top: auto;
+        left: auto;
+        padding: 1.5rem;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .description h1 {
+        position: absolute;
+        top: 20%;
+        left: 40%;
+        font-size: 2rem;
+        margin: 0 0 1rem 0;
+    }
+
+    .description h2 {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .description .highlight {
+        font-size: 2.5rem;
+        /* display: block; */
+    }
 }
