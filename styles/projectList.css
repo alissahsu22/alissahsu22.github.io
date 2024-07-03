@@ -1,3 +1,27 @@
+#container {
+    max-height: 400px; 
+    overflow-y: auto; 
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid black;
+}
+
+#container ul {
+    padding: 0;
+    margin: 0;
+}
+
+#container ul ul {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+#container li {
+    margin-bottom: 10px;
+}
+
 
 #container li{
     font-size: 1.5rem;
@@ -10,48 +34,14 @@
 }
 
 
-#container {
-    max-height: 400px; 
-    overflow-y: auto; 
-    padding: 2rem;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid black;
-}
-
-ul {
-    padding: 0;
-    margin: 0;
-}
-
-ul ul {
-    padding-left: 20px;
-    margin-top: 10px;
-}
-
-li {
-    margin-bottom: 10px;
-}
 @media (max-width: 576px) {
-    nav {
-        left: 18%;
-        top: 10%;
-    }
     #container{
-        position: fixed;
-        top: 42%;
-        left: 8%;
-        min-height: 45%;
-        height: 45vh;
-        min-width: 77%;
-        width: 7 7vw;
-       
+        min-height: 40vh;
+        min-width: 65vh;
+        width: 15vw;
+        height: 10vh;
     }
-    .logo {
-        left: 10%;
-        top: 5%;
-    }
+    
 
     #container li {
         font-size: 1rem; /* Adjust font size for better readability on mobile */
@@ -61,7 +51,6 @@ li {
     #container a {
         font-size: 1rem; /* Adjust font size for better readability on mobile */
     }
+
  
-    
-   
 }

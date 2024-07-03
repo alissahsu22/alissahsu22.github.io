@@ -55,22 +55,31 @@ a {
 
 @media (max-width: 576px) {
     #container {
-        top: 42%;
-        min-height: 80%;
-        min-width: 80%;
-        width: 80vw;
-        height: 80vh;
+        top: 46%;
+        left:11%;
+        min-height: 50vh;
+        min-width: 75;
+        width: 75vw;
+        height: 50vh;
     }
+
 
     .navLinks {
         flex-direction: column;
-        gap: 2rem;
         font-size: 1.2rem;
+        gap:2rem;
+    }
+
+    nav {
+        top: 10%;
+        left: 10%;
     }
 
     .logo {
-        position: relative;
-        left: 4%;
+        position: absolute;
+        left: 38%;
+        top: 3%;
         font-size: 2.5rem;
     }
+    
 }

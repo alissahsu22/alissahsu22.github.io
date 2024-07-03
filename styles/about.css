@@ -69,20 +69,12 @@
 }
 
 @media (max-width: 576px) {
-    #container{
-        position: fixed;
-        top: 42%;
-        left: 8%;
-        min-height: 55%;
-        min-width: 87%;
-        width: 87vw;
-        height: 55vh;
+ 
 
-    }
     .profilePic {
         position: static;
-        width: 10rem;
-        height: 10rem;
+        width: 8rem;
+        height: 8rem;
         margin:  1rem auto 0 1rem;
         align-self: flex-end;
         border-radius: 50%;

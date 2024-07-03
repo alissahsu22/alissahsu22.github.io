@@ -99,17 +99,15 @@ video {
     }
 
     .playBtn {
-        top: 30%;
-        left: 38%;
-        font-size: 2.5rem;
-        text-align: center;
+        top:45%;
+        left: 45%;
+        font-size: 1.5rem;
     }
 
-    .playBtn:hover{
-        top: 30%;
-        left: 33%;
-        font-size: 4rem;
-    
+    .playBtn:hover {
+        top: 40%;
+        left: 32%;
+        font-size: 2rem;
     }
 
     .starWrapper {
