@@ -37,8 +37,8 @@
 @media (max-width: 576px) {
     #container{
         min-height: 40vh;
-        min-width: 45vh;
-        width: 15vw;
+        min-width: 65%;
+        width: 65%;
         height: 10vh;
     }
     
