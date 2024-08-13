@@ -69,7 +69,15 @@
 }
 
 @media (max-width: 576px) {
- 
+    #container{
+        top: 19rem;
+        left: 1rem;
+        min-height: 55vh;
+        min-width: 93%;
+        width: 92%;
+        height: 10vh;
+    }
+    
 
     .profilePic {
         position: static;
