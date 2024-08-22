@@ -11,12 +11,12 @@ video {
     object-position: 70% bottom ;
 }
 
-
+/* 
 .fuzzy-bubbles-bold {
     font-family: 'Fuzzy Bubbles', cursive;
     font-weight: 700;
     font-style: normal;
-}
+} */
 
 .playBtn {
     z-index: 10;
