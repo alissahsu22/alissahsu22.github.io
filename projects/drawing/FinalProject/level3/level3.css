@@ -1,0 +1,220 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    overflow:hidden;
+}
+
+#myCanvas{
+    background-color: black;
+    z-index: -10
+}
+
+.description-box {
+  position: absolute;
+  bottom: 20px; 
+  left: 20px; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: white; 
+  padding: 10px; 
+  border-radius: 8px; 
+  max-width: 300px; 
+  font-family: Arial, sans-serif; 
+  font-size: 14px; 
+  z-index: 100;
+}
+
+#playerCanvas {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    /* transform: translate(2rem, 0rem);  */
+    z-index: 1; 
+    /* background-color: red; */
+}
+
+#overlayCanvas {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    z-index: 2; 
+    /* background-color: green; */
+}
+
+  
+#scene {
+    position: absolute;
+    top:40%;
+    left:40%;
+    width: 20rem;
+    height: 20rem;
+    perspective: 50rem;
+    z-index: 3;
+}
+  
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(-20deg) rotateY(30deg) ;
+}
+
+#item{
+  width:5rem;
+  height: 5rem;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(180deg) translateZ(200px) translateX(-4.5rem) translateY(7.5rem);
+}
+
+.face {
+    /* opacity: 0.6; */
+    position: absolute;
+    width: 12.5rem;
+    height: 12.5rem;
+    border: 3px solid rgb(15, 15, 15);
+    /* background-color: rgb(245, 245, 255); */
+}
+
+.bar{
+    fill: rgb(65, 64, 64);
+    stroke: black;
+    stroke-width: 3;
+}
+  
+  /* front */
+  .face:nth-child(1) {
+    transform: rotateY(0deg) translateZ(100px);
+    /* background-image: url(images/box-face2.png);
+    background-size: cover; */
+  }
+  
+  /* right */
+  .face:nth-child(2) {
+    /* background-image: url(images/box-face2.png); */
+    /* background-color: rgb(255, 0, 0); */
+    /* background-size: cover; */
+    transform: rotateY(90deg) translateZ(100px);
+  }
+  
+  /* back */
+  .face:nth-child(3) {
+    /* background-image: url(images/box-face2.png);
+    background-size: cover; */
+    /* background-color: rgb(246, 255, 0); */
+    transform: rotateY(180deg) translateZ(100px);
+  }
+  
+  /* left */
+  .face:nth-child(4) {
+    /* background-image: url(images/box-face2.png);
+    background-size: cover; */
+    /* background-color: rgb(9, 255, 0); */
+    transform: rotateY(-90deg) translateZ(100px);
+  }
+  
+  /* top */
+  .face:nth-child(5) {
+    /* background-image: url(images/box-top2.png);
+    background-size: cover; */
+    /* background-color: rgb(0, 157, 255); */
+    transform: rotateX(90deg) translateZ(100px);
+    background-color: rgb(45, 45, 45);
+  }
+  
+  /* bottom */
+  .face:nth-child(6) {
+    /* background-image: url(images/box-face2.png);
+    background-size: cover; */
+    /* background-color: rgb(166, 0, 255); */
+    transform: rotateX(-90deg) translateZ(100px);
+    background-color: rgb(45, 45, 45);
+  }
+  
+
+  .shake{
+    animation-name: shake;
+    animation-duration: .1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  .spin{
+    animation-name: spin;
+    animation-duration: .3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 5;
+}
+
+.topOpen{
+    animation-name: topOpen;
+    animation-duration: 3s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.popOutFast{
+  animation-name: popOutFast;
+  animation-duration: .2s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.popOut{
+    animation-name: popOut;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  
+
+  @keyframes shake{
+    0% {  transform: rotateX(-20deg) rotateY(30deg) translateX(0); }
+   25% { transform: rotateX(-20deg) rotateY(30deg)translateX(5px); }
+   50% { transform: rotateX(-20deg) rotateY(30deg) translateX(-5px); }
+   75% { transform: rotateX(-20deg) rotateY(30deg) translateX(5px); }
+   100% { transform: rotateX(-20deg) rotateY(30deg) translateX(0); }
+}
+
+@keyframes spin {
+   from {transform: rotateX(-20deg) rotateY(0deg) ;}
+   to {transform: rotateX(-20deg) rotateY(360deg) ;}
+}
+ 
+@keyframes topOpen{
+   0%{transform: rotateX(90deg) translateZ(100px);}
+   10%{transform: rotateX(100deg) translateY(30px) translateZ(115px);}
+   30% {transform: rotateX(110deg) translateX(-7px) translateY(60px) translateZ(125px);}
+   60% {transform: rotateX(120deg)  translateX(-3px) translateY(72px) translateZ(135px);}
+   100% {transform: rotateX(140deg) translateY(112px) translateZ(140px);}
+}
+
+@keyframes popOutFast{
+   0%{transform: translateY(100px);}
+   90%{transform: translateY(-100px);
+       transform: scale(50);
+   }
+   98%{transform: scale(90) translateX(-900px);}
+   99%{
+     transform: scale(1000) translateX(-900px);
+   }
+   100%{
+     transform: scale(0);
+     width: 10px; height: 10px;
+   }
+}
+
+/* could also change img here  */
+@keyframes popOut {
+    to{
+       transform: translateX(0rem) translateY(-15rem);
+    }
+  }

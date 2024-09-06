@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Let's Talk!</title>
+
+    <link rel = 'stylesheet' href = 'styles/contact.css'>
+    <link rel = "stylesheet" href = "styles.css">
+
+    <script src="https://kit.fontawesome.com/e92674a576.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav>
+        <div class = "nav_bar">
+            <div class = "nav_bar-left">
+                <a href = "shop.html" class = "shop">Shop</a>
+                <a href = "about_us.html" class = "about-us">About us</a>
+                <a href = "contact.html" class = "contact" id = "active">Contact</a>  
+            </div>
+            
+            <div class = "nav_bar-center"><a href = "index.html"><img id = "logo" src = "images/logo_1600.png" srcset = "images/logo_800.png" srcset = "images/logo_400.png" width = "1600" height = "1291" alt = "Alpacka logo"></a></div>
+
+            <div class = "nav_bar-right">
+                <a href = "search.html" class = "search" ><i class="fa-solid fa-magnifying-glass"></i></a>
+                <a href = "login.html" class = "account"><i class="fa-solid fa-user"></i></a>
+                <a href = "cart.html" class = "cart" ><i class="fa-solid fa-cart-shopping"></i></a>
+            </div>
+        </div>
+    </nav>
+    
+    <section class = "contact">
+        <header id = "heading">
+            <h1>Contact Us</14>
+            <h2>Have questions? Have feedback? Just want to talk?</h2>
+            <h3>Fill out the form and we'll work to get back to you as soon as possible!</h3>
+        </header>
+        
+        <div class = "wrapper">
+            <div class = "decos">
+                <img id = "deco1" src = "images/contact-deco1_1600.png" width = "1600" height = "1188">
+                <img id = "deco2" src = "images/contact-deco2_800.png" width = "800" height = "1554">
+            </div>
+
+            <div class = "contact_form">
+                <h3>Let's Talk!</h3>
+                <form  
+                action="https://formspree.io/f/xrgwwlwa" method="POST"
+                onsubmit="this.submit(); this.reset(); return false;"
+                >
+                    <div class = "name">
+                        <input type="text" name="name" id="name" placeholder = "Name" required />
+                    </div>
+
+                    <div class = "email">
+                        <input type="text" name="email" id="email" placeholder = "Email" required />
+                    </div>
+
+                    <div class = "message">
+                        <input type="text" name="message" id="message" placeholder = "Type your Message..."required />
+                    </div>
+
+                    <input type="submit">
+                </form>
+            </div>
+
+        </div>
+    </section>
+    
+    <footer>
+        <div class = "col">
+            <img id = "footer_logo" src = "images/logo_1600.png" srcset = "images/logo_800.png" srcset = "images/logo_400.png" width = "1600" height = "1291" alt = "Alpacka logo"></a>
+            <h4><strong>Contact</strong></h4>
+            <p><strong>Address: </strong>310 Third Avenue, New York, New York</p>
+            <p><strong>Phone: </strong>201-937-7984</p>
+            <p><strong>Hours: </strong>10:00 - 18:00 Mon-Sat</p>
+            
+        </div>
+
+        <div class = "col">
+            <h4>About</h4>
+            <a href = "renovation.html">About us</a>
+            <a href = "renovation.html">Delivery Information</a>
+            <a href = "renovation.html">Privacy Policy</a>
+            <a href = "renovation.html">Terms & Conditions</a>
+            <a href = "renovation.html">Contact Us</a>
+        </div>
+
+        <div class = "col">
+            <h4>My Account</h4>
+            <a href = "renovation.html">Sign in</a>
+            <a href = "renovation.html">View Cart</a>
+            <a href = "renovation.html">My Wishlist</a>
+            <a href = "renovation.html">Track My Order</a>
+            <a href = "renovation.html">Help</a>
+        </div>
+
+        <div class = "col install">
+            <h4>Install App</h4>
+            <p>From App Store or Google Play</p>
+            <div class = "row">
+                <a href = "renovation.html"><img src = "images/app.jpg" width =170 height = 48 alt = "App Store icon"></a>
+                <a href = "renovation.html"><img src = "images/play.jpg" width = 170 height = 48 alt = "Google Play icon"></a>
+            </div>
+            <p>Secured Payment Gateways</p>
+            <img src = "images/pay.png" width = 224 height = 32 alt = "Acceptable credit cards"> 
+        </div>
+
+        <div class = "copyright">
+            <p>Copyright © 2023 Kaizen8 LLC - All Rights Reserved.</p>
+        </div>
+
+    </footer>
+</body>
+</html>

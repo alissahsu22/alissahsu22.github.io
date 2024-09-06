@@ -1,0 +1,144 @@
+body{
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    /* background-color: black; */
+  }
+  
+#container{
+    background-image: url('images/background.png');
+    background-size: 100vw 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    min-width: 100%;
+    width: auto;
+    height: auto;
+}
+
+.description-box {
+    position: absolute;
+    bottom: 20px; 
+    left: 20px; 
+    background-color: rgba(0, 0, 0, 0.7); 
+    color: white; 
+    padding: 10px; 
+    border-radius: 8px; 
+    max-width: 300px; 
+    font-family: Arial, sans-serif; 
+    font-size: 14px; 
+    z-index: 100;
+}
+
+video {
+    mix-blend-mode: multiply;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: -30%;
+    left: -20%;
+    min-height: 100%;
+    min-width: 100%;
+    width: auto;
+    height: auto;
+    /* left: -50%; */
+}
+
+#sunbaby{
+    position: absolute;
+    top: -2%;
+    right: -3%;
+    width: 12rem;
+    height: 12rem;
+}
+
+.exitAnimation{
+    animation-name: horizontal-shaking;
+    animation-duration: .2s;
+    animation-iteration-count: infinite;
+    
+}
+
+@keyframes horizontal-shaking {
+    0% { transform: translate(0,0) }
+    25% { transform: translate(2rem,1rem) }
+    50% { transform: translate(-2.5rem,-1.5rem) }
+    75% { transform: translate(2.5rem,2.5rem) }
+    100% { transform: translate(0,0) }
+}
+
+.armAnimation{
+    animation-name: armMove;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes armMove {
+    0% { transform: translateY(0) }
+    25% { transform: translateY(2rem) }
+    50% { transform: translateY(-2.5rem) }
+    75% { transform: translateY(2.5rem) }
+    100% { transform: translateY(0) }
+}
+
+  
+  #player{
+    background-image: url('images/player.png');
+    background-position: 1rem;
+    background-size: 100px 200px;
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 200px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: fixed;
+    z-index: 100;
+  }
+
+
+.monster{
+    width: 2rem;
+    height: 20rem;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    border-radius: 5px;
+}
+
+.arm{
+    width: 1.495rem;
+    height: 100rem;
+    /* background-color: rgba(192,161,85,255); */
+    background-color: rgba(175,171,163,255);
+    border: 3px solid rgba(101,100,96,255);
+    /* height of hand */
+    top: 4.5rem;
+    left: 1.04rem;
+    position: absolute;
+}
+
+.hand{
+    background-image: url('images/hand.png');
+    filter: grayscale(90%);
+    background-size: 4rem 5rem;
+    background-repeat: no-repeat;
+    width: 4rem;
+    height: 5rem;
+    /* background-color: red; */
+    top: 0;
+    left: 0;
+    position: absolute;
+
+  }
+
+#overlayCanvas {
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    z-index: 1000; 
+    display:none;
+    background-color: black;
+}
