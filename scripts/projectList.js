@@ -8,18 +8,23 @@ const projects = {
         url: '../projects/emotionDetection/templates/index.html',
         description: 'Pre-trained model determines user emotion and recommends song using spotify API.'
     },
-    'Computer Vision Golf Ball Tracking and Detection Model': {
-        url: 'javascript:openVideo()',
-        description: "Video result demonstrating ML model's capabilities adept at handling varying trajectories and lighting conditions for golf ball detection and tracking."
-    },
     'Generative Art Gallery': {
         url: '../projects/drawing',
         description: 'Visually compelling generative art that experiments with mathematical calculations, randomness, and user interactivity. Each project incorporates Web APIS, raster/vector graphics, CSS animation, JS libraries, HTML canvas,etc. '
+    },
+    'Full Stack E-Commerce Site with Shopify':{
+        url: ' https://aronicadiffuser.myshopify.com/',
+        description: 'Enter password: temporaryStorePassword22....Note: site is still under construction'
+    },
+    'Computer Vision Golf Ball Tracking and Detection Model': {
+        url: 'javascript:openVideo()',
+        description: "Video result demonstrating ML model's capabilities adept at handling varying trajectories and lighting conditions for golf ball detection and tracking."
     },
     'Web Development Projects': {
         url: '../projects/webdev',
         description: 'Full stack projects with front-end languages including HTML, CSS, JS as well as back-end languages including SQL and PHP.'
     },
+   
    
 };
 

@@ -16,10 +16,14 @@ playBtn.addEventListener('click',(event)=>{
 })
 
 const projects = {
+    'Emotion-Based Music Recommender System Using Image Classification':'../projects/emotionDetection/templates/index.html',
     'Computer Vision Golf Ball Tracking and Detection Model': 'javascript:openVideo()',
-    'Generative Art Gallery': 'https://i6.cims.nyu.edu/~aoh2024/drawing/index.html',
-    'Web Development Projects': 'https://i6.cims.nyu.edu/~aoh2024/webdev/index.html'
+    'Generative Art Gallery': '../projects/drawing',
+    'Web Development Projects': '../projects/webdev',
+    'Full Stack E-Commerce Site with Shopify':'https://aronicadiffuser.myshopify.com/',
+    
 };
+
 
 function openVideo() {
     window.open('projects/golfball.avi', '_blank', 'width=800,height=600');
