@@ -1,6 +1,6 @@
-const container = document.querySelector('#container');
+const container = document.querySelector('.VideoContainer');
 const indexVideo = container.querySelector('.indexVideo');
-const video = container.querySelector('.scene1Video');
+const scene1Video = container.querySelector('.scene1Video');
 const playBtn = container.querySelector('.playBtn');
 
 indexVideo.playbackRate = 0.9;
@@ -13,6 +13,8 @@ playBtn.addEventListener('click',(event)=>{
 })
 
 
-video.addEventListener('ended', () => {
-    window.location.href = 'projects.html';
+scene1Video.addEventListener('ended', () => {
+    setTimeout(() => {
+        window.location.href = 'about.html';
+    }, 500);
 });

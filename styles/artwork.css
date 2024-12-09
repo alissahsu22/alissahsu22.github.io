@@ -1,0 +1,644 @@
+.artworkLink{
+    color: #fa1413;  
+}
+
+.main{
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+}
+.squiggleAbout {
+    position: absolute;
+    top: 45%;  
+    left: 5%; 
+    z-index: -10;
+    transform: scale(1.1);
+    fill: #fa1413;  
+}
+
+.starAbout {
+    position: absolute;
+    top: 40.5%; 
+    left: -3.5%; 
+    z-index: -10;
+    transform: scale(.32);
+    fill: #fa1413;  
+}
+
+
+.container {
+    position: absolute;
+    width: 72%;
+    height: 38rem;
+    left: 25%;
+    top:3rem;
+    margin-right: 1rem;
+    z-index: -1;
+}
+
+#artworkBackground {
+    width: 100%;         
+    height: 100%;       
+    object-fit: fill;    
+}
+
+
+
+@media (max-width: 1300px) and (min-width: 1160px) {
+ 
+    .squiggleAbout {
+        top: 46%;  
+        left: 5%; 
+        transform: scale(1.1);
+    }
+    
+    .starAbout {
+        top: 41.5%; 
+        left: -3.5%; 
+        transform: scale(.32);
+    }
+
+    .container {
+        top:2rem;
+        left: 24rem;
+        width: 68vw;
+    }
+    
+    #artworkBackground {
+        transform: scale(.95);
+    }
+   
+}
+@media (max-width: 1159px) and (min-width: 1000px) {
+    .squiggleAbout {
+        top: 43%;  
+        left: 5%; 
+        transform: scale(1.1);
+    }
+    
+    .starAbout {
+        top: 39%; 
+        left: -4.5%; 
+        transform: scale(.32);
+    }
+
+    .container {
+        top:2rem;
+        left: 20rem;
+        width: 72vw;
+    }
+    
+    #artworkBackground {
+        transform: scale(.9);
+    }
+
+}
+
+@media (max-width: 1001px) and (min-width: 849px) {
+    .squiggleAbout {
+        top: 39%;  
+        left: 5%; 
+        transform: scale(.85);
+    }
+    
+    .starAbout {
+        top: 35%; 
+        left: -4.5%; 
+        transform: scale(.2);
+    }
+    .container {
+        top:3rem;
+        left: 21rem;
+        width: 62vw;
+        height: 70vh;
+    }
+    
+
+}
+
+@media (max-width: 850px) and (min-width: 740px) {
+    .squiggleAbout {
+        top: 38%;  
+        left: 5%; 
+        transform: scale(.85);
+    }
+    
+    .starAbout {
+        top: 35%; 
+        left: -4.5%; 
+        transform: scale(.2);
+    }
+
+    .container {
+        top:3rem;
+        left: 21rem;
+        width: 56vw;
+        height: 70vh;
+    }
+}
+
+@media (max-width: 739px) and (min-width: 699px) {
+    .squiggleAbout {
+        top: 38%;  
+        left: 7%; 
+        transform: scale(.85);
+    }
+    
+    .starAbout {
+        top: 35%; 
+        left: -6%; 
+        transform: scale(.2);
+    }
+
+    .container {
+        top:3rem;
+        left: 21rem;
+        width: 50vw;
+        height: 70vh;
+    }
+   
+}
+
+
+@media (max-width: 699px) {
+    .squiggleAbout {
+        top: 58%;  
+        left: 37%; 
+        transform: scale(.85);
+    }
+    
+    .starAbout {
+        top: 52%; 
+        left: -6%; 
+        transform: scale(.2);
+    }
+    .container {
+        left: 5%;
+        width: 90%;
+    }
+
+    #header {
+        width: 80%;
+        top: 15rem;
+        left: 10%;
+    }
+
+    .slideshow {
+        left: 50%;
+        top: 85%;
+        width: 90%;
+    }
+}
+
+.slideshow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 28%;
+    left: 25%;
+    width: 70%;
+    z-index: 5;
+}
+
+
+.img1 img, .img2 img, .img3 img { 
+    width: 15rem;
+    height: auto;
+    transition: all 0.3s ease;
+    z-index: 100;
+    border: 2px solid rgba(250, 20, 19, 0);
+    position: relative;
+}
+
+.img1 img { 
+    opacity: 0.8;
+    transform: scale(0.8) translateX(-35%);
+}
+
+.img2 img { 
+    opacity: 1;
+    transform: scale(1.2);
+    z-index: 101;
+}
+
+.img3 img { 
+    opacity: 0.8;
+    transform: scale(0.8) translateX(15%);
+}
+
+.img2 img:hover {
+    border: 3px solid #fa1413;
+    /* background-color: #000000; */
+    opacity: .3;
+}
+
+.img1, .img2, .img3 {
+    position: relative;
+}
+
+.description {
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    width: max-content;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.img1:hover .description,
+.img2:hover .description,
+.img3:hover .description {
+    opacity: 1;
+}
+
+#header{
+    z-index: 10;
+    position: absolute;
+    top: -3.5rem;
+    left: 51%;
+    width: 20rem;
+    height: 20.26rem;
+}
+
+#rightBtnTop {
+    z-index: 10;
+    position: absolute;
+    top: 12.5%;
+    right: 20%;
+    width: 2.5rem;
+    cursor: pointer;
+}
+
+#leftBtnTop {
+    z-index: 10;
+    position: absolute;
+    top: 12.5%;
+    left: 43%;
+    width: 2.5rem;  /* Changed from 1rem to match right button */
+    cursor: pointer;
+}
+
+
+#leftBtn{
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    left: 28%;
+    width: 3rem;
+}
+
+#rightBtn{
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    right: 4%;
+    width: 3.5rem;
+}
+
+#leftBtn .leftBtnFill, #rightBtn .rightBtnFill {
+    fill: white;
+    cursor: pointer;
+}
+
+#leftBtn .leftBtnFill:hover {
+    fill: #fa1413;
+}
+
+#rightBtn .rightBtnFill:hover {
+    fill: #fa1413;
+}
+
+#leftBtnTop .leftBtnFillTop, #rightBtnTop .rightBtnFillTop {
+    fill: white;
+    cursor: pointer;
+}
+
+#leftBtnTop .leftBtnFillTop:hover {
+    fill: #fa1413;
+}
+
+#rightBtnTop .rightBtnFillTop:hover {
+    fill: #fa1413;
+}
+
+
+
+@media (max-width: 1300px) and (min-width: 1160px) {
+    .slideshow {
+        left:30%;
+        top: 30%;
+    }
+    .img1 img, .img2 img, .img3 img { 
+        width: 17rem;
+        height: auto;
+    }
+
+
+    .img1 img { 
+        transform: scale(0.8) translateX(-20%);
+    }
+
+    .img3 img { 
+        transform: scale(0.8) translateX(-25%);
+    }
+    
+    #rightBtnTop {
+        top: 12.5%;
+        right: 17%;
+        /* width: 2.5rem; */
+    }
+    
+    #leftBtnTop {
+        top: 12.5%;
+        left: 43%;
+        /* width: 2.5rem;   */
+    }
+    
+    #leftBtn{
+        /* top: 50%; */
+        left: 32%;
+    }
+
+    #rightBtn{
+        /* top: 50%; */
+        right: 4%;
+    }
+
+   
+    
+}
+
+@media (max-width: 1159px) and (min-width: 1000px) {
+    .slideshow {
+        left:32%;
+        top: 33%;
+    }
+
+    .img1 img, .img2 img, .img3 img { 
+        width: 15rem;
+        height: auto;
+    }
+
+
+    .img1 img { 
+        transform: scale(0.8) translateX(-20%);
+    }
+
+    .img3 img { 
+        transform: scale(0.8) translateX(-65%);
+    }
+    
+    #rightBtnTop {
+        top: 12.5%;
+        right: 17%;
+        /* width: 2.5rem; */
+    }
+    
+    #leftBtnTop {
+        top: 12.5%;
+        left: 43%;
+        /* width: 2.5rem;   */
+    }
+    
+    #leftBtn{
+        /* top: 50%; */
+        left: 32%;
+    }
+
+    #rightBtn{
+        /* top: 50%; */
+        right: 4%;
+    }
+    .description {
+        left:45%;
+    }
+
+}
+
+@media (max-width: 1001px) and (min-width: 849px) {
+    .slideshow {
+        left:32%;
+        top: 33%;
+    }
+
+    .img1 img, .img2 img, .img3 img { 
+        width: 13rem;
+        height: auto;
+    }
+
+
+    .img1 img { 
+        transform: scale(0.8) translateX(32%);
+    }
+
+    .img3 img { 
+        transform: scale(0.8) translateX(-60%);
+    }
+    
+    #rightBtnTop {
+        top: 12.5%;
+        right: 10%;
+        /* width: 2.5rem; */
+    }
+    
+    #leftBtnTop {
+        top: 12.5%;
+        left: 43%;
+        /* width: 2.5rem;   */
+    }
+    
+    #leftBtn{
+        /* top: 50%; */
+        left: 35%;
+    }
+
+    #rightBtn{
+        /* top: 50%; */
+        right: 4%;
+    }
+
+    .description {
+        left:40%;
+    }
+ 
+
+}
+
+@media (max-width: 850px) and (min-width: 740px) {
+    .slideshow {
+        left:37%;
+        top: 33%;
+    }
+
+    .img1 img, .img2 img, .img3 img { 
+        width: 10rem;
+        height: auto;
+    }
+
+
+    .img1 img { 
+        transform: scale(0.8) translateX(30%);
+    }
+
+    .img3 img { 
+        transform: scale(0.8) translateX(-100%);
+    }
+    
+    #header{
+        width: 15rem;
+        left: 30rem;
+        /* top: -4rem; */
+        /* left: 26rem;  */
+    }
+
+    #rightBtnTop {
+        top: 12.5%;
+        right: 7%;
+        /* width: 2.5rem; */
+    }
+    
+    #leftBtnTop {
+        top: 12.5%;
+        left: 48%;
+        /* width: 2.5rem;   */
+    }
+    
+    #leftBtn{
+        /* top: 50%; */
+        left: 40%;
+    }
+
+    #rightBtn{
+        /* top: 50%; */
+        right: 4%;
+    }
+
+    .description {
+        left:32%;
+    }
+    
+}
+
+@media (max-width: 739px) and (min-width: 699px) {
+    #header{
+        width: 14rem;
+        top: -4rem;
+        left: 26rem; 
+    }
+
+    .slideshow {
+        left:56%;
+        top: 32%;
+        width: 30%;
+    }
+
+    .img1 img, .img2 img, .img3 img { 
+        width: 8rem;
+        height: auto;
+    }
+
+    .img1 img { 
+        transform: scale(0.8) translateX(55%);
+    }
+
+    .img3 img { 
+        transform: scale(0.8) translateX(-35%);
+    }
+
+    #rightBtnTop {
+        top: 13.2%;
+        right: 6%;
+        /* width: 2.5rem; */
+    }
+    
+    #leftBtnTop {
+        top: 13.2%;
+        left: 50%;
+        /* width: 2.5rem;   */
+    }
+    
+    #leftBtn{
+        top: 42%;
+        left: 46%;
+        transform: scale(0.6)
+    }
+
+    #rightBtn{
+        top: 42%;
+        right: 3%;
+        transform: scale(0.6)
+    }
+    
+}
+
+
+@media (max-width: 699px) {
+    .container {
+        left: 10%;
+        width: 90%;
+        height: 60%;
+        top:50%;
+    }
+
+    #header{
+        width: 50%;
+        top: 14rem;
+        left: 28%;
+    }
+
+    .slideshow {
+        left: 20%;
+        /* left:56%; */
+        top: 72%;
+    }
+
+    .img1 img, .img2 img, .img3 img { 
+        width: 8rem;
+        height: auto;
+    }
+
+    .img1 img { 
+        transform: scale(0.8) translateX(20%);
+    }
+
+    .img3 img { 
+        transform: scale(0.8) translateX(-30%);
+    }
+
+    #rightBtnTop {
+        top: 59.5%;
+        right: 12%;
+        /* width: 2.5rem; */
+    }
+    
+    #leftBtnTop {
+        top: 59.2%;
+        left: 17%;
+        /* width: 2.5rem;   */
+    }
+    
+    #leftBtn{
+        top: 81%;
+        left: 10%;
+        transform: scale(0.6)
+    }
+
+    #rightBtn{
+        top: 80%;
+        right: .5%;
+        transform: scale(0.6)
+    }
+    
+    .description {
+        left:35%;
+    }
+}
