@@ -4,48 +4,51 @@ const matching = {
         header: 'projects/headers/sketches.svg',
         images: [ 
             ['projects/sketches/sketch1.png', "description of sketch"],
-            ['projects/sketches/sketch2.png', "description of sketch"],
-            ['projects/sketches/sketch3.png', "description of sketch"],
-            ['projects/sketches/sketch4.png', "description of sketch"],
+            ['projects/tmp.png', "description of sketch"],
+            // ['projects/sketches/sketch3.png', "description of sketch"],
+            // ['projects/sketches/sketch4.png', "description of sketch"],
         ]
     },
     'graphicDesign': {
         header: 'projects/headers/graphicDesign.svg',
         images: [
-            ['projects/graphicDesign/graphic1.png', "description of graphic"],  
-            ['projects/graphicDesign/graphic3_1.jpg', "description of graphic"],
-            ['projects/graphicDesign/graphic3_2.png', "description of graphic"],
-            ['projects/graphicDesign/graphic3_3.png', "description of graphic"],
-            ['projects/graphicDesign/graphic3_4.jpeg', "description of graphic"],
-            ['projects/graphicDesign/graphic3_5.jpeg', "description of graphic"],
-            ['projects/graphicDesign/graphic4.png', "description of graphic"],
-            ['projects/graphicDesign/graphic5.png', "description of graphic"],
-            ['projects/graphicDesign/graphic2.png', "description of graphic"],
+            ['projects/graphicDesign/graphic1.png', "Movie Poster: I created a movie poster on a really good movie I had recently watched. Because the movie is about cowboys, I want to give it an old west black/white feel. Everything was done in Adobe Illustrator."],  
+            ['projects/graphicDesign/graphic3_1.jpg', "Original Magazine (p.1): I created an original magazine based on one of my favorite musicians. This was created in Adobe InDesign, Adobe Illustrator, and original artwork was drawn in Procreate."],
+            ['projects/graphicDesign/graphic3_2.png', "Original Magazine (p.2): I wanted this page to be like the daily horoscopes you get because my magazine is galaxy themed."],
+            ['projects/graphicDesign/graphic3_3.png', "Original Magazine (p.3)"],
+            ['projects/graphicDesign/graphic3_4.jpeg', "Original Magazine (p.4): I wanted to create a timeline that looked like constellations."],
+            ['projects/graphicDesign/graphic3_5.jpeg', "Original Magazine (p.5)"],
+            ['projects/graphicDesign/graphic4.png', "Political Poster: I created a political poster based on green-tech which is something I have an interest in. The Earth is on fire and the robots/tech is trying to save the Earth. This was made in Adobe Illustrator and original art in Procreate."],
+            ['projects/graphicDesign/graphic5.png', "Truck Wrap: I created a truck wrap for an organization that did work in harm reduction. As a result, I wanted something that would universally appeal to anyone as to not stigmatize any person and to me cuteness is universal. It is supposed to be a window showing what is inside. I made it see through because of the complicated legal implictions of a harm reduction operation."],
+            ['projects/graphicDesign/graphic2.png', "Political Poster Recreation: I recreated my original political poster because I wanted to make it look more realistic as if it were something you would see taped to a pole."],
 
         ]
     },
     'videos': {
         header: 'projects/headers/videos.svg',
         images: [
-            ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],  
-            ['projects/graphicDesign/graphicTemp2.png', "description of graphic"],
-            ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],
+            ['projects/tmp.png', "description of sketch"],
+            // ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],  
+            // ['projects/graphicDesign/graphicTemp2.png', "description of graphic"],
+            // ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],
         ]
     },
     'animations': {
         header: 'projects/headers/animations.svg',
         images: [
-            ['projects/animations/animationTemp1.png', "description of animation"],
-            ['projects/animations/animationTemp2.png', "description of animation"],
-            ['projects/animations/animationTemp1.png', "description of animation"],
+            ['projects/tmp.png', "description of sketch"],
+            // ['projects/animations/animationTemp1.png', "description of animation"],
+            // ['projects/animations/animationTemp2.png', "description of animation"],
+            // ['projects/animations/animationTemp1.png', "description of animation"],
         ]
     },
     'other':{
         header: 'projects/headers/other.svg',
         images: [
-            ['projects/other/otherTemp1.png', "description of other"],
-            ['projects/other/otherTemp2.png', "description of other"],
-            ['projects/other/otherTemp1.png', "description of other"],
+            ['projects/tmp.png', "description of sketch"],
+            // ['projects/other/otherTemp1.png', "description of other"],
+            // ['projects/other/otherTemp2.png', "description of other"],
+            // ['projects/other/otherTemp1.png', "description of other"],
         ]
     }
 }
