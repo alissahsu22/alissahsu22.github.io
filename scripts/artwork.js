@@ -12,7 +12,7 @@ const matching = {
     'graphicDesign': {
         header: 'projects/headers/graphicDesign.svg',
         images: [
-            ['projects/graphicDesign/graphic1.png', "Movie Poster: I created a movie poster on a really good movie I had recently watched. Because the movie is about cowboys, I want to give it an old west black/white feel. Everything was done in Adobe Illustrator."],  
+            ['projects/graphicDesign/clubPoster.png', "Club Poster: I created a club poster for a creative tech club I started at NYU. It is supposed to be like one those prints with the paintings and the artist and description underneath but the glitch effect is invading."],
             ['projects/graphicDesign/graphic3_1.jpg', "Original Magazine (p.1): I created an original magazine based on one of my favorite musicians. This was created in Adobe InDesign, Adobe Illustrator, and original artwork was drawn in Procreate."],
             ['projects/graphicDesign/graphic3_2.png', "Original Magazine (p.2): I wanted this page to be like the daily horoscopes you get because my magazine is galaxy themed."],
             ['projects/graphicDesign/graphic3_3.png', "Original Magazine (p.3)"],
@@ -21,7 +21,8 @@ const matching = {
             ['projects/graphicDesign/graphic4.png', "Political Poster: I created a political poster based on green-tech which is something I have an interest in. The Earth is on fire and the robots/tech is trying to save the Earth. This was made in Adobe Illustrator and original art in Procreate."],
             ['projects/graphicDesign/graphic5.png', "Truck Wrap: I created a truck wrap for an organization that did work in harm reduction. As a result, I wanted something that would universally appeal to anyone as to not stigmatize any person and to me cuteness is universal. It is supposed to be a window showing what is inside. I made it see through because of the complicated legal implictions of a harm reduction operation."],
             ['projects/graphicDesign/graphic2.png', "Political Poster Recreation: I recreated my original political poster because I wanted to make it look more realistic as if it were something you would see taped to a pole."],
-
+            ['projects/graphicDesign/graphic1.png', "Movie Poster: I created a movie poster on a really good movie I had recently watched. Because the movie is about cowboys, I want to give it an old west black/white feel. Everything was done in Adobe Illustrator."],  
+            
         ]
     },
     'videos': {

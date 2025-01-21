@@ -15,7 +15,6 @@ const projects = {
         description: 'Full stack projects with front-end languages including HTML, CSS, JS as well as back-end languages including SQL and PHP.'
     },
    
-   
 };
 
 // const experience = {
@@ -62,21 +61,21 @@ window.onload = () => {
         projectList.appendChild(listItem);
     });
 
-    Object.keys(experience).forEach((title) => {
-        const exp = experience[title];
-        const listItem = document.createElement('li');
+    // Object.keys(experience).forEach((title) => {
+    //     const exp = experience[title];
+    //     const listItem = document.createElement('li');
         
-        const boldTitle = document.createElement('strong');
-        const link = document.createElement('a');
-        link.href = exp.url;
-        link.textContent = title;
-        boldTitle.appendChild(link);
-        listItem.appendChild(boldTitle);
+    //     const boldTitle = document.createElement('strong');
+    //     const link = document.createElement('a');
+    //     link.href = exp.url;
+    //     link.textContent = title;
+    //     boldTitle.appendChild(link);
+    //     listItem.appendChild(boldTitle);
 
-        const descriptionText = document.createElement('div');
-        descriptionText.textContent = `Description: ${exp.description}`;
-        listItem.appendChild(descriptionText);
+    //     const descriptionText = document.createElement('div');
+    //     descriptionText.textContent = `Description: ${exp.description}`;
+    //     listItem.appendChild(descriptionText);
 
-        experienceList.appendChild(listItem);
-    });
+    //     experienceList.appendChild(listItem);
+    // });
 };
