@@ -4,6 +4,11 @@ const projects = {
         skills: 'Animation, Procreate, Premiere Pro',
         description: 'Step into my mind palace?'
     },
+    '2D City (AR)':{
+        url: 'https://youtube.com/shorts/Pgdrf1bA41g',
+        skills: 'Augemented Reality, Adobe Aero, Animation, Procreate',
+        description: "Welcome to *$5&'s 2D city! (if have adobe aero use link: https://adobeaero.app.link/z8ptZ6CVHQb)"
+    },
     'Generative Art Gallery': {
         url: '../projects/drawing',
         skills: 'Interacitivity, JS Game, HTML Canvas, Web APIs, CSS Animation, HTML/CSS Drawing, SVG,HTML, CSS, JS',

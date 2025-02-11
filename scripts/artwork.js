@@ -34,15 +34,15 @@ const matching = {
             // ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],
         ]
     },
-    'animations': {
-        header: 'projects/headers/animations.svg',
-        images: [
-            ['projects/tmp.png', "description of sketch"],
-            // ['projects/animations/animationTemp1.png', "description of animation"],
-            // ['projects/animations/animationTemp2.png', "description of animation"],
-            // ['projects/animations/animationTemp1.png', "description of animation"],
-        ]
-    },
+    // 'animations': {
+    //     header: 'projects/headers/animations.svg',
+    //     images: [
+    //         ['projects/tmp.png', "description of sketch"],
+    //         // ['projects/animations/animationTemp1.png', "description of animation"],
+    //         // ['projects/animations/animationTemp2.png', "description of animation"],
+    //         // ['projects/animations/animationTemp1.png', "description of animation"],
+    //     ]
+    // },
     'other':{
         header: 'projects/headers/other.svg',
         images: [
