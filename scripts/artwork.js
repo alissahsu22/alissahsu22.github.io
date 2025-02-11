@@ -3,10 +3,24 @@ const matching = {
     'sketches': {
         header: 'projects/headers/sketches.svg',
         images: [ 
-            ['projects/sketches/sketch1.png', "description of sketch"],
-            ['projects/tmp.png', "description of sketch"],
-            // ['projects/sketches/sketch3.png', "description of sketch"],
-            // ['projects/sketches/sketch4.png', "description of sketch"],
+            ['projects/sketches/sketch0.png',""],
+            ['projects/sketches/sketch1.jpg',""],
+            ['projects/sketches/sketch2.jpeg',""],
+            ['projects/sketches/sketch3.jpeg',""],
+            ['projects/sketches/sketch4.jpeg',""],
+            ['projects/sketches/sketch5.jpeg',""],
+            ['projects/sketches/sketch6.jpeg',""],
+            ['projects/sketches/sketch7.jpeg',""],
+            ['projects/sketches/sketch8.jpeg',""],
+            ['projects/sketches/sketch9.jpeg',""],
+            ['projects/sketches/sketch10.jpeg',""],
+            ['projects/sketches/sketch11.jpeg',""],
+            ['projects/sketches/sketch12.jpeg',""],
+            ['projects/sketches/sketch13.jpeg',""],
+            ['projects/sketches/sketch14.jpeg',""],
+            ['projects/sketches/sketch15.jpeg',""],
+
+            // ['projects/tmp.png', "description of sketch"],
         ]
     },
     'graphicDesign': {
@@ -81,12 +95,19 @@ function createSlideshow() {
 }
 
 function updateSlideshow() {
+    const currentImages = matching[currentIndexHeader].images;
+    
+    // Add bounds checking to ensure we stay within the current category
+    if (currentIndex >= currentImages.length) {
+        currentIndex = currentImages.length - 1;
+    } else if (currentIndex < 0) {
+        currentIndex = 0;
+    }
+    
     const img1 = document.querySelector('.img1 img');
     const img2 = document.querySelector('.img2 img');
     const img3 = document.querySelector('.img3 img');
-
     const desc2 = document.querySelector('.img2 .description');
-    const currentImages = matching[currentIndexHeader].images;
     
     img1.src = currentImages[(currentIndex - 1 + currentImages.length) % currentImages.length][0];
     img2.src = currentImages[currentIndex][0];
@@ -96,7 +117,6 @@ function updateSlideshow() {
     header.src = matching[currentIndexHeader].header;
     
     desc2.textContent = currentImages[currentIndex][1];
-
 }
 
 
@@ -111,6 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('rightBtn').addEventListener('click', () => {
         const currentImages = matching[currentIndexHeader].images;
+        // Add a guard clause to prevent overflow
+        if (currentIndex >= currentImages.length - 1) return;
         currentIndex = (currentIndex + 1) % currentImages.length;
         updateSlideshow();
     });

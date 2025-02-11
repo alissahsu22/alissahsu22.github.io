@@ -19,7 +19,6 @@ const projects = {
         skills: 'Full Stack, SQL, PHP,HTML, CSS, JS',
         description: 'Full stack projects with front-end languages including HTML, CSS, JS as well as back-end languages including SQL and PHP.'
     },
-   
 };
 
 // const experience = {
