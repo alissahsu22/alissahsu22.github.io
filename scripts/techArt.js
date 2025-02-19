@@ -16,8 +16,8 @@ playBtn.addEventListener('click',(event)=>{
 })
 
 const projects = {
-    'Generative Art Gallery': '../projects/drawing',
-    'Web Development Projects': '../projects/webdev',
+    'Generative Art Gallery': '../projects/techArtProjects/drawing',
+    'Web Development Projects': '../projects/techArtProjects/webdev',
     'Full Stack E-Commerce Site with Shopify':'https://aronicadiffuser.myshopify.com/',
     'In The Mind Palace (Animation)': 'https://www.youtube.com/watch?v=kPwkQ5NfvDQ',
     '2D City (AR)':'https://youtube.com/shorts/Pgdrf1bA41g',

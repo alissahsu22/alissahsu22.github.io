@@ -5,12 +5,12 @@ function openVideo() {
 
 const projects = {
     'Emotion-Based Music Recommender System Using Image Classification': {
-        url: '../projects/emotionDetection/templates/index.html',
+        url: '../projects/programmingProjects/emotionDetection/templates/index.html',
         skills: 'Machine Learning,DeepFace, Flask, OpenCV, Spotify API, Python',
         description: 'Pre-trained model determines user emotion and recommends song using spotify API.'
     },
     'Generative Art Gallery': {
-        url: '../projects/drawing',
+        url: '../projects/techArtProjects/drawing',
         skills: 'Interactivity, JS Game, HTML Canvas, Web APIs, CSS Animation, HTML/CSS Drawing, SVG,HTML, CSS, JS',
         description: 'Visually compelling generative art that experiments with mathematical calculations, randomness, and user interactivity. Each project incorporates Web APIS, raster/vector graphics, CSS animation, JS libraries, HTML canvas,etc. '
     },
@@ -20,12 +20,12 @@ const projects = {
         description: 'Enter password: temporaryStorePassword22....Note: site is still under construction'
     },
     'Computer Vision Golf Ball Tracking and Detection Model': {
-        url: '../projects/golfball.html',
+        url: '../projects/programmingProjects/objectTracking_golfball/golfball.html',
         skills: 'Machine Learning,Pytorch, YOLOv8, OpenCV',
         description: "Video result demonstrating ML model's capabilities adept at handling varying trajectories and lighting conditions for golf ball detection and tracking."
     },
     'Web Development Projects': {
-        url: '../projects/webdev',
+        url: '../projects/techArtProjects/webdev',
         skills: 'Full Stack, SQL, PHP,HTML, CSS, JS',
         description: 'Full stack projects with front-end languages including HTML, CSS, JS as well as back-end languages including SQL and PHP.'
     },

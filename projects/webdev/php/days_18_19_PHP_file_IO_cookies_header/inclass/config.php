@@ -1,3 +1,0 @@
-<?php
-    $path = getcwd() . '/data';
-?>

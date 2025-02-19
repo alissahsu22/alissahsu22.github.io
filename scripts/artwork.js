@@ -1,69 +1,51 @@
 const matching = {
     // index, category, header, images
     'sketches': {
-        header: 'projects/headers/sketches.svg',
+        header: './projects/artworkProjects/headers/sketches.svg',
         images: [ 
-            ['projects/sketches/sketch0.png',""],
-            ['projects/sketches/sketch1.jpg',""],
-            ['projects/sketches/sketch2.jpeg',""],
-            ['projects/sketches/sketch3.jpeg',""],
-            ['projects/sketches/sketch4.jpeg',""],
-            ['projects/sketches/sketch5.jpeg',""],
-            ['projects/sketches/sketch6.jpeg',""],
-            ['projects/sketches/sketch7.jpeg',""],
-            ['projects/sketches/sketch8.jpeg',""],
-            ['projects/sketches/sketch9.jpeg',""],
-            ['projects/sketches/sketch10.jpeg',""],
-            ['projects/sketches/sketch11.jpeg',""],
-            ['projects/sketches/sketch12.jpeg',""],
-            ['projects/sketches/sketch13.jpeg',""],
-            ['projects/sketches/sketch14.jpeg',""],
-            ['projects/sketches/sketch15.jpeg',""],
-
-            // ['projects/tmp.png', "description of sketch"],
+            ['./projects/artworkProjects/sketches/sketch0.png',""],
+            ['./projects/artworkProjects/sketches/sketch1.jpg',""],
+            ['./projects/artworkProjects/sketches/sketch2.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch3.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch4.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch5.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch6.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch7.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch8.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch9.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch10.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch11.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch12.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch13.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch14.jpeg',""],
+            ['./projects/artworkProjects/sketches/sketch15.jpeg',""],
         ]
     },
     'graphicDesign': {
-        header: 'projects/headers/graphicDesign.svg',
+        header: './projects/artworkProjects/headers/graphicDesign.svg',
         images: [
-            ['projects/graphicDesign/clubPoster.png', "Club Poster: I created a club poster for a creative tech club I started at NYU. It is supposed to be like one those prints with the paintings and the artist and description underneath but the glitch effect is invading."],
-            ['projects/graphicDesign/graphic3_1.jpg', "Original Magazine (p.1): I created an original magazine based on one of my favorite musicians. This was created in Adobe InDesign, Adobe Illustrator, and original artwork was drawn in Procreate."],
-            ['projects/graphicDesign/graphic3_2.png', "Original Magazine (p.2): I wanted this page to be like the daily horoscopes you get because my magazine is galaxy themed."],
-            ['projects/graphicDesign/graphic3_3.png', "Original Magazine (p.3)"],
-            ['projects/graphicDesign/graphic3_4.jpeg', "Original Magazine (p.4): I wanted to create a timeline that looked like constellations."],
-            ['projects/graphicDesign/graphic3_5.jpeg', "Original Magazine (p.5)"],
-            ['projects/graphicDesign/graphic4.png', "Political Poster: I created a political poster based on green-tech which is something I have an interest in. The Earth is on fire and the robots/tech is trying to save the Earth. This was made in Adobe Illustrator and original art in Procreate."],
-            ['projects/graphicDesign/graphic5.png', "Truck Wrap: I created a truck wrap for an organization that did work in harm reduction. As a result, I wanted something that would universally appeal to anyone as to not stigmatize any person and to me cuteness is universal. It is supposed to be a window showing what is inside. I made it see through because of the complicated legal implictions of a harm reduction operation."],
-            ['projects/graphicDesign/graphic2.png', "Political Poster Recreation: I recreated my original political poster because I wanted to make it look more realistic as if it were something you would see taped to a pole."],
-            ['projects/graphicDesign/graphic1.png', "Movie Poster: I created a movie poster on a really good movie I had recently watched. Because the movie is about cowboys, I want to give it an old west black/white feel. Everything was done in Adobe Illustrator."],  
-            
+            ['./projects/artworkProjects/graphicDesign/clubPoster.png', "Club Poster: I created a club poster for a creative tech club I started at NYU. It is supposed to be like one those prints with the paintings and the artist and description underneath but the glitch effect is invading."],
+            ['./projects/artworkProjects/graphicDesign/graphic3_1.jpg', "Original Magazine (p.1): I created an original magazine based on one of my favorite musicians. This was created in Adobe InDesign, Adobe Illustrator, and original artwork was drawn in Procreate."],
+            ['./projects/artworkProjects/graphicDesign/graphic3_2.png', "Original Magazine (p.2): I wanted this page to be like the daily horoscopes you get because my magazine is galaxy themed."],
+            ['./projects/artworkProjects/graphicDesign/graphic3_3.png', "Original Magazine (p.3)"],
+            ['./projects/artworkProjects/graphicDesign/graphic3_4.jpeg', "Original Magazine (p.4): I wanted to create a timeline that looked like constellations."],
+            ['./projects/artworkProjects/graphicDesign/graphic3_5.jpeg', "Original Magazine (p.5)"],
+            ['./projects/artworkProjects/graphicDesign/graphic4.png', "Political Poster: I created a political poster based on green-tech which is something I have an interest in. The Earth is on fire and the robots/tech is trying to save the Earth. This was made in Adobe Illustrator and original art in Procreate."],
+            ['./projects/artworkProjects/graphicDesign/graphic5.png', "Truck Wrap: I created a truck wrap for an organization that did work in harm reduction. As a result, I wanted something that would universally appeal to anyone as to not stigmatize any person and to me cuteness is universal. It is supposed to be a window showing what is inside. I made it see through because of the complicated legal implictions of a harm reduction operation."],
+            ['./projects/artworkProjects/graphicDesign/graphic2.png', "Political Poster Recreation: I recreated my original political poster because I wanted to make it look more realistic as if it were something you would see taped to a pole."],
+            ['./projects/artworkProjects/graphicDesign/graphic1.png', "Movie Poster: I created a movie poster on a really good movie I had recently watched. Because the movie is about cowboys, I want to give it an old west black/white feel. Everything was done in Adobe Illustrator."],  
         ]
     },
     'videos': {
-        header: 'projects/headers/videos.svg',
+        header: './projects/artworkProjects/headers/videos.svg',
         images: [
-            ['projects/tmp.png', "description of sketch"],
-            // ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],  
-            // ['projects/graphicDesign/graphicTemp2.png', "description of graphic"],
-            // ['projects/graphicDesign/graphicTemp1.png', "description of graphic"],
+            ['./projects/tmp.png', "coming soon"],
         ]
     },
-    // 'animations': {
-    //     header: 'projects/headers/animations.svg',
-    //     images: [
-    //         ['projects/tmp.png', "description of sketch"],
-    //         // ['projects/animations/animationTemp1.png', "description of animation"],
-    //         // ['projects/animations/animationTemp2.png', "description of animation"],
-    //         // ['projects/animations/animationTemp1.png', "description of animation"],
-    //     ]
-    // },
     'other':{
-        header: 'projects/headers/other.svg',
+        header: './projects/artworkProjects/headers/other.svg',
         images: [
-            ['projects/tmp.png', "description of sketch"],
-            // ['projects/other/otherTemp1.png', "description of other"],
-            // ['projects/other/otherTemp2.png', "description of other"],
-            // ['projects/other/otherTemp1.png', "description of other"],
+            ['./projects/tmp.png', "coming soon"],
         ]
     }
 }

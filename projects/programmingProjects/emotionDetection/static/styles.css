@@ -1,0 +1,56 @@
+#container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    gap: 3rem;
+    margin: 2%;
+}
+
+.box {
+    flex: 1 1 10rem;  
+    min-width: 10rem; 
+    max-width: 35%;  
+    height: auto;     
+    aspect-ratio: 4 / 3; 
+    border: 1px solid black;
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+#title {
+    font-size: 2.5rem;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+}
+
+#bar {
+    border: .2rem solid black;
+    width: 80%;
+    margin: 5% 10%;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.emotion-box {
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+    display: inline-block;
+    border-radius: 3px;
+    border: 1px solid black;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+#webcam-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

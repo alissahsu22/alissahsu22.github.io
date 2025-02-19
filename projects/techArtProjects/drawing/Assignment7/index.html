@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Canvas Animation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="container">
+        <video class = "rainVideo" src="media/rain.mp4" type="video/mp4" width="1986" height="1080" autoplay="" muted="" loop="" playsinline="">
+        </video>
+
+        <img id = "house" src = "images/house.png" width = "900" height = "900">
+        <div class = "wrapper">
+            <div class = "ghost"><img id = "ghost" src = "images/ghost.jpg" width = "862" height = "846"></div>
+            <div class = "eyes"><img id = "eyes" src = "images/eyes.png" width = "48" height = "61"></div>
+            <div class = "hands"><img id = "hands" src = "images/hands.jpg" width = "200" height = "200"></div>
+            <div class = "glow1"><img id = "glow1" src = "images/glow1.jpg"></div>
+            <div class = "glow2"><img id = "glow2" src = "images/glow2.jpg"></div>
+        </div>  
+
+        <div class = "box">
+            <audio id = "rain" loop autoplay controls = "">
+                <source src="media/rain.mp3" type="audio/mpeg">
+            </audio>
+            <a href = "../index.html"><img id = "homebtn" src = "images/home_btn.png"></a>
+        </div>
+    </div>
+
+    <video id = "canvasVideo" muted="" autoplay="" loop="" playsinline=""></video>
+
+    <div id="canvasContainer">
+        <canvas id="underCanvas" width="500" height="400"></canvas>
+        <canvas id="canvas" width="300" height="200"></canvas>
+        <canvas id="overlayCanvas" width="300" height="200"></canvas>
+    </div>
+    <div class="description-box">
+      <p>Objective: Explore HTML canvas animation. 
+          <p></p>Directions: See yourself as the sun (or moon)! </p>
+      </p>
+  </div>
+
+
+
+    <!-- <canvas width="200" height="200"></canvas> -->
+
+    <script>
+        const video = document.querySelector('#canvasVideo');
+        const canvas = document.querySelector('#canvas');
+        const context = canvas.getContext('2d');       
+        const overlayCanvas = document.querySelector('#overlayCanvas');
+        const overlayContext = overlayCanvas.getContext('2d');
+        const underCanvas = document.querySelector('#underCanvas');
+        const underContext = underCanvas.getContext('2d');
+  
+        let width;
+        let height;
+  
+        // get ratio of the resolution in physical pixels to the resolution in CSS pixels
+        let pxScale = window.devicePixelRatio;
+  
+        const mediaConstraints = {
+          audio: false,
+          video: true
+        };
+  
+        function webcamAccess(stream) {
+          window.stream = stream; // make stream available to browser console
+          video.srcObject = stream; // send stream to <video> element
+        }
+  
+        function webcamError(error) {
+          console.log(error.name, error.message);
+          video.src = 'sunset.mp4';
+        }
+  
+     
+  
+        function setup() {
+          video.play();
+
+          width = canvas.width;
+          height = canvas.height;
+  
+
+          canvas.style.width = width + 'px';
+          canvas.style.height = height + 'px';
+  
+          canvas.width = width * pxScale;
+          canvas.height = height * pxScale;
+  
+          context.scale(pxScale, pxScale);
+  
+          navigator.mediaDevices.getUserMedia(mediaConstraints).then(webcamAccess).catch(webcamError);
+        }
+
+        let opacity = Math.random() * 1;
+
+        function drawSun() {
+            context.clearRect(0, 0, canvas.width, canvas.height); 
+            
+            // const opacity = Math.random(); 
+            // const opacity = 0.5;
+            // context.globalAlpha = opacity;
+
+            // const speedMultiplier = 0.002; // Adjust this value to change the speed
+            // const opacity = 0.5 + 0.5 * Math.sin(Date.now() * speedMultiplier);
+
+            context.globalAlpha = opacity;
+
+            context.save(); 
+            context.beginPath(); 
+            context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, Math.PI * 2); 
+            context.closePath();
+            context.clip();
+            context.drawImage(video, 0, 0, width, height); 
+
+            // context.globalAlpha = 1;
+            
+            
+
+            // context.fillStyle = `hsla(${hue}, 10%, 50%, 0.6)`;
+            // context.globalCompositeOperation = 'difference';
+
+            context.restore(); 
+            requestAnimationFrame(drawSun); 
+        }
+
+        function drawLayer2(){
+            overlayContext.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height); 
+            
+            // const opacity = Math.random(); 
+            // const opacity = 0.5;
+
+            const speedMultiplier = 0.0015; 
+            let opacity = 0.5 + 0.4 * Math.sin(Date.now() * speedMultiplier);
+
+            opacity = Math.min(0.65, Math.max(0.3, opacity));
+
+            overlayContext.globalAlpha = opacity;
+            overlayContext.save(); 
+            overlayContext.beginPath(); 
+
+            overlayContext.fillStyle = 'rgb(255, 233, 0)';
+
+            overlayContext.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, Math.PI * 2); 
+            overlayContext.closePath();
+            overlayContext.fill();
+
+            overlayContext.globalAlpha = 1;
+            
+            
+
+            // context.fillStyle = `hsla(${hue}, 10%, 50%, 0.6)`;
+            // context.globalCompositeOperation = 'difference';
+
+            overlayContext.restore(); 
+            requestAnimationFrame(drawLayer2); 
+
+        }
+
+        function drawLayer2_dark(){
+            overlayContext.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height); 
+            
+            // const opacity = Math.random(); 
+            // const opacity = 0.5;
+
+            const speedMultiplier = 0.0015; 
+            let opacity = 0.5 + 0.4 * Math.sin(Date.now() * speedMultiplier);
+
+            opacity = Math.min(0.65, Math.max(0.3, opacity));
+
+            overlayContext.globalAlpha = opacity;
+            overlayContext.save(); 
+            overlayContext.beginPath(); 
+            
+            overlayContext.fillStyle = 'red';
+
+            overlayContext.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, Math.PI * 2); 
+            overlayContext.closePath();
+            overlayContext.fill();
+
+            // context.fillStyle = `hsla(${hue}, 10%, 50%, 0.6)`;
+            // context.globalCompositeOperation = 'difference';
+
+            overlayContext.restore(); 
+            requestAnimationFrame(drawLayer2_dark); 
+
+        }
+
+//         function drawLayer3(){
+//             underContext.clearRect(0, 0, underCanvas.width, underCanvas.height); 
+
+// // Adjust the multiplier to control the speed
+// const speedMultiplier = 0.001; // Adjust this value to change the speed
+// let radiusMultiplier = 1 + 0.5 * Math.sin(Date.now() * speedMultiplier);
+
+// // Ensure the radiusMultiplier never goes below 1 (initial size)
+// radiusMultiplier = Math.max(1, radiusMultiplier);
+// const speed = 0.0015; 
+//             let opacity = 0.5 + 0.4 * Math.sin(Date.now() * speedMultiplier);
+
+//             opacity = Math.min(0.65, Math.max(0.3, opacity));
+
+//             overlayContext.globalAlpha = opacity;
+
+
+// underContext.globalAlpha = 0.5;
+// underContext.fillStyle = 'rgb(255, 199, 0)';
+// underContext.beginPath(); 
+// underContext.arc(width / 2, height / 2, Math.min(width, height) / 2 * radiusMultiplier, 0, Math.PI * 2); 
+// underContext.closePath();
+// underContext.fill();
+
+            
+            
+
+//             // context.fillStyle = `hsla(${hue}, 10%, 50%, 0.6)`;
+//             // context.globalCompositeOperation = 'difference';
+
+//             underContext.restore(); 
+//             requestAnimationFrame(drawLayer3); 
+
+//         }
+
+        window.addEventListener('load', () => {
+          setup();
+            drawSun();
+        
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // dark mode
+                drawLayer2_dark();
+
+                
+            }
+            else{
+                drawLayer2();
+            }
+
+          
+        });
+      </script>
+
+
+
+      
+    
+</body>
+</html>

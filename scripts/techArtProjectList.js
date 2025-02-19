@@ -9,13 +9,18 @@ const projects = {
         skills: 'Augemented Reality, Adobe Aero, Animation, Procreate',
         description: "Welcome to *$5&'s 2D city! (if have adobe aero use link: https://adobeaero.app.link/z8ptZ6CVHQb)"
     },
+    '3D Stained glass Angel (three JS)':{
+        url: '../projects/techArtProjects/stainedGlassAngel/angel/index.html',
+        skills: 'Three.js, JavaScript, HTML',
+        description: "Inspired by stained glass and general beauty of Paris! <3"
+    },
     'Generative Art Gallery': {
-        url: '../projects/drawing',
+        url: '../projects/techArtProjects/drawing',
         skills: 'Interacitivity, JS Game, HTML Canvas, Web APIs, CSS Animation, HTML/CSS Drawing, SVG,HTML, CSS, JS',
         description: 'Visually compelling generative art that experiments with mathematical calculations, randomness, and user interactivity. Each project incorporates Web APIS, raster/vector graphics, CSS animation, JS libraries, HTML canvas,etc. '
     },
     'Web Development Projects': {
-        url: '../projects/webdev',
+        url: '../projects/techArtProjects/webdev',
         skills: 'Full Stack, SQL, PHP,HTML, CSS, JS',
         description: 'Full stack projects with front-end languages including HTML, CSS, JS as well as back-end languages including SQL and PHP.'
     },
