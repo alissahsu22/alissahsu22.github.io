@@ -14,6 +14,11 @@ const projects = {
         skills: 'Three.js, JavaScript, HTML',
         description: "Inspired by stained glass and general beauty of Paris! <3"
     },
+    'NYC vlog (animation/video editing)':{
+        url: 'https://youtu.be/t5aj6N2bWd4',
+        skills: 'Animation, Procreate, Premiere Pro',
+        description: "Vlog abt my life in NYC! Part 1: Sept"
+    },
     'Generative Art Gallery': {
         url: '../projects/techArtProjects/drawing',
         skills: 'Interacitivity, JS Game, HTML Canvas, Web APIs, CSS Animation, HTML/CSS Drawing, SVG,HTML, CSS, JS',
