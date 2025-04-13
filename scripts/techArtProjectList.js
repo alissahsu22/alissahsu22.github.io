@@ -51,6 +51,7 @@ const projects = {
 
 window.onload = () => {
     const projectList = document.getElementById('projectList');
+    console.log(projectList);
     
     Object.keys(projects).forEach((title) => {
         const project = projects[title];

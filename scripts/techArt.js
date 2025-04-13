@@ -18,11 +18,12 @@ playBtn.addEventListener('click',(event)=>{
 const projects = {
     'Generative Art Gallery': '../projects/techArtProjects/drawing',
     'Web Development Projects': '../projects/techArtProjects/webdev',
-    'Full Stack E-Commerce Site with Shopify':'https://aronicadiffuser.myshopify.com/',
     'In The Mind Palace (Animation)': 'https://www.youtube.com/watch?v=kPwkQ5NfvDQ',
     '2D City (AR)':'https://youtube.com/shorts/Pgdrf1bA41g',
-};
-
+    'A Day in my Life: in Paris <3 (interactive web)':'../projects/techArtProjects/DayInMyLife/index.html',
+    '3D Stained Glass Angel (three JS)': '../projects/techArtProjects/stainedGlassAngel/angel/index.html',
+    'NYC Vlog (animation/video editing)':'https://youtu.be/t5aj6N2bWd4',
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
