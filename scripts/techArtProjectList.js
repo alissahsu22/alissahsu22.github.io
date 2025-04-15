@@ -19,10 +19,10 @@ const projects = {
         skills: 'Three.js, JavaScript, HTML',
         description: "Inspired by stained glass and general beauty of Paris! <3 // I don't have the tools to do 3D rendering, but I still wanted to learn about working in a 3D space so I decided to use front-end 3D rendering tools like three.js. Paris is so beautiful and I love stained glass, so I wanted to express how beautiful Paris is in a 3D project. I made a weeping stained glass angel. I like the wings and if I was more experienced in 3D modeling I would've like to make a better body for the angel but I really had to simplify it given the limited shapes in three.js. This required a lot more math than I thought but it was still fun to do."
     },
-    'NYC Vlog (animation/video editing)':{
-        url: 'https://youtu.be/t5aj6N2bWd4',
+    "Oh That's Sad (climate change short)":{
+        url: 'https://youtu.be/QoIfUp9-NX4',
         skills: 'Animation, Procreate, Premiere Pro',
-        description: "Vlog abt my life in NYC! Part 1: Sept // I have a lot of pics of my friends and I in nyc but I didn't know how to put them all tg to make an animation, so this was my way of experimenting with still images and animation. This was the first animation and video editing project I completed! "
+        description: "Submission for NYU Climate Change film festival 2025 // Making this animation gave me a new challenge as I had to incorporate statistics and fact in a way that was still engaging. It was a good experience and I'm glad I got to create a project abt something important. I care about climate change but it does seem like a very huge issue that I didn't even know if we (the world), let alone I, could do anything to fix so I wanted that to be the premise. After creating this project, I was able to learn a lot about informational storytelling and was given more hope about the individual impact with regards to helping in the fight against climate change."
     },
     'Generative Art Gallery': {
         url: '../projects/techArtProjects/drawing',
@@ -51,7 +51,6 @@ const projects = {
 
 window.onload = () => {
     const projectList = document.getElementById('projectList');
-    console.log(projectList);
     
     Object.keys(projects).forEach((title) => {
         const project = projects[title];

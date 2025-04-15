@@ -23,6 +23,7 @@ const projects = {
     'A Day in my Life: in Paris <3 (interactive web)':'../projects/techArtProjects/DayInMyLife/index.html',
     '3D Stained Glass Angel (three JS)': '../projects/techArtProjects/stainedGlassAngel/angel/index.html',
     'NYC Vlog (animation/video editing)':'https://youtu.be/t5aj6N2bWd4',
+    "oh that's sad (climate change short)":'https://youtu.be/QoIfUp9-NX4',
 }
 
 
