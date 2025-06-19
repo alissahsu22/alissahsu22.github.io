@@ -41,12 +41,35 @@
                 </ul>
             </div>
         </nav>
-            
         <div class="VideoContainer">
+            <!-- INDEX VIDEO -->
+            <video id="indexVideo" class="indexVideo" width="100%" height="auto" muted playsinline autoplay loop>
+              <source src="media/index_web.mp4" type="video/mp4" media="(max-width: 768px)">
+              <source src="media/index.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          
+            <!-- SCENE 1 VIDEO -->
+            <video id="scene1Video" class="scene1Video" width="100%" height="auto" muted playsinline style="display: none;">
+              <source src="media/scene1_web.mp4" type="video/mp4" media="(max-width: 768px)">
+              <source src="media/scene1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          
+            <button class="playBtn">Start?</button>
+          </div>
+          
+
+          
+        <!-- <div class="VideoContainer">
+            <video id="indexVideo" class="indexVideo" src="media/index_web.mp4" type="video/mp4" media="(max-width: 768px)" width="4096" height="1714" muted playsinline autoplay loop></video>
             <video id="indexVideo" class="indexVideo" src="media/index.mp4" type="video/mp4" width="4096" height="1714" muted playsinline autoplay loop></video>
+            
+            <video id="scene1Video" class="scene1Video" src="media/scene1_web.mp4" type="video/mp4" media="(max-width: 768px)" width="4096" height="1714" muted playsinline></video>
             <video id="scene1Video" class="scene1Video" src="media/scene1.mp4" type="video/mp4" width="4096" height="1714" muted playsinline></video>
+              
             <button class = "playBtn">Start?</button>
-        </div>
+        </div> -->
 
         
     </div>

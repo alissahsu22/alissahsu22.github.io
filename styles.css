@@ -11,6 +11,7 @@ body{
 }
 
 .VideoContainer {
+    margin: 5rem auto 0 auto;
     position: relative;
     top: 0rem;
     left: -1.5%;
@@ -323,3 +324,44 @@ nav svg:hover .cls-2 {
     height: 50px;
 }
 
+
+
+@media screen and (max-width: 768px) {
+    .main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav {
+        width: 100%;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .VideoContainer {
+        width: 100%;
+        height: auto;
+        margin: 1rem 0;
+        border-radius: 0;
+    }
+
+    .VideoContainer video {
+        width: 100%;
+        height: auto;
+        transform: none;
+        border-radius: 0;
+    }
+
+    .navLinks {
+        font-size: 1.2rem;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    nav svg,
+    .logo {
+        width: 6rem;
+        height: auto;
+        margin: 0 auto;
+    }
+}

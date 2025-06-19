@@ -1,4 +1,4 @@
-.container {
+/* .container {
     position: relative;
     top: 4.5rem;
     left: 3%;
@@ -9,7 +9,23 @@
     border: 5px solid black; 
     background-color: white;
     font-family: "sour-gummy", sans-serif;
+} */
+
+.container {
+    position: relative;
+    margin: 5rem auto 0 auto; /* center horizontally and push down */
+    width: 68%;
+    height: 32rem;
+    border: 5px solid black; 
+    background-color: white;
+    font-family: "sour-gummy", sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
+
 
 
 .description {
