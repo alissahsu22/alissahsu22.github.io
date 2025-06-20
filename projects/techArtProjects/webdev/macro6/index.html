@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro 6: Matching Game</title>
+    <link rel = "stylesheet" href = "styles.css">
+</head>
+<body>
+    <div id = "container">
+        <div id = "startScreen">
+            <heading>Memory Matching Madness!</heading>
+            <p>Play a fast-paced game of "memory" and try and beat your best time!</p>
+            <button id = "startBtn" onclick = "startGame()">Start!</button>
+
+            <select id="difficultySelector" onchange="difficultySelect()">
+                <option value="easy">Easy: 3x4 board</option>
+                <option value="medium">Medium: 4x5 board</option>
+                <option value="hard">Hard: 5x6 board</option>
+            </select>
+
+        </div>
+        <div id = "gameOver">
+            <h1>Game Over!</h1>
+            <p id = "currTime">Your time: 0</p>
+            <p id = "recordTime">Best time: 0</p>
+            <button id = "gameOverbtn" onclick = "restart()">Play Again?</button>
+
+            <div id = "leaderBoard">
+                <!-- <p class = "lTitle">LEADERBOARD</p> -->
+                <!-- <p id = "player1">(1) player1 - time</p>
+                <p id = "player2">(2) player2 - time</p>
+                <p id = "player3">(3) player3 - time</p> -->
+            </div>
+        </div>
+
+          <div id = "game">
+            <h1>Ready, Set, Match!</h1>
+            <div id = "matching" data-bestTime = "1000">
+                <p id = "timer">Time: 0</p>
+                <div id = "wrapper">
+                </div>
+            </div>
+            <audio id="correctSound" style = "opacity: 0";>
+                <source src="sounds/correct.mp3" type="audio/mpeg">
+            </audio>
+            
+            <audio id="incorrectSound"  style = "opacity: 0">
+                <source src="sounds/incorrect.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <script> 
+        const zodiacs = ['aquarius.jpg','aries.jpg','cancer.jpg','capricorn.jpg','gemini.jpg','leo.jpg','libra.jpg','pisces.jpg','sag.jpg','scorpio.jpg','taurus.jpg','virgo.jpg','earth.png','jupiter.png','mercury.png','moon.jpg','neptune.png','saturn.png','sun.jpg','uranus.png','venus.png'];
+        const container = document.querySelector("#container");
+        // var cards = document.querySelectorAll('.card');
+
+        var time = 0;
+        var timerStarted = false;
+        var token1 = false; 
+        var token2 = false; 
+        var score = 0;
+        var intervalId;
+        var leaderBoard = new Map();
+        var difficulty = "easy";
+        var numOfElms = [3,4];
+        var elms = 6;
+
+        var gameContainer = document.getElementById("game");
+        var wrapper = document.querySelector("#wrapper");
+        var gameOverContainer = document.getElementById("gameOver");
+        var updateTime = document.querySelector("#matching");
+        var leaderBoardDiv = document.querySelector("#leaderBoard");
+        var startScreen = document.querySelector("#startScreen");
+        var difficultySelector = document.querySelector("#difficultySelector");
+        gameOverContainer.style.display = "none";
+        gameContainer.style.display = "none";
+
+        function difficultySelect(){
+            difficulty = difficultySelector.value;
+            if(difficulty == "easy"){
+                numOfElms = [3,4];
+                elms = 6;
+
+                wrapper.style['grid-template-columns'] =  "repeat(4,1fr)";
+                wrapper.style['grid-template-rows'] =  "repeat(3,1fr)";
+       
+            }
+            else if(difficulty == "medium"){
+                numOfElms = [4,5];
+                elms = 10;
+
+                wrapper.style['grid-template-columns'] =  "repeat(5,1fr)";
+                wrapper.style['grid-template-rows'] =  "repeat(4,1fr)";
+            }
+            else if(difficulty == "hard"){
+                numOfElms = [5,6];
+                elms = 15;
+
+                wrapper.style['grid-template-columns'] =  "repeat(6,1fr)";
+                wrapper.style['grid-template-rows'] =  "repeat(5,1fr)";
+            }
+        }
+    
+        function displayLeaderBoard(){
+            let htmlContent = "<p class = 'lTitle'>LEADERBOARD</p>";
+
+            const leaderboardEntries = Object.entries(leaderBoard);
+            const sortedLeaderboard = leaderboardEntries.sort((a, b) => a[1] - b[1]);
+            sortedLeaderboard.forEach((entry, index) => {
+                const [name, time] = entry;
+                htmlContent += `(${index + 1}) ${name} - ${time}<br>`;
+            });
+
+            leaderBoardDiv.innerHTML = htmlContent;
+
+            
+        }
+
+        function timer(start){
+            var timer = document.querySelector("#timer");
+
+            if(start){
+                intervalId = setInterval(()=> {
+                console.log(time);
+                timer.innerHTML = `Time: ${time}`;
+                time += 1; 
+                }, 1000);
+            }
+            else {
+                clearInterval(intervalId);
+            }
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                if (array.indexOf(array[i]) === i && array.indexOf(array[j]) === j) {
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+            return array;
+        }
+
+        function generateCards(){
+            timerStarted = false;
+
+            for(let i = 0; i < (elms*2); i++){
+                var newCard = document.createElement('div');
+                // newCard.innerHTML = `
+                // <div class = "card" onclick = "flip()">
+                //     <img class="back" src="images/back.png" style="z-index:-1">
+                //     <img class="front" src="images/back.png" data-token="" style="display:none">
+                // </div>
+                // `
+                newCard.innerHTML = `
+                <div class = "card" onclick = "flip()">
+                    <img class="back" src="images/back.png" style="display:block">
+                    <img class="front" src="images/back.png" data-token="" style="display:none">
+                </div>
+                `;
+                wrapper.appendChild(newCard);
+            }
+
+            var cards = document.querySelectorAll('.card');
+            
+            var shuffledZodiacs = shuffle(zodiacs);
+            shuffledZodiacs = shuffledZodiacs.slice(0,elms);
+            const matches = shuffledZodiacs.concat(shuffledZodiacs);
+
+            for(let i = 0; i < cards.length;i++){
+                cards[i].children[1].src = `images/${matches[i]}`;
+                cards[i].children[1].dataset.token = matches[i];
+            }
+
+        } 
+
+        function flip(){
+            game();
+
+            var card = event.currentTarget;
+            if(token1 == false){
+                token1 = card.children[0];
+            }
+            else if(token2 == false){
+                token2 = card.children[0];
+            }
+            else{
+                return;
+            }
+
+            if(card.children[0].style.display == "block"){
+            
+                card.classList.add('flip');
+                // console.log("flip to front"); (flip animation)
+                // card.children[0].style.display = "none";
+                // card.children[1].style.display = "block";
+            }
+
+            if(token1 != false && token2 !=false){
+                if(token1.dataset.token==token2.dataset.token){
+                    score+=1; 
+                    token1 = false;
+                    token2 = false;
+
+                    const correctSound = document.getElementById("correctSound");
+                    correctSound.play()
+
+                }
+                else{
+                    const incorrectSound = document.getElementById("incorrectSound");
+                    incorrectSound.play()
+
+                    // where can add animation to flip back 
+                    setTimeout(()=> {
+                            token1.parentNode.children[0].style.display = "block";
+                            token1.parentNode.children[1].style.display = "none";
+                            token2.parentNode.children[0].style.display = "block";
+                            token2.parentNode.children[1].style.display = "none";
+                            token1 = false;
+                            token2 = false;
+                            }, 1000);
+                }
+            }
+
+            if(score === 1){
+                timer(false);
+                for(let i = 0; i < cards.length;i++){
+                    cards[i].onclick = null;
+                }
+
+                gameContainer.style.display = "none";
+                gameOverContainer.style.display = "block";
+                
+
+                return;
+
+                
+            }
+        }
+
+        function game(){
+            if (!timerStarted && score !=1) { 
+                timer(true);
+                timerStarted = true;
+            }
+            else{
+                gameOverContainer.querySelector('#currTime').innerHTML = `Your Time: ${time}`;
+
+                let currBest = parseInt( getBestTime());
+
+                if(time < currBest){
+                    gameOverContainer.querySelector('#recordTime').innerHTML = `Best Time:  ${time} - New High Score!`;
+                    setBestTime(time);
+
+                    setTimeout(() =>{
+                    let user = prompt("Enter Name:");
+                    leaderBoard[user] = time;
+                    localStorage.setItem("LeaderBoard", JSON.stringify(leaderBoard));
+                    },100);
+                }
+                else{
+                    gameOverContainer.querySelector('#recordTime').innerHTML = `Best Time: ${currBest}`;
+                }
+
+                setTimeout(() =>{
+                    displayLeaderBoard();
+                    },100);
+            }
+        }
+
+        function getBestTime(){
+            return localStorage.getItem("bestTime");
+        }
+
+        function setBestTime(bestTime){
+            const storedBestTime = parseInt( getBestTime() );
+
+            if (bestTime < storedBestTime || storedBestTime == null) {
+                localStorage.setItem("bestTime", bestTime);
+            }
+        }
+
+        function restart(){
+            gameOverContainer.style.display = "none";
+            gameContainer.style.display = "block";
+
+            time = 0;
+            score = 0;
+            token1 = false;
+            token2 = false;
+            generateCards();
+            cards = document.querySelectorAll('.card');
+
+           
+            for(let i = 0; i < cards.length;i++){
+                cards[i].children[0].style.display = "block";
+                cards[i].children[1].style.display = "none";
+                cards[i].onclick = flip;
+            }
+
+        }
+
+        function startGame(){
+            startScreen.style.display = "none";
+            gameContainer.style.display = "block";
+            generateCards();
+
+            const currBest = localStorage.getItem("bestTime");
+            if(currBest == null){
+                localStorage.setItem("bestTime", 1000);
+            }
+
+            let leaderBoardData = JSON.parse(localStorage.getItem("LeaderBoard"));
+            if(leaderBoardData == null){
+                localStorage.setItem("LeaderBoard", "{}")
+            }
+
+            if(leaderBoardData != null){
+                for (let [key, value] of Object.entries(leaderBoardData)) {
+                leaderBoard[key] = value;
+            }
+        }   
+        }
+
+
+    var value; 
+        
+       window.addEventListener("load", (event) => {
+        gameOverContainer.style.display = "none";
+        gameContainer.style.display = "none";
+        startScreen.style.display = "block";
+       });
+
+
+
+
+    </script>
+</body>
+</html>

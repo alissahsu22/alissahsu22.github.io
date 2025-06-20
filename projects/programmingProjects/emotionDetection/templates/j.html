@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Emotion Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+    <style>
+        #container {
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            gap: 3rem;
+            margin: 2%;
+        }
+
+        .box {
+            flex: 1 1 10rem;  
+            min-width: 10rem; 
+            max-width: 35%;  
+            height: auto;     
+            aspect-ratio: 4 / 3; 
+            border: 1px solid black;
+            background-color: lightblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        #title {
+            font-size: 3.5rem;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            justify-content: center; 
+            align-items: center; 
+            text-align: center;
+        }
+
+        #bar {
+            border: .2rem solid black;
+            width: 80%;
+            margin: 5% 10%;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            padding: 5px;
+        }
+
+        .emotion-box {
+            width: 20px;
+            height: 20px;
+            margin: 2px;
+            display: inline-block;
+            border-radius: 3px;
+            border: 1px solid black;
+            box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        #webcam-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Live Emotion Detection</h1>
+    <div id="container">
+        <div id="webcam-box" class="box">
+            <img src="{{ url_for('video_feed') }}" alt="Webcam Feed">
+        </div>
+        <div id="spotify-player-container" class="box">
+            <img src="tmp2.jpg" id="song-cover" alt="Album Cover">
+        </div>
+    </div>
+    <h1 id="bar"></h1>
+
+    <script>
+        const socket = io.connect(window.location.origin);
+        const bar = document.getElementById('bar');
+        const webcamBox = document.getElementById('webcam-box');
+        const spotifyPlayerContainer = document.getElementById('spotify-player-container');
+        let totalEmotionsDetected = 0;
+        const maxEmotions = 10;
+        let emotionCounts = {};
+
+        
+
+        socket.on('emotion_update', function(data) {
+            console.log("Received emotion update:", data);
+
+            const emotionDiv = document.createElement('div');
+            emotionDiv.classList.add('emotion-box');
+            emotionDiv.style.width = `${100 / maxEmotions}%`;
+
+            if (!emotionCounts[data.emotion]) {
+                emotionCounts[data.emotion] = 0;
+            }
+            emotionCounts[data.emotion]++;
+
+            switch (data.emotion) {
+                case 'happy':
+                    emotionDiv.style.backgroundColor = 'yellow';
+                    break;
+                case 'sad':
+                    emotionDiv.style.backgroundColor = 'blue';
+                    break;
+                case 'neutral':
+                    emotionDiv.style.backgroundColor = 'gray';
+                    break;
+                case 'angry':
+                    emotionDiv.style.backgroundColor = 'red';
+                    break;
+                case 'surprise':
+                    emotionDiv.style.backgroundColor = 'orange';
+                    break;
+                default:
+                    emotionDiv.style.backgroundColor = 'green';
+            }
+
+            bar.appendChild(emotionDiv);
+            totalEmotionsDetected++;
+
+            // Calculate the total number of detected emotions
+            const totalEmotions = Object.values(emotionCounts).reduce((a, b) => a + b, 0);
+
+            // Function to calculate the percentage of each emotion
+            function calculateEmotionPercentages(emotionCounts, totalEmotions) {
+                let emotionPercentages = {};
+                for (let emotion in emotionCounts) {
+                    emotionPercentages[emotion] = (emotionCounts[emotion] / totalEmotions) * 100;
+                }
+                return emotionPercentages;
+            }
+
+            // Example mapping of percentage ranges to phrases
+            const emotionPhraseDict = {
+                happy: {
+                    "20-50%": "content",
+                    "50-70%": "happy",
+                    "70-100%": "joyous"
+                },
+                sad: {
+                    "20-50%": "blue",
+                    "50-70%": "sad",
+                    "70-100%": "heart-broken"
+                },
+                calm: {
+                    "20-50%": "calm",
+                    "50-70%": "balanced",
+                    "70-100%": "emotionless"
+                },
+                neutral: {
+                    "20-50%": "calm",
+                    "50-70%": "balanced",
+                    "70-100%": "emotionless"
+                },
+                angry: {
+                    "20-50%": "upset",
+                    "50-70%": "angry",
+                    "70-100%": "furious"
+                }
+            };
+
+            // Function to determine the phrase based on the percentage
+            function getPhraseForEmotion(emotion, percentage) {
+                let phraseDict = emotionPhraseDict[emotion];
+                if (percentage >= 70) {
+                    return phraseDict["70-100%"];
+                } else if (percentage >= 50) {
+                    return phraseDict["50-70%"];
+                } else if (percentage >= 20) {
+                    return phraseDict["20-50%"];
+                } else {
+                    return ""; // For very low percentages, return an empty string or a default phrase
+                }
+            }
+
+            // Combine phrases to form the final "You're feeling" sentence
+            function generateFeelingSentence(emotionPercentages) {
+                let phrases = [];
+                for (let emotion in emotionPercentages) {
+                    let percentage = emotionPercentages[emotion];
+                    let phrase = getPhraseForEmotion(emotion, percentage);
+                    if (phrase) {
+                        phrases.push(phrase);
+                    }
+                }
+                return "You're feeling: " + phrases.join(", ");
+            }
+
+            // Example usage
+            const emotionPercentages = calculateEmotionPercentages(emotionCounts, totalEmotions);
+            const feelingSentence = generateFeelingSentence(emotionPercentages);
+
+            
+
+            if (totalEmotionsDetected >= maxEmotions) {
+                const emotionPercentages = calculateEmotionPercentages(emotionCounts, totalEmotions);
+            const feelingSentence = generateFeelingSentence(emotionPercentages);
+                
+                
+                let prominentEmotion = Object.keys(emotionCounts).reduce((a, b) => emotionCounts[a] > emotionCounts[b] ? a : b);
+                if (prominentEmotion === 'neutral') {
+                    prominentEmotion = 'calm';
+                }
+                
+                console.log("Prominent Emotion:", prominentEmotion);
+
+                // Replace the webcam feed with the prominent emotion text
+                webcamBox.innerHTML = `<p>${feelingSentence}</p>`;
+
+                const playlistSearchQuery = `${prominentEmotion} beats`;
+                console.log("Query:", playlistSearchQuery);
+
+                fetch(`/search_playlist/${playlistSearchQuery}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.log(data.error);
+                        } else {
+                            spotifyPlayerContainer.style.border = 'none';
+                            spotifyPlayerContainer.style.backgroundColor = 'transparent';
+
+                            spotifyPlayerContainer.innerHTML = `
+                                <iframe src="https://open.spotify.com/embed/track/${data.track_id}" 
+                                        width="100%" 
+                                        height="100%" 
+                                        frameborder="0" 
+                                        allowtransparency="true" 
+                                        allow="encrypted-media">
+                                </iframe>`;
+                        }
+                    })
+                    .catch(error => console.error('Error fetching playlist:', error));
+            }
+        });
+    </script>
+</body>
+</html>

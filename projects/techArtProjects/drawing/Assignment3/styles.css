@@ -1,0 +1,326 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: black; */
+  }
+
+  .description-box {
+    position: absolute;
+    bottom: 20px; 
+    left: 20px; 
+    background-color: rgba(0, 0, 0, 0.7); 
+    color: white; 
+    padding: 10px; 
+    border-radius: 8px; 
+    max-width: 300px; 
+    font-family: Arial, sans-serif; 
+    font-size: 14px; 
+}
+
+  
+#scene {
+    width: 200px;
+    height: 200px;
+    perspective: 600px;
+}
+  
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(-20deg) rotateY(30deg) ;
+}
+
+#item{
+  width: 50px;
+  height: 50px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateY(100deg) translateZ(100px) translateX(20px) translateY(100px);
+}
+
+.face {
+    /* opacity: 0.2; */
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+}
+  
+
+  /* front */
+  .face:nth-child(1) {
+    transform: rotateY(0deg) translateZ(100px);
+    background-color: blue;
+    background-image: url(images/box-face2.png);
+    background-size: cover;
+  }
+  
+  /* right */
+  .face:nth-child(2) {
+    background-image: url(images/box-face2.png);
+    background-size: cover;
+    transform: rotateY(90deg) translateZ(100px);
+  }
+  
+  /* back */
+  .face:nth-child(3) {
+    background-image: url(images/box-face2.png);
+    background-size: cover;
+    transform: rotateY(180deg) translateZ(100px);
+  }
+  
+  /* left */
+  .face:nth-child(4) {
+    background-image: url(images/box-face2.png);
+    background-size: cover;
+    transform: rotateY(-90deg) translateZ(100px);
+  }
+  
+  /* top */
+  .face:nth-child(5) {
+    background-image: url(images/box-top2.png);
+    background-size: cover;
+    transform: rotateX(90deg) translateZ(100px);
+  }
+  
+  /* bottom */
+  .face:nth-child(6) {
+    background-image: url(images/box-face2.png);
+    background-size: cover;
+    transform: rotateX(-90deg) translateZ(100px);
+  }
+  
+  /* active hover states */
+  .cube:hover {
+    /* transform: rotateX(-20deg) rotateY(30deg) ; */
+    animation-name: shake;
+    animation-duration: .2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+  
+  .cube:active {
+    animation-name: shake;
+    animation-duration: .1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite; 
+}
+
+.lock{
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    fill:black;
+    height: 80px;
+    width: 80px;
+    transform: rotateY(0deg) translateZ(100px) translateY(0px) translateX(60px);
+}
+
+.lock:hover{
+    animation-name: glow;
+    animation-duration: .7s;
+    animation-iteration-count: infinite;
+}
+  
+
+  /* animation */
+@keyframes shake{
+     0% {  transform: rotateX(-20deg) rotateY(30deg) translateX(0); }
+    25% { transform: rotateX(-20deg) rotateY(30deg)translateX(5px); }
+    50% { transform: rotateX(-20deg) rotateY(30deg) translateX(-5px); }
+    75% { transform: rotateX(-20deg) rotateY(30deg) translateX(5px); }
+    100% { transform: rotateX(-20deg) rotateY(30deg) translateX(0); }
+}
+
+@keyframes spin {
+    from {transform: rotateX(-20deg) rotateY(0deg) ;}
+    to {transform: rotateX(-20deg) rotateY(360deg) ;}
+}
+  
+@keyframes topOpen{
+    0%{transform: rotateX(90deg) translateZ(100px);}
+    10%{transform: rotateX(100deg) translateY(30px) translateZ(115px);}
+    30% {transform: rotateX(110deg) translateX(-7px) translateY(60px) translateZ(125px);}
+    60% {transform: rotateX(120deg)  translateX(-3px) translateY(72px) translateZ(135px);}
+    100% {transform: rotateX(140deg) translateY(112px) translateZ(140px);}
+}
+
+@keyframes popOut{
+    0%{transform: translateY(100px);}
+    90%{transform: translateY(-100px);
+        transform: scale(50);
+    }
+    98%{transform: scale(90) translateX(-900px);}
+    99%{
+      transform: scale(1000) translateX(-900px);
+    }
+    100%{
+      transform: scale(0);
+      width: 10px; height: 10px;
+    }
+}
+
+@keyframes glow{
+    0%{fill:black}
+    25%{fill: rgb(159, 14, 14);}
+    50%{fill: red;}
+    75%{fill: rgb(240, 64, 64);}
+    10%{fill:black}
+}
+
+@keyframes gemSpin {
+  0%{fill: rgb(4, 53, 168); }
+  10%{fill: rgb(4, 113, 168); }
+  20%{fill:rgb(79, 173, 220);}
+  30%{fill:rgb(128, 205, 225);}
+  40%{fill:rgb(145, 230, 232); }
+  50%{fill:rgb(185, 207, 238);}
+  60%{fill:rgb(128, 205, 225);}
+  70%{fill:rgb(79, 173, 220); }
+  80%{fill:rgb(79, 173, 220); }
+  90%{fill: rgb(4, 113, 168); }
+  100%{transform: rotateY(360deg);fill: rgb(4, 53, 168); }
+}
+
+@keyframes gempopOut {
+  to{transform: translateY(-200px) translateX(50px);}
+}
+
+
+.cube_move1{
+    animation-delay: 0s;
+    animation-name: spin;
+    animation-duration: .3s;
+    animation-timing-function: linear;
+    animation-iteration-count: 5;
+    /* animation-iteration-count: infinite; */
+}
+
+.top_move2{
+    animation-delay: 4s;
+    animation-name: topOpen;
+    animation-duration: 3s;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+.item_move3{
+  animation-delay: 7.3s;
+  animation-name: popOut;
+  animation-duration: .2s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.gem_move4{
+  animation-delay: 8s;
+  animation-name: gempopOut;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+
+.gem{
+  width: 100px;
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translateX(80px) translateY(-50px);
+}
+
+.layer {
+  position: absolute;
+  fill: rgb(85, 180, 234);
+  
+}
+.layer:nth-child(1){
+  transform: rotateY(1deg) translateZ(0px);
+  animation-name: gemSpin;
+  animation-duration: 2.901s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+}
+
+.layer:nth-child(2){
+  transform: rotateY(2deg) translateZ(-5px);
+  animation-name: gemSpin;
+  animation-duration: 2.902s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(3){
+  transform: rotateY(3deg) translateZ(-10px);
+  animation-name: gemSpin;
+  animation-duration: 2.903s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(4){
+  transform: rotateY(4deg) translateZ(-15px);
+  animation-name: gemSpin;
+  animation-duration: 2.904s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(5){
+  transform: rotateY(5deg) translateZ(-20px);
+  animation-name: gemSpin;
+  animation-duration: 2.905s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(6){
+  transform: rotateY(6deg) translateZ(-25px);
+  animation-name: gemSpin;
+  animation-duration: 2.906s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(7){
+  transform: rotateY(7deg) translateZ(-30px);
+  animation-name: gemSpin;
+  animation-duration: 2.907s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+.layer:nth-child(8){
+  transform: rotateY(8deg) translateZ(-35px);
+  animation-name: gemSpin;
+  animation-duration: 2.908s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(9){
+  transform: rotateY(9deg) translateZ(-40px);
+  animation-name: gemSpin;
+  animation-duration: 2.909s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+.layer:nth-child(10){
+  transform: rotateY(10deg) translateZ(-45px);
+  animation-name: gemSpin;
+  animation-duration: 2.91s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+}
+
+

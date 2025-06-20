@@ -1,0 +1,334 @@
+.container {
+    position: relative;
+    top: 4.5rem;
+    left: 3%;
+    width: 68%;
+    height: 32rem;
+    overflow: hidden;
+    margin-left: 1rem;
+    border: 5px solid black; 
+    background-color: white;
+    font-family: "sour-gummy", sans-serif;
+    color: #fa1413;  
+    display: flex;
+    flex-direction: flex;
+}
+
+
+.contactLink{
+    color: #fa1413;  
+}
+
+.squiggleAbout {
+    position: absolute;
+    top: 65%;  
+    left: 4.5%; 
+    z-index: -10;
+    transform: scale(1.2);
+    fill: #fa1413;  
+}
+
+/* .starAbout {
+    position: absolute;
+    top: 60.5%; 
+    left: -3.4%; 
+    z-index: -10;
+    transform: scale(.32);
+    fill: #fa1413;  
+} */
+
+
+.bunnyImg{
+    position: relative;
+    top: -1%;
+    left:-4%;
+    transform: scale(.75);
+}
+
+.contactText{
+    fill: #fa1413; 
+    position: absolute;
+    top: 10%;
+    left: 35%;
+    width: 55%;
+}
+
+.resumeBtn{
+    cursor: pointer;
+    position: absolute;
+    top: 55%;
+    left: 57%;
+    width: 20%;
+}
+
+.resumeBtn:hover{
+    fill: #fa1413; 
+}
+
+.socials{
+    color: black;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20%;
+    position: absolute;
+    bottom:-2%;
+    left: 5%;
+    gap: 70%;
+}
+
+.socials h1:hover {
+    color: #fa1413;
+}
+
+@media (max-width: 1300px) and (min-width: 1160px) {
+    .container {
+        width: 65%;
+        left: 5%;
+    }
+
+    .squiggleAbout {
+        top: 63%;  
+        left: 5.5%; 
+        transform: scale(1.1);
+    }
+    
+    .starAbout {
+        top: 59%; 
+        left: -3.2%; 
+        transform: scale(.25);
+    }
+
+    .socials{
+        width: 20%;
+        gap: 50%;
+    }
+
+    .resumeBtn{
+        left: 65%;
+    }
+   
+}
+@media (max-width: 1159px) and (min-width: 1000px) {
+    .container {
+        width: 64%;
+        left: 7%;
+    }
+
+    .squiggleAbout {
+        top: 59%;  
+        left: 5.5%; 
+        transform: scale(1.1);
+    }
+    
+    .starAbout {
+        top: 55%; 
+        left: -4%; 
+        transform: scale(.25);
+    }
+
+    .socials{
+        width: 15%;
+        gap: 40%;
+        left: 10%;
+    }
+
+    .resumeBtn{
+        left: 75%;
+    }
+
+}
+
+@media (max-width: 1001px) and (min-width: 849px) {
+    .container {
+        width: 60%;
+        left: 10%;
+    }
+
+    
+    .squiggleAbout {
+        top: 54%;  
+        left: 5.7%; 
+        transform: scale(1);
+    }
+    
+    .starAbout {
+        top: 50.5%; 
+        left: -4.5%; 
+        transform: scale(.25);
+    }
+    .socials{
+        width: 1.5rem;
+        font-size: .8rem;
+        gap: 90%;
+        left: 15%;
+    }
+
+    .bunnyImg{
+        top: -8%;
+        left: -8%;
+        width: 80%;
+    }
+
+    .contactText{
+        top: 8%;
+        left: 35%;
+        width: 60%;
+    }
+
+    .resumeBtn{
+        top: 45%;
+        left: 70%;
+    }
+
+ 
+
+}
+
+@media (max-width: 850px) and (min-width: 740px) {
+    .container {
+        width: 55%;
+        left: 15%;
+    }
+
+    .squiggleAbout {
+        top: 54%;  
+        left: 5.7%; 
+        transform: scale(1);
+    }
+    
+    .starAbout {
+        top: 50.5%; 
+        left: -5%; 
+        transform: scale(.25);
+    }
+
+    .socials{
+        width: 1.5rem;
+        font-size: .6rem;
+        gap: 90%;
+        left: 15%;
+        bottom: 1rem;
+    }
+
+    .bunnyImg{
+        top: -8%;
+        left: -8%;
+        width: 90%;
+    }
+
+    .contactText{
+        top: 10%;
+        left: 28%;
+        width: 70%;
+    }
+
+    .resumeBtn{
+        top: 75%;
+        left: 42%;
+        width: 20%;
+    }
+}
+
+@media (max-width: 739px) and (min-width: 699px) {
+    .container {
+        width:52%;
+        left: 18%;
+        top: 5rem;
+        height: 30rem;  
+        overflow-y: auto;
+    }
+
+    .squiggleAbout {
+        top: 54%;  
+        left: 5.7%; 
+        transform: scale(1);
+    }
+    
+    .starAbout {
+        top: 50.5%; 
+        left: -6.5%; 
+        transform: scale(.25);
+    }
+
+    .socials{
+        width: 1.5rem;
+        font-size: .5rem;
+        gap: 90%;
+        left: 9%;
+        bottom: 2rem;
+    }
+
+    .bunnyImg{
+        top: -8%;
+        left: -8%;
+        width: 90%;
+    }
+
+    .contactText{
+        top: 15%;
+        left: 32%;
+        width: 65%;
+    }
+
+    .resumeBtn{
+        top: 75%;
+        left: 42%;
+        width: 20%;
+    }
+}
+
+.main{
+    padding-bottom: 3rem;
+}
+
+
+@media (max-width: 699px) {
+    .container{
+        width: 85%;
+        height: 20rem;
+        left: 5%;
+        overflow-y: auto;
+        top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+
+    .squiggleAbout {
+        top: 84%;  
+        left: 40%; 
+        transform: scale(1);
+    }
+    
+    .starAbout {
+        top: 75%; 
+        left: -4.5%; 
+        transform: scale(.25);
+    }
+
+    .bunnyImg{
+        top: -8%;
+        left: -5%;
+        width: 65%;
+    }
+
+    .contactText{
+        top: 10%;
+        left: 38%;
+        width: 55%;
+    }
+
+    .resumeBtn{
+        top: 52%;
+        left: 59%;
+        width: 20%;
+    }
+
+    .socials{
+        width: 10%;
+        font-size: .5rem;
+        gap: 90%;
+        left: 15%;
+        bottom: 1rem;
+    }
+}

@@ -1,0 +1,321 @@
+body{
+    margin:0;
+    padding: 0;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+
+
+.Scene2videoContainer{
+    position: relative;
+    top: 5rem;
+    left: 5rem;
+    width: 65%;
+    height: 35rem;
+    overflow: hidden;
+    margin-left: 1rem;
+    border-radius: 10px; 
+}
+
+#scene2Video{
+    position: relative; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left center; 
+    border-radius: 12px;
+}
+
+
+.Scene2playBtn {
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    color: #fa1413;  
+    font-size: 3rem;
+    cursor: pointer;
+}
+
+.Scene2playBtn:hover{
+    top: 45%;
+    left: 40%;
+    font-size: 6rem;
+
+}
+
+.starWrapper {
+    z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.star {
+    width: 10rem;
+    height: 10rem;
+    position: absolute;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.star a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    border: none;
+    color: inherit;
+}
+.star .text {
+    color: #fa1413;  
+    width: 100%;
+    font-size: 1rem;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-20%, 75%);
+    text-decoration: none;
+    visibility: hidden;
+}
+
+.star a:hover .text {
+    visibility: visible;
+}
+
+.star a:hover .starImg {
+    opacity: 0.5;
+    border: 5px solid #fa1413;  
+}
+
+.star a:link {
+    text-decoration: none;
+    color: #fa1413;  
+}
+
+.star a:visited {
+    text-decoration: none;
+    color: green;
+    border: 5px solid green;
+}
+
+.projectList{
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    z-index:100;
+    color:#fa1413;  
+}
+/* 
+@media (max-width: 576px) {
+    video {
+        object-position: 20% center;
+    }
+
+    .playBtn {
+        top:45%;
+        left: 35%;
+        font-size: 1.5rem;
+    }
+
+    .playBtn:hover {
+        top: 40%;
+        left: 32%;
+        font-size: 2rem;
+    }
+
+    .starWrapper {
+        object-position: 20% center;
+        position: relative;
+        width: 40%;
+        height: 40%
+    }
+
+    .star {
+        width: 2rem;
+        height: 2rem;
+        position: relative;
+        margin: .2rem auto;
+    }
+
+    .star .text {
+        font-size: 0.8rem;
+        transform: translate(-10%, 75%);
+    }
+
+
+
+    .projectList {
+        position: relative;
+        top: 1rem;
+        left: 1rem;
+        margin: 1rem auto;
+        text-align: center;
+        color: rgb(255, 0, 0);
+    }
+} */
+
+
+
+.techArtLink{
+    color: #fa1413;  
+}
+
+.squiggleAbout {
+    position: absolute;
+    top: 55.8%;  
+    left: 8%; 
+    z-index: -10;
+    transform: scale(1.8);
+    fill: #fa1413;  
+}
+
+.starAbout {
+    position: absolute;
+    top: 50.5%; 
+    left: -3.5%; 
+    z-index: -10;
+    transform: scale(.32);
+    fill: #fa1413;  
+}
+
+
+
+@media (max-width: 1300px) and (min-width: 1160px) {
+    .squiggleAbout {
+        top: 55.5%;  
+        left: 8%; 
+        transform: scale(1.4);
+    }
+    
+    .starAbout {
+        top: 50.5%; 
+        left: -3.5%; 
+        transform: scale(0.28);
+    }
+   
+}
+@media (max-width: 1159px) and (min-width: 1000px) {
+    .scene2videoContainer {
+        width: 24%;
+        left: 7%;
+    }
+
+    .squiggleAbout {
+        top: 51%;  
+        left: 8%; 
+        transform: scale(1.4);
+    }
+    
+    .starAbout {
+        top: 47%; 
+        left: -4%; 
+        transform: scale(0.25);
+    }
+
+
+}
+
+@media (max-width: 1001px) and (min-width: 849px) {
+    .squiggleAbout {
+        top: 46%;  
+        left: 9%; 
+        transform: scale(1.4);
+    }
+    
+    .starAbout {
+        top: 41.8%; 
+        left: -5%; 
+        transform: scale(0.2);
+    }
+    
+    .Scene2videoContainer {
+        width: 62%;
+        height: 30rem;
+    }
+
+    #scene2Video {
+        width: 100%;
+        height: 100%;
+    }
+
+}
+
+@media (max-width: 850px) and (min-width: 740px) {
+    .squiggleAbout {
+        top: 46%;  
+        left: 11%; 
+        transform: scale(1.4);
+    }
+    
+    .starAbout {
+        top: 43.2%; 
+        left: -5%; 
+        transform: scale(0.2);
+    }
+
+    .Scene2videoContainer {
+        width: 50%;
+        left: 18%;
+        height: 30rem;
+    }
+
+   
+}
+
+@media (max-width: 739px) and (min-width: 699px) {
+    .squiggleAbout {
+        top: 46.5%;  
+        left: 12.5%; 
+        transform: scale(1.4);
+    }
+    
+    .starAbout {
+        top: 42.5%; 
+        left: -6%; 
+        transform: scale(0.25);
+    }
+
+    .Scene2videoContainer {
+        width: 50%;
+        left: 18%;
+        height: 30rem;
+    }
+   
+}
+
+
+@media (max-width: 699px) {
+    .squiggleAbout {
+        top: 72%;  
+        left: 37%; 
+        transform: scale(1);
+    }
+    
+    .starAbout {
+        left: 1%; 
+        top: 65%; 
+        transform: scale(.2);
+    }
+
+    .Scene2videoContainer {
+        width: 80%;
+        left: 10%;
+        top: 0rem;
+        height: 30rem;
+    }
+
+    .Scene2playBtn {
+        top: 45%;
+        left: 35%;
+    }
+}

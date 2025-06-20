@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>HTML Canvas and Web APIs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      /* canvas {background-color: hsl(0, 0%, 50%);}  */
+      #c1{background-color: hsl(0, 0%, 50%);}
+
+      #c2{background-color: hsl(0, 0%, 50%);}
+    </style>
+  </head>
+
+  <body>
+    <div id="frame">
+      <canvas id="c1" width="600" height="400"></canvas>
+      <canvas id="c2" width="600" height="400"></canvas>
+      <img id = "baseImage" src = "images/base.png">
+      <img id = "moon" src = "images/moon.png">
+      <img id = "light" src = "images/light.png">
+    </div>
+    <h1 id = "message"></h1>
+
+    <div class="description-box">
+      <p>Objective: Explore web APIs. 
+          <p></p>Directions: The hue of the moon changes based on the visible moonlight % in your area tonight.</p>
+      </p>
+  </div>
+
+
+    <script>
+      const canvas = document.querySelector('#c2');
+      const canvas1 = document.querySelector('#c1');
+      const context = canvas.getContext('2d');
+      const context1 = canvas1.getContext('2d');
+      const baseImage = document.querySelector('#baseImage');
+      const moon = document.querySelector('#moon');
+      const light = document.querySelector("#light");
+
+      const width = 600;
+      const height = 400;
+      const pxScale = window.devicePixelRatio;
+
+      let content = document.querySelector('#message');
+      
+      function setup() {
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+
+        canvas.width = width * pxScale;
+        canvas.height = height * pxScale;
+
+        context.scale(pxScale, pxScale);
+
+        canvas1.style.width = width + 'px';
+        canvas1.style.height = height + 'px';
+        canvas1.width = width * pxScale;
+        canvas1.height = height * pxScale;
+        context1.scale(pxScale, pxScale);
+      }
+
+      locationError = () => console.log('Unable to determine direction.');
+
+      
+      getLocation = () => {
+        if (navigator.geolocation) {
+          content.innerHTML = 'Attempting to access your location . . . ';
+          navigator.geolocation.getCurrentPosition(coordinates, locationError);
+        } else {
+          let errorMsg = 'Unable to determine your location.';
+          content.innerHTML = errorMsg;
+          locationError();
+        }
+      }
+
+      coordinates = (position) => {
+        let lat = position.coords.latitude;
+        let lon = position.coords.longitude;
+        accessData(lat, lon);
+      }
+
+      accessData = async (lat, lon) => {
+        content.innerHTML = 'Location Found: Success!';
+        let currentDate = new Date();
+        let year = currentDate.getFullYear();
+        let month = ('0' + (currentDate.getMonth() + 1)).slice(-2); 
+        let day = ('0' + currentDate.getDate()).slice(-2);
+
+        let date = `${year}-${month}-${day}`; 
+        let url = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${lat}%2C${lon}/${date}/${date}?unitGroup=us&elements=datetime%2Cmoonphase&include=days%2Cfcst&key=FK6HXFASTALXEEVLHWFK8R9UF&contentType=json`;
+
+        
+        let response = await fetch(url);
+
+        if (response.ok) {
+          let json = await response.json();
+          console.log("success");
+          moonData(json);
+        } else {
+          console.log(response.status);
+          locationError();
+        }
+      }
+
+      var value;
+
+      moonData = (response) => {
+        value = response.days[0].moonphase;
+        console.log(value);
+        draw();
+      }
+
+      
+      function draw() {
+        lightOpacity = 1.0 ;
+        //  0.4 = fuill moon --> 1 = new moon 
+        moonOpacity = 1- value ;
+
+        if (moonOpacity < 0.4) {
+            moonOpacity = 0.4;
+        } 
+        else if(moonOpacity > 0.95){
+            moonOpacity =  0.95;
+        }
+
+        // change base opacity slightly --> closer to 1 when moon opscity increases  
+        baseOpacity = .95;
+        // 
+
+        // context.globalAlpha = lightOpacity
+        // context.drawImage(light, 214, 170, width*.05, height*.13);
+        // light.style.
+        
+
+        context.globalAlpha = moonOpacity
+        context.drawImage(moon, 148, 128, width*.35, height *.25);
+        context1.drawImage(moon, 148, 128, width*.35, height *.25);
+        context.globalAlpha = baseOpacity
+        context.drawImage(baseImage, 0, 0, width, height);
+        context1.drawImage(baseImage, 0, 0, width, height);
+
+        canvas.style['background-color'] = 'red';
+
+
+        // overlayer of canvas --> adjust opacity of top layer 
+        
+        // canvas.style.filter = 'contrast(1.5) brightness(1.0)';
+      }
+
+      // rearrange order of events 
+      window.addEventListener('load', () => {
+          setup();
+          getLocation();
+
+          // draw();
+      });
+
+
+      
+    
+    </script>
+  </body>
+</html>

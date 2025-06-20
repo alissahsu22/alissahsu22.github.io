@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro 5: Seasonal To-Do List</title>
+    <link rel = "stylesheet" href = "styles.css">
+</head>
+<body>
+    <header>
+        <form>
+        <select name="season" id="seasonDropDown">
+            <option value="all" selected>Show all seasons</option>
+            <option value="summer">Summer</option>
+            <option value="fall">Fall</option>
+            <option value="spring">Spring</option>
+            <option value="winter">Winter</option>
+            <option value="completed">Completed</option>
+            <option value="incomplete">Incomplete</option>
+        </select>
+    </form>
+        
+        <h1 id = "title">Seasonal To-do List</h1> 
+    </header>
+
+    <main>
+        <div id = "container">
+            <!-- <div class = "winter">
+                <div class="note winter" onclick = "showPopup(this)" onmouseover="appear(this)" onmouseout="disappear(this)">
+                    <img class = "deleteBtn" src = "images/delete_button.png" onclick = "deleteNote(this )">
+                    <img class = "leftBtn" src = "images/left_button.png" onclick = "moveLeft()">
+                    <img class = "rightBtn" src = "images/right_button.png" onclick = "moveRight()">
+                    <div class = 'checkbox'>
+                        <input type="checkbox" class="completed" name="Completed" onclick = "check(this)"/>
+                        <label for="completed">Completed</label>
+                    </div>
+                    <img class = "editBtn" src = "images/edit_button.png" onclick = "edit(this)"/>
+                    <h1 class="noteTitle">${title}</h1>
+                </div>
+                
+                <div class="notePopup hidePopup">
+                    <h1 class = "notepopupTitle">${title}</h1>
+                    <h2 class = "notepopupSeason">Season: winter</h2>
+                    <h2 class = "notepopupDescription">${description}</h2>
+                    <hr style="width:85%; margin: auto;"class="solid">
+                    <h2 data-created="${created}">Created: ${created}</h2>
+                    <h2 class = "lastAccessed" data-lastAccessed = "${lastAccessed}">${lastAccessed}</h2>
+                    <button class="closeBtn" onclick="closePopup(this)">close</button>
+                </div> 
+            </div> -->
+        </div>
+    </main>
+
+    <button id = "addbtn" onclick = "popupForm()"><img id = "addbtnImg" src = "images/add_button.png"></button>
+
+
+    <script>
+        const container = document.querySelector("#container");
+        var title;
+        var season;
+        var description;
+        var created;
+        var lastAccessed;
+
+        var winterList = [];
+        var summerList = [];
+        var springList = [];
+        var fallList = [];
+        
+        function edit(event){
+            this.event.stopPropagation();
+
+            let parent = event.parentNode.parentNode;
+            let update = parent.querySelector('.notePopup');
+            let title = update.querySelector('.notepopupTitle').textContent;
+            let seasonString = update.querySelector('.notepopupSeason').textContent;
+            let season = seasonString.split(":")[1].trim();
+
+            let description = update.querySelector('.notepopupDescription').textContent;
+
+            var descriptText;
+            if(season == "winter"){
+                descriptText = 
+                    `<option value="winter" selected >Winter</option>
+                            <option value="summer"> Summer</option>
+                            <option value="fall">Fall</option>
+                            <option value="spring">Spring</option>`;
+            }
+             if(season == "fall"){
+                descriptText = 
+                `<option value="winter" >Winter</option>
+                            <option value="summer"> Summer</option>
+                            <option value="fall" selected  >Fall</option>
+                            <option value="spring">Spring</option>`;
+
+             }
+                  
+              if(season == "spring"){
+                descriptText = 
+                `<option value="winter">Winter</option>
+                        <option value="summer">Summer</option>
+                        <option value="fall">Fall</option>
+                        <option value="spring" selected  >Spring</option>`;
+
+              }
+              if(season == "summer"){
+                descriptText = 
+                    `<option value="winter">Winter</option>
+                            <option value="summer" selected>Summer</option>
+                            <option value="fall">Fall</option>
+                            <option value="spring">Spring</option>`
+              }
+
+
+            let popupDiv = document.createElement("div");
+            popupDiv.classList.add('popup');
+            popupDiv.innerHTML = `
+                <form class="popupForm">
+                    <h1 class="popupTitle">Edit Item</h1>
+                    <label for="formTitle">Title: </label><br>
+                    <input type="text" id="formTitle" required value = ${title}><br>
+
+                    <label for="formTitle">Category: </label><br>
+                    <select name="season" id="formDrop" required>
+                        ${descriptText}
+                    </select><br>
+
+                    <label for="formTitle">Description: </label><br>
+                    <textarea id="formTextarea" rows="4" required>${description}</textarea><br>
+
+                    <input type="submit" value="Save" onclick = "addNote()"/>
+                    <input type="submit" value="Cancel"/>
+                </form>
+            `;
+            container.appendChild(popupDiv);
+            parent.remove();
+
+            // window.localStorage.setItem("currentWindow", (container.innerHTML));
+        }
+
+       
+        function appear(event){
+            let deletebtn = event.querySelector('.deleteBtn');
+                    let leftbtn = event.querySelector('.leftBtn');
+                    let rightbtn = event.querySelector('.rightBtn');
+                    deletebtn.style.opacity = 1;
+                    leftbtn.style.opacity = 1;
+                    rightbtn.style.opacity = 1;
+
+        }
+
+        function disappear(event){
+            let deletebtn = event.querySelector('.deleteBtn');
+                    let leftbtn = event.querySelector('.leftBtn');
+                    let rightbtn = event.querySelector('.rightBtn');
+                    deletebtn.style.opacity = 0;
+                    leftbtn.style.opacity = 0;
+                    rightbtn.style.opacity = 0;
+
+
+        }
+
+        function showPopup(event){
+            let parent = event.parentNode;
+            parent.querySelector('.notePopup').classList.add("showPopup");
+            
+            let access = getTime();
+            parent.querySelector('.lastAccessed').textContent = `Last Accessed: ${access}`;
+            parent.setAttribute('data-lastAccessed', access);
+            parent.querySelector('.notePopup').classList.remove("hidePopup");
+            parent.querySelector('.notePopup').classList.add("showPopup");
+        }
+
+        function check(event){
+            console.log("checked");
+            console.log(event);
+            this.event.stopPropagation();
+            this.event.stopImmediatePropagation();
+            if(event.checked){
+                event.setAttribute("checked", "checked");
+            }
+            else{
+                event.removeAttribute("checked");
+            }
+
+            window.localStorage.setItem("currentWindow", (container.innerHTML));
+        }
+        
+        function getTime(){
+            var date = new Date();
+            var hour = date.getHours();
+            var minute = date.getMinutes();
+            var time;
+            var backgroundTime;
+
+            
+            if(minute < 10){
+                minute = '0' + minute;
+            }
+
+            if(0 <= hour && hour <= 5){
+                if(hour == 0){
+                    time = `${hour+12}:${minute}am`;
+                }
+                else{
+                    time = `${hour}:${minute}am`;
+                }
+                
+            }
+            else if(6 <= hour && hour <= 11){
+                time = `${hour}:${minute}am`;}
+
+            else if(12 <= hour && hour <= 17){
+                if(hour == 12){
+                    time = `${hour}:${minute}pm`
+                }
+                else{
+                    time = `${hour-12}:${minute}pm`;
+                }  
+            }
+            else{
+                backgroundTime = "evening";
+                time = `${hour-12}:${minute}pm`;
+            }
+
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
+            let currentDate = `${month}/${day}/${year}`;
+            currentDate += ` ${time}`;
+
+            return currentDate;
+        }
+                
+        function popupForm(){
+            var popupDiv = document.createElement("div");
+            popupDiv.classList.add('popup');
+            popupDiv.innerHTML = `
+                <form class="popupForm">
+                    <h1 class="popupTitle">Add New Item</h1>
+                    <label for="formTitle">Title: </label><br>
+                    <input type="text" id="formTitle" required/><br>
+
+                    <label for="formTitle">Category: </label><br>
+                    <select name="season" id="formDrop" required>
+                        <option value="winter" selected>Winter</option>
+                        <option value="summer">Summer</option>
+                        <option value="fall">Fall</option>
+                        <option value="spring">Spring</option>
+                    </select><br>
+
+                    <label for="formTitle">Description: </label><br>
+                    <textarea id="formTextarea" rows="4" required></textarea><br>
+
+                    <input type="submit" value="Save" onclick = "addNote()"/>
+                    <input type="submit" value="Cancel"  onclick = "cancel()"/>
+                </form>
+            `;
+            container.appendChild(popupDiv);
+        }
+        
+        function cancel(){
+            let popupForm = document.querySelector('.popupForm');
+            let popup = document.querySelector('.popup');
+            popupForm.reset();
+            popupForm.remove();
+            popup.remove();
+        }
+
+        function closePopup(note) {
+            event.stopPropagation();
+            noteClicked = note.parentNode;
+            noteClicked.classList.remove("showPopup");
+            noteClicked.classList.add("hidePopup");
+        }
+
+        function deleteNote(note, d, s){
+            event.stopPropagation();
+            let deleteNote = event.target.parentNode.parentNode;
+
+            let removeIndex;
+            let list = window[s + "List"];
+
+            for(let i = 0; i < list.length; i++){
+                if(list[i].includes(d)){
+                    removeIndex = i;
+                }
+            }    
+            list.splice(removeIndex,1);
+
+            deleteNote.remove();  
+            window.localStorage.setItem("currentWindow", (container.innerHTML));
+        }
+
+        function moveLeft(){
+            event.stopPropagation();
+            let moveNote = event.target.parentNode.parentNode;
+            let prevNote = moveNote.previousSibling;
+            let noteContainer = moveNote.parentNode;
+
+            if(prevNote){
+                moveNote.remove();
+                noteContainer.insertBefore(moveNote, prevNote);
+            }
+
+            window.localStorage.setItem("currentWindow", (container.innerHTML));
+
+        }
+
+        function moveRight(){
+            event.stopPropagation();
+            let moveNote = event.target.parentNode.parentNode;
+            let nextNote = moveNote.nextElementSibling;
+            let noteContainer = moveNote.parentNode;
+
+            if (nextNote) {
+                moveNote.remove();
+
+                noteContainer.insertBefore(moveNote, nextNote.nextSibling);
+            }
+
+            window.localStorage.setItem("currentWindow", (container.innerHTML));
+        }   
+
+        function addNote() {
+            title = document.getElementById("formTitle").value;
+            season = document.getElementById("formDrop").value;
+            description = document.getElementById("formTextarea").value;
+
+            if(title && season && description){
+                var created = getTime();
+
+                var noteDiv = document.createElement("div");
+                noteDiv.innerHTML = `
+                    <div class="note ${season}" onclick = "showPopup(this)" onmouseover="appear(this)" onmouseout="disappear(this)">
+                        <img class = "deleteBtn" src = "images/delete_button.png" onclick = "deleteNote(this, '${description}','${season}' )">
+                        <img class = "leftBtn" src = "images/left_button.png" onclick = "moveLeft()">
+                        <img class = "rightBtn" src = "images/right_button.png" onclick = "moveRight()">
+                        <div class = 'checkbox'>
+                            <input type="checkbox" class="completed" name="Completed" onclick = "check(this)"/>
+                            <label for="completed">Completed</label>
+                        </div>
+                        <img class = "editBtn" src = "images/edit_button.png" onclick = "edit(this)"/>
+
+                        <h1 class="noteTitle">${title}</h1>
+                    </div>
+                    
+                    <div class="notePopup hidePopup">
+                        <h1 class = "notepopupTitle">${title}</h1>
+                        <h2 class = "notepopupSeason">Season: ${season}</h2>
+                        <h2 class = "notepopupDescription">${description}</h2>
+                        <hr style="width:85%; margin: auto;"class="solid">
+                        <h2 data-created="${created}">Created: ${created}</h2>
+                        <h2 class = "lastAccessed" data-lastAccessed = "${lastAccessed}">${lastAccessed}</h2>
+                        <button class="closeBtn" onclick="closePopup(this)">close</button>
+                    </div> 
+                `;
+                let list = window[`${season}List`];
+                list.push( [description, season, title, created]);
+                
+
+                noteDiv.classList.add(season.toLowerCase());
+                
+                
+                container.appendChild(noteDiv);
+                container.removeChild(document.querySelector('.popup'));
+            }
+            else{
+                alert("Please fill out all required fields.");
+            }
+
+            window.localStorage.setItem("currentWindow", (container.innerHTML));
+
+        }
+
+        var selectSeason = document.getElementById("seasonDropDown");
+        selectSeason.addEventListener('change', function () {
+            let val = selectSeason.value;
+            let notes = document.querySelectorAll('.note');
+
+            for (let i = 0; i < notes.length; i++) {
+                let note = notes[i];
+                let noteSeason = note.classList[1]; 
+
+                if(val === "completed"){
+                    if(notes[i].querySelector(".completed").checked){
+                        note.style.display = "block";
+                    }
+                    else{
+                        note.style.display = "none";
+                    }
+                }
+                else if(val === "incomplete"){
+                    if(!notes[i].querySelector(".completed").checked){
+                        note.style.display = "block";
+                    }
+                    else{
+                        note.style.display = "none";
+                    }
+                }
+
+                else if (val === "all" || val === noteSeason) {
+                    note.style.display = "block";
+                } 
+
+                else {
+                    note.style.display = "none";
+                }
+            }
+        }
+                
+            
+    );
+
+        function loadNotes() {
+            const currentWindow = localStorage.getItem("currentWindow");
+            if(currentWindow){
+                container.innerHTML = currentWindow;
+            }
+        }
+
+        
+        window.onload = loadNotes();
+        
+
+        
+    </script>
+</body>
+
+</html>

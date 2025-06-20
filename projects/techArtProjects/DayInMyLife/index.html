@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day In My Life as: </title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id = "end">
+        <video id = "endVideo" src = "media/end.mp4"></video>
+    </div>
+
+    <div id="questionContainer">
+        <p id="question"></p>
+        <div id="answer">
+            <input type="range" id="slider" name="slider" min="0" max="10">
+        </div>
+    </div>
+
+    <div id="continueOverlay">
+        <p>Click to continue</p>
+    </div>
+
+      
+    <div id="videosContainer">
+        <div id="insideBox">
+            <video id="insideBoxVideo" width="300"></video>
+        </div>
+    </div>
+
+    <button id = "skip" type="button">Skip</button>
+
+    <p id="stressCaption">Stress Levels</p>
+    <div id="stressBar"></div>
+
+    <p id = "endText">TOO MUCH STRESS</p>
+
+    <footer id = "foot">Note: make sure the site is unmuted!</footer>
+</body>
+<script src="script.js"></script>
+</html>

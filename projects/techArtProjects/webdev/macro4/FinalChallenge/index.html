@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Design Your own Hogwarts!</title>
+    <style type="text/css">
+      #container{
+        display: flex;
+        flex-direction: row;
+        padding: 15px;
+        gap: 25px;
+      }
+
+      #left{
+        width: 350px;
+        height: 320px;
+        border: 1px solid black;
+        display: grid;
+        grid-template-columns: repeat(10,1fr);
+        grid-template-rows: repeat(10,1fr);
+        gap: 0;
+
+      }
+
+      #right{
+        width: 1280px;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .RightTile{
+        width: 32px;
+        height: 32px;
+        padding: 2px;
+        box-sizing: border-box;
+      }
+
+      .RightTile:hover{
+        border: 2px solid yellow;
+      }
+
+      .LeftTile{
+        width: 32px;
+        height: 32px;
+        box-sizing: border-box;
+      }
+
+      .LeftTile:hover{
+        border: 2px solid red;
+      }
+
+
+    </style>
+  </head>
+
+  <body>
+    <h1>Design Your Own Hogwarts!</h1>
+    <div id = "container">
+      <div id = "left"></div>
+      <div id = "right"></div>
+    </div>
+
+    <!-- load in the image array file - this makes available a new array of all image filenames that you can use for this project -->
+    <!-- Assets courtesy of Crawl Stone Soup: https://github.com/crawl/tiles -->
+    <script src="image_array.js"></script>
+    
+  
+    <!-- write your code here -->
+    <script>
+      const left = document.querySelector("#left");
+      const right = document.querySelector("#right");
+      for(let i = 0; i < array_library.length; i ++){
+        let newImg = document.createElement("img");
+        newImg.src = array_library[i];
+        newImg.classList.add('RightTile');
+        right.appendChild(newImg);
+      }
+
+      for(let i = 0; i < 100; i++){
+        let div = document.createElement("div");
+        div.classList.add('LeftTile');
+        left.appendChild(div);
+      }
+
+      
+
+      const RightTileArr = document.querySelectorAll('.RightTile');
+      const LeftTileArr = document.querySelectorAll('.LeftTile');
+      var selectedRight; 
+
+      RightTileArr.forEach(function(rightTile) {
+      rightTile.addEventListener('click', function() {
+        selectedRight = this.getAttribute('src');
+        // rightTile.classList.add('selectedTile');
+        });
+      });
+
+      LeftTileArr.forEach(function(leftTile) {
+      leftTile.addEventListener('click', function() {
+        if(selectedRight == null){return;}
+        // let newImg = document.createElement("img");
+        // newImg.src = selectedRight;
+        // newImg.classList.add('LeftTile');
+        // leftTile.appendChild(newImg);
+        leftTile.style['background-image'] = `url(${selectedRight})`;
+
+        });
+      });
+
+
+
+    </script>
+
+  </body>
+</html>

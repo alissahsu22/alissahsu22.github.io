@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 4: JavaScript - Level 3</title>
+    <link rel = 'stylesheet' href = "level3.css">
+    <script src = 'microphone.js'></script>
+    <script src = 'level3.js'></script>
+
+</head>
+<body onload = 'main()'>
+    <canvas id = "overlayCanvas"></canvas>
+    <canvas id = "playerCanvas"></canvas>
+    <canvas id = "myCanvas"></canvas>
+    <div id="scene">
+        <div class="cube">
+          <div class="face">
+            <svg width="100%" height="100%">
+                <rect x="0" y="0" width="15" height="200" class="bar" />
+                <rect x="30" y="0" width="15" height="200" class="bar" />
+                <rect x="95" y="0" width="15" height="200" class="bar" />
+                <rect x="145" y="0" width="15" height="200" class="bar" />
+                <rect x="180" y="0" width="15" height="200" class="bar" />
+            </svg>
+          </div>
+          <div class="face">
+            <svg width="100%" height="100%">
+                <rect x="0" y="0" width="15" height="200" class="bar" />
+                <rect x="45" y="0" width="15" height="200" class="bar" />
+                <rect x="95" y="0" width="15" height="200" class="bar" />
+                <rect x="145" y="0" width="15" height="200" class="bar" />
+                <rect x="180" y="0" width="15" height="200" class="bar" />
+            </svg>
+          </div>
+          <div class="face">
+            <svg width="100%" height="100%">
+                <rect x="0" y="0" width="15" height="200" class="bar" />
+                <rect x="45" y="0" width="15" height="200" class="bar" />
+                <rect x="95" y="0" width="15" height="200" class="bar" />
+                <rect x="145" y="0" width="15" height="200" class="bar" />
+                <rect x="180" y="0" width="15" height="200" class="bar" />
+            </svg>
+          </div>
+          <div class="face">
+            <svg width="100%" height="100%">
+                <rect x="0" y="0" width="15" height="200" class="bar" />
+                <rect x="45" y="0" width="15" height="200" class="bar" />
+                <rect x="95" y="0" width="15" height="200" class="bar" />
+                <rect x="145" y="0" width="15" height="200" class="bar" />
+                <rect x="180" y="0" width="15" height="200" class="bar" />
+            </svg>
+          </div>
+          <div class="face" id = "top" ></div>
+          <div class="face"></div> 
+          <div class = "item"><img id = "item" src = "images/player.png" width = "100px" height = "100px"></div>
+        </div>
+
+
+      </div>
+
+      <div class="description-box">
+        <p>Directions: Make some noise! Louder!</p>
+        </div>
+    
+</body>
+</html>
