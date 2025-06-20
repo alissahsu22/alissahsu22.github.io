@@ -1,0 +1,156 @@
+#hero{
+    padding-top: 50px;
+   color: var(--light);
+   font-family: var(--font-family-primary);
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: flex-start;
+}
+
+#hero h3{
+    font-size: 35px;
+    margin: 5px;
+    padding: 5px;
+}
+
+#hero h2{
+    font-size: 40px;
+    margin: 5px;
+    padding: 5px;
+}
+
+#hero button{
+    font-family: var(--font-family-primary);
+    font-size: 1.2rem;
+    padding: 15px;
+    transform: translate(.8rem, 1rem);
+    border-radius: 15px;
+    color: var(--font_secondary);
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+#home-deco1{
+    width: 55%;
+    height: auto;
+    transform: translate(10rem,-11.2rem);
+}
+
+
+/* NEWSLETTER */
+#newsletter{
+    display: flex;
+    justify-content: center;
+    font-family: var(--font-family-primary);
+    background-color: var(--light);
+    padding: 20px;
+    gap: 10px;
+}
+
+#newsletter h4{
+    margin: 10px;
+    font-size: 22px;
+}
+
+#newsletter p{
+    margin: 10px;
+    font-size: 15px;
+}
+
+#newsletter input{
+    border-radius: 4px;
+    outline:none;
+    padding: 5px;
+    /*  */
+}
+
+#newsletter button{
+    background-color: var(--secondary);
+    color: var(--light);
+    border-radius: 4px;
+    padding: 5px;
+    transform: translate(50px, 7px);
+}
+
+#newsletter .form{
+    transform: translateY(15px);
+}
+
+@media (min-width:600px){
+    #hero{
+        padding-left: 20px;
+    }
+    #home-deco1{
+        width: 65%;
+        height: auto;
+        transform: translate(180px,-240px);
+    }
+}
+
+@media (min-width:800px){
+    #home-deco1{
+        width: 65%;
+        height: auto;
+        transform: translate(250px,-280px);
+    }
+
+    #hero h3{
+        font-size: 45px;
+     
+    }
+    
+    #hero h2{
+        font-size: 60px;
+    }
+
+}
+
+@media (min-width:1000px){
+    #hero{
+        margin-top: 100px;
+        padding-left: 90px;
+    }
+    #home-deco1{
+        width: 60%;
+        height: auto;
+        transform: translate(390px,-400px);
+    }
+
+    #hero h3{
+        font-size: 50px;
+     
+    }
+    
+    #hero h2{
+        font-size: 70px;
+    }
+
+    #hero button{
+        font-size: 30px;
+    }
+
+    #newsletter h4{
+        font-size: 28px;
+    }
+    
+    #newsletter p{
+        font-size: 20px;
+    }
+
+    #newsletter input{
+        font-size: 20px;
+
+    }
+
+    
+
+
+}
+
+@media only screen and (prefers-color-scheme: dark) {
+    #hero{ color: rgb(225, 225, 225);}
+    #home-deco1{ filter: brightness(90%)};
+
+
+}
