@@ -16,13 +16,13 @@
     width: 100%;
     max-width: 1200px;
     height: 80vh;
-    overflow-y: auto; /* scroll only when necessary */
-    overflow-x: hidden; /* prevent horizontal overflow */
+    overflow-y: auto; 
+    overflow-x: hidden; 
     border: 5px solid black;
     background-color: white;
     font-family: 'Courier New', Courier, monospace;
     box-sizing: border-box;
-    margin: 2rem auto; /* center horizontally */
+    margin: 2rem auto; 
     padding: 2rem;
     font-size: 1.1rem;
     line-height: 1.6;

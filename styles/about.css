@@ -8,11 +8,9 @@ body {
     min-height: 100vh;
   }
   
-  /* Layout container */
-  .container {
+  /* .container {
     width: 90%;
-    max-width: 900px; /* ✅ Prevents overlap on wide screens */
-    /* margin: 5rem auto 0 auto; */
+    max-width: 900px; 
     margin-right: 1rem;
     display: flex;
     flex-wrap: wrap;
@@ -22,7 +20,23 @@ body {
     border: 5px solid black;
     background-color: white;
     padding: 2rem;
-  }
+  } */
+
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  height: 80vh;
+  overflow-y: auto; 
+  overflow-x: hidden; 
+  border: 5px solid black;
+  background-color: white;
+  font-family: 'Courier New', Courier, monospace;
+  box-sizing: border-box;
+  margin: 2rem auto; 
+  padding: 2rem;
+  margin-right: 1rem;
+}
   
   
   /* Profile image + ears */
@@ -157,7 +171,6 @@ body {
       }
 }
 
-
   @media (max-width: 1220px) and (min-width: 1056px) { 
     .container {
         margin-left: calc(140px + 1rem); 
@@ -220,7 +233,7 @@ body {
       top: -1.5rem;
     }
   }
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     /* body {
       padding: 0 1rem;
     }

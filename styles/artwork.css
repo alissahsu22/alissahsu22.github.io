@@ -2,29 +2,21 @@
     color: #fa1413;  
 }
 
-.main {
-    display: flex;              /* Enable Flexbox layout */
-    justify-content: center;    /* Center horizontally */
-    align-items: center;        /* (Optional) Center vertically */
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
 .container {
     position:relative;
-    max-width: 1000px;
-    /* min-width: 980px; */
-    width:90%;
-    height: 80vh;
-    box-sizing: border-box; 
-    /* border-right: 1rem; */
     background-color: transparent;
     border:none;
-    margin-left:3rem;
-    margin-right:1rem;
-    overflow-x: hidden;
-}
+    width: 100%;
+    max-width: 1200px;
+    height: 80vh;
+    overflow-y: auto; 
+    overflow-x: hidden; 
+    position:relative;
+    box-sizing: border-box;
+    margin: 2rem auto; 
+    padding: 2rem;
+    margin-right: 1rem;
+  }
 
 
 #leftBtn{
@@ -79,7 +71,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
     top: 28%;
     left: 50%;
     transform: translateX(-50%);
@@ -172,6 +164,9 @@
 }
 
 #header{
+    position: absolute;
+    top:-15%;
+    left:38%;
     z-index: 10;
     width: 20rem;
     height: 20rem;
@@ -179,19 +174,21 @@
 
 #rightBtnTop {
     z-index: 10;
-    /* position: absolute; */
-    /* top: 12.5%;
-    right: 20%; */
-    width: 2.5rem;
+    position: absolute;
+    top: 5%;
+    right: 20%;
+    width: 5rem;
+    height: 5rem;
     cursor: pointer;
 }
 
 #leftBtnTop {
     z-index: 10;
-    /* position: absolute; */
-    /* top: 12.5%;
-    left: 45%; */
-    width: 2.5rem;  
+    position: absolute;
+    top: 5%;
+    left: 25%;
+    width: 5rem;
+    height: 5rem;
     cursor: pointer;
 }
 
@@ -224,64 +221,15 @@
 
 
 
-.topheader{
-    display:flex;
-    flex-direction: row;
-    gap: 2rem;
-    z-index:1000;
-    position:absolute;
-    left: 48%;
-    top:-8%;
-}
-
 @media (min-width: 1371px) {
     .container {
+        
         margin-left: calc(0px + 1rem);
         width: 80%;
         margin-right:2rem;
     }
 }
-/* 
 
-@media (max-width: 1370px and )  {
-    .container {
-        margin-left: calc(100px + 1rem);
-        margin-right:3rem;
-        width: 70%;
-    }
-
-    .img1 img, .img2 img, .img3 img { 
-        width: 18rem;
-        height: 18rem;
-    }
-
-    .img1 img { 
-        transform: scale(0.8) translateX(40%);
-    }
-    
-    .img2 img { 
-        transform: scale(1.2);
-    }
-    
-    .img3 img { 
-        transform: scale(0.8) translateX(-40%);
-    }
-   
-    #leftBtn{
-        left: 10%;
-        width: 3rem;
-    }
-    
-    #rightBtn{
-        right: 20%;
-        width: 3.5rem;
-    }
-
-    .topheader{
-        left:47%;
-    }
-
-} */
 @media (max-width: 1369px) and (min-width: 900px) { 
     .container {
         /* width: calc(70vw - 2rem);   */
@@ -290,21 +238,20 @@
         width: 65%;
     }
 
-    .img1 img, .img2 img, .img3 img { 
-        width: 18rem;
-        height: 18rem;
+    .slideshow {
+        left:52%;
     }
 
     .img1 img { 
-        transform: scale(0.8) translateX(40%);
+        transform: scale(0.6) translateX(95%);
     }
     
     .img2 img { 
-        transform: scale(1.2);
+        transform: scale(1.0);
     }
     
     .img3 img { 
-        transform: scale(0.8) translateX(-40%);
+        transform: scale(0.6) translateX(-95%);
     }
 
     #leftBtn{
@@ -315,36 +262,106 @@
         right: 2%;
     }
 
-    .topheader{
-        left:46%;
+    #header{
+        left:32%;
+    }
+
+    #leftBtnTop{
+        left:18%
+    }
+
+    #rightBtnTop{
+        right:17%
     }
 
 }
 
-@media (max-width: 899px) and (min-width: 769px) {
-    .main {
-        flex-direction: column;
-        align-items: center;
-      }
+@media (max-width: 1253px) and (min-width: 1090px) { 
+    #leftBtnTop{
+        width:4rem;
+        height:4rem;
+        left:18%;
+        top:6%;
+    }
+
+    #rightBtnTop{
+        width:4rem;
+        height:4rem;
+        right:10%;
+        top:6%;
+    }
+}
+
+@media (max-width: 1090px) and (min-width: 900px) { 
+    .slideshow {
+        left:53%;
+    }
+
+    .img1 img { 
+        transform: scale(0.5) translateX(145%);
+    }
     
+    .img2 img { 
+        transform: scale(.8);
+    }
+    
+    .img3 img { 
+        transform: scale(0.5) translateX(-145%);
+    }
+
+    #header{
+        left:30%;
+    }
+
+    #leftBtnTop{
+        width:4rem;
+        height:4rem;
+        left:15%;
+        top:7%;
+    }
+    
+    #rightBtnTop{
+        width:4rem;
+        height:4rem;
+        right:10%;
+        top:7%;
+    }
+    
+}
+
+@media (max-width: 1024px) and (min-width: 954px) { 
+    
+    #rightBtnTop{
+        width:4rem;
+        height:4rem;
+        right:5%;
+        top:7%;
+    }
+}
+
+@media (max-width: 953px) and (min-width: 900px) { 
+    #rightBtnTop{
+        right:2%;
+        top:7%;
+    }
+}
+@media (max-width: 899px) and (min-width: 769px) {
     .container {
-        flex-direction: column;
         align-items: center;
         justify-content: center;
         text-align: center;
-        /* margin: 2rem auto; */
+        margin: 2rem auto;
         width: 95%;
-        /* max-width: 800px; */
-      }
+        font-size: 1rem;
+    }
+    #header{
+        left:32%
 
+    }
     #rightBtn{
         right: 5%;
     }
 
-    .topheader{
-        left: 45%;
-        top:-5%;
-    }
 
     .img1 img, .img2 img, .img3 img { 
         width: 15rem;
@@ -368,23 +385,240 @@
         left:52%;
     }
 
+    #rightBtnTop{
+        right:17%;
+    }
+
+    #leftBtnTop{
+        left:17%;
+    }
+
 
 }
 
+@media (max-width: 847px) and (min-width: 769px) {
+    #rightBtnTop{
+        right:13%;
+    }
+
+
+}
 @media (max-width: 768px) {
-    .main {
-        flex-direction: column;
-        align-items: center;
-      }
-    
-      nav {
-        width: 100%;
-        text-align: center;
-      }
-    
       .container {
-        width: 100%;
-        margin: 1rem auto;
+        width: 85%;
+        margin: 2rem auto;
       }
-     
+
+      #header{
+        width: 18rem;
+        height: 18rem;
+        left:27vw;
+      }
+
+      .img1 img, .img2 img, .img3 img {
+        width: 50vw;
+        height: auto;
+        transform: none;
+      }
+      .img1, .img3 {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+      }
+      
+      .slideshow {
+        position: absolute;
+        top:15%;
+        left:55%;
+        width: 100%;
+      }
+      
+      #rightBtn{
+        top:35%;
+        right: 5%;
+    }
+    #leftBtn{
+        top:35%;
+        left:12%;
+    }
+
+    #rightBtnTop{
+        right:6%;
+        top:4%;
+        width:3.5rem;
+        height:3.5rem;
+    }
+
+    #leftBtnTop{
+        left:15%;
+        top:4%;
+        width:3.5rem;
+        height:3.5rem;
+    }
+}
+
+@media (max-width: 648px) and (min-width: 597px) {
+    #rightBtnTop{
+        right:2%;
+       
+    }
+
+    #header{
+        left:25vw;
+      }
+}
+@media (max-width: 598px){
+    #header{
+        left:26vw;
+        top:-10%;
+        width:15rem;
+        height:15rem;
+    }
+
+    #rightBtnTop{
+        right:6%;
+        top:7%;
+        width:2rem;
+        height:2rem;
+    }
+
+    #leftBtnTop{
+        left:10%;
+        top:7%;
+        width:2em;
+        height:2rem;
+    }
+}
+
+
+@media (max-width: 566px) and (min-width: 534px){
+    #rightBtnTop{
+        right:1%;
+        top:5%;
+        width:3rem;
+        height:3rem;
+    }
+
+    #leftBtnTop{
+        left:10%;
+        top:5%;
+        width:3rem;
+        height:3rem;
+    }
+}
+
+@media (max-width: 533px) and (min-width: 501px){
+    #header{
+        left:27%;
+    }
+    #rightBtnTop{
+        top:7%;
+    }
+
+    #leftBtnTop{
+        left:10%;
+        top:7%;
+    }
+
+}
+
+@media (max-width: 500px) and (min-width:430px){
+    #header{
+        top:-5vh;
+        left:25vw;
+        width:12rem;
+        height: 12rem;
+    }
+    .img1 img, .img2 img, .img3 img {
+        width: 40vw;
+        height: auto;
+        transform: none;
+      }
+      .img1, .img3 {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+      }
+      
+
+      #rightBtn{
+        right: 2%;
+    }
+    #leftBtn{
+        left:11%;
+    }
+
+    #rightBtnTop{
+        right:6%;
+        top:7%;
+        width:2rem;
+        height:2rem;
+    }
+
+    #leftBtnTop{
+        left:10%;
+        top:7%;
+        width:2em;
+        height:2rem;
+    }
+}
+
+@media (max-width: 430px){
+    .img1 img, .img2 img, .img3 img {
+        width: 30vw;
+        height: auto;
+        transform: none;
+      }
+      .img1, .img3 {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        position: absolute;
+      }
+      #rightBtn{
+        width:2rem;
+        height:2rem;
+    }
+    #leftBtn{
+        width:2rem;
+        height:2rem;
+    }
+      
+    #header{
+        top:-5%;
+        left:25vw;
+        width:12rem;
+        height: 12rem;
+    }
+    #rightBtnTop{
+        right:1%;
+        top:7%;
+        width:2rem;
+        height:2rem;
+    }
+
+    #leftBtnTop{
+        left:10%;
+        top:7%;
+        width:2em;
+        height:2rem;
+    }
+
+}
+
+@media (max-width: 380px){
+    .slideshow {
+        top:5%;
+    }
+    #header{
+        top:-5%;
+        left:26vw;
+        width:10rem;
+        height: 10rem;
+    }
 }
