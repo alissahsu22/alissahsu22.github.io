@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alissa Hsu - Intersection of Tech & Art Projects</title>
-    <link rel="stylesheet" href="styles/techArt.css">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles/techArt.css">
 </head>
 <body>
     <div class = "main">
@@ -60,12 +60,16 @@
             </div>
         </nav>
             
-        <div class="Scene2videoContainer">
+        <div class="container">
             <a class = "projectList" href = "techArtProjectList.html">Project List</a>
             <div class = "starWrapper"></div>
         
-            <video id = "scene2Video" class = 'scene2Video'src="media/scene2.mp4" type="video/mp4" width="4096" height="1714"  muted="" playsinline="">
-            </video>
+            <video id="scene2Video" class="scene2Video" width="100%" height="auto" muted playsinline loop>
+                <source src="media/scene2_web.mp4" type="video/mp4" media="(max-width: 768px)">
+                <source src="media/scene2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+              
 
             <button class = "Scene2playBtn">Start?</button>
 
