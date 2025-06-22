@@ -171,7 +171,7 @@ body {
       }
 }
 
-  @media (max-width: 1220px) and (min-width: 1056px) { 
+  @media (max-width: 1220px) and (min-width: 1080px) { 
     .container {
         margin-left: calc(140px + 1rem); 
       }
@@ -191,30 +191,34 @@ body {
       }
 
   }
-@media (max-width: 1055px) and (min-width: 769px) {
+  @media (max-width: 1079px) and (min-width: 1024px){
     .container {
-      width: 65%;
-      margin-left: calc(100px + 1rem);
-      padding: 1.5rem;
-      gap: 1.5rem;
+      margin-left: calc(150px + 1rem);
+      /* margin-right: 1rem; */
     }
-  
-    .description {
-      padding: 0;
+  } 
+
+  @media (max-width: 1023px) and (min-width: 769px){
+    .container {
+      margin-left: calc(120px + 1rem); 
+      margin-right:1rem;
     }
-  
     .line1 {
-      font-size: clamp(1.7rem, 3vw, 2.8rem);
+      font-size: clamp(1.5rem, 2vw, 2.5rem);
     }
   
     .highlight {
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      font-size: clamp(2rem, 4vw, 3.5rem);
     }
   
     .line2,
     .line3,
     .line4 {
-      font-size: clamp(0.9rem, 1.1vw, 1.1rem);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+    }
+  
+    .description {
+      padding: 0;
     }
   
     .line4 {
@@ -223,14 +227,25 @@ body {
     }
   
     .profile {
-      width: 9rem;
-      height: 11rem;
+      width: 10rem;
+      height: 12rem;
     }
   
     .ears {
-      width: 100%;
-      padding-left: 1rem;
+      width: 120%;
       top: -1.5rem;
+      padding-left:1.5rem;
+    }
+  }
+
+  @media (max-width: 897px) and (min-width: 770px){
+    .container{
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin: 2rem auto;
+      width: 100%;
+      max-width: 700px;
     }
   }
 @media (max-width: 768px) {
@@ -239,7 +254,6 @@ body {
     }
    */
     .container {
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;

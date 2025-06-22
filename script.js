@@ -1,4 +1,4 @@
-const container = document.querySelector('.VideoContainer');
+const container = document.querySelector('.container');
 const indexVideo = container.querySelector('.indexVideo');
 const scene1Video = container.querySelector('.scene1Video');
 const playBtn = container.querySelector('.playBtn');
