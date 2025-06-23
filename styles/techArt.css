@@ -235,6 +235,10 @@
 
 
   @media (max-width: 899px) {
+    .star {
+        width:5rem;
+        height:5rem;
+    }
     .projectList{
         top: 15%;
         left: 15%;
