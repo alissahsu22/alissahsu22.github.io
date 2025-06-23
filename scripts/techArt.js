@@ -3,6 +3,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = container.querySelector('.scene2Video');
     const playBtn = container.querySelector('.Scene2playBtn');
 
+    const source = document.createElement('source');
+    source.type = 'video/mp4';
+
+    if (window.innerWidth <= 768) {
+    source.src = 'media/scene2_web.mp4';
+    } else {
+    source.src = 'media/scene2.mp4';
+    }
+
+    video.appendChild(source);
+    video.load();
+
+
     playBtn.addEventListener('click', (event) => {
         if (video.paused) {
             video.play();
