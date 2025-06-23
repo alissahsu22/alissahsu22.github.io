@@ -292,12 +292,13 @@
 @media (max-width: 470px) {
     
     .Scene2playBtn {
-        left: 32%;
+       font-size:2rem;
+        left: 40%;
     }
 
     .Scene2playBtn:hover{
         top: 25%;
         left: 27%;
-        font-size:4rem;
+        font-size:3rem;
     }
 }
