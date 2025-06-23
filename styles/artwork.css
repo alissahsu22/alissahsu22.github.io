@@ -446,6 +446,7 @@
       #rightBtn{
         top:60%;
         right: 5%;
+        width: 3rem;
     }
     #leftBtn{
         top:60%;
@@ -573,8 +574,18 @@
 
 @media (max-width: 429px) and (min-width:381px){
     #header{
-        top:-11%;
-        left:23vw;
+        top:-7%;
+        left:27vw;
+        width:12rem;
+        height: 12rem;
+    }
+
+    #rightBtn{
+        right:2%;
+        width: 3rem;
+    }
+    #leftBtn{
+        left:4%;
     }
 
 }
