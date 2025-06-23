@@ -46,7 +46,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-95%, -50%); 
+    transform: translate(-85%, -50%); 
+    width:70%;
+    height:70%;
   }
   
 
@@ -131,7 +133,9 @@
         left:42vw;
     }
     .bunnyImg {
-        transform: translate(-85%, -50%); 
+        transform: translate(-75%, -50%); 
+        width:60%;
+        height:60%;
       }
 
       .contactText{
@@ -173,15 +177,22 @@
         font-size: 1rem;
         /* max-width: 600px; */
     }
+    .contactText {
+        width:50%;
+        left:40%;
+        top:5%;
+    }
 
     .bunnyImg {
         transform: translate(-90%, -70%); 
+        width:60%;
+        height: 60%;
       }
 
       .resumeBtn,.resumeClick{
-        top:35vh;
-        left:58vw;
-        width:25%;
+        top:32vh;
+        left:55vw;
+        width:20%;
     }
 
   }
@@ -198,6 +209,10 @@
     }
     .container{
         height:65vh;
+    }
+    .bunnyImg{
+        width:60%;
+        height: 60%;
     }
   }
 
@@ -229,7 +244,10 @@
     }
     .bunnyImg {
         transform: translate(-90%, -15vh); 
+        width:60%;
+        height: 60%;
       }
+     
   }
 
   @media (max-width: 415px) {
@@ -246,6 +264,10 @@
         font-size: .6rem;
         bottom: 2%;
     }
+    .bunnyImg {
+        width:60%;
+        height: 60%;
+      }
 }
 
 /* @media (max-width: 1050px) and (min-width: 734px)  {
