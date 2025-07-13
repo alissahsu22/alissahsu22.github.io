@@ -31,7 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
             skills: 'Animation, Procreate, Premiere Pro',
             description: 'Step into my mind palace?...'
         },
-        'A Day in my Life: in Paris <3': {
+        'Lyric Visualizer (TouchDesigner) ': {
+            url: 'https://youtu.be/R65ykJ22izU',
+            skills: 'TouchDesigner, Python',
+            description: 'Lyric Visualizer for "not strong enough - boygenius"'
+        },
+        'A Day in my Life: in Paris <3 (Web Experience)': {
             url: '../projects/techArtProjects/DayInMyLife/index.html',
             skills: 'HTML/CSS/JS, Animation, Procreate, Premiere Pro',
             description: 'Look at what a day in my life studying abroad in Paris looks like...'
