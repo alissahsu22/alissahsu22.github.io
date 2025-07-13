@@ -18,3 +18,4 @@ scene1Video.addEventListener('ended', () => {
         window.location.href = 'about.html';
     }, 500);
 });
+////
