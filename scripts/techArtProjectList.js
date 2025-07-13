@@ -4,11 +4,16 @@ const projects = {
         skills: 'Animation, Procreate, Premiere Pro',
         description: 'Step into my mind palace? // This is the first "full" animation I have ever done. It was really fun to do all the sound design, editing, and learn about the traditional 2D frame-by-frame animation process like storyboarding and character design. The "mind palace" is something my friends and I reference a lot, especially when one of us seems in a state. As a result, I wanted to show viewers what was in my mind palace at this time and it had to deal with the pressure to be special/make something of yourself that I feel is a universal experience. The pressure to do something special can make it feel like the way you live your life is pointless otherwise but knowing that being born is enough to validate your existence is a good takeaway msg. <3'
     },
-    'A Day in my Life: in Paris <3':{
+        'A Day in my Life: in Paris <3 (Web Experience)':{
         url: '../projects/techArtProjects/DayInMyLife/index.html',
         skills: 'HTML/CSS/JS, Animation, Procreate, Premiere Pro',
         description: 'Look at what a day in my life studying abroad in Paris looks like. High stress? // I wanted to experiment with user experiences on the web, so I made an interactive web "game" to take you through the highlights of my day and how I internally perceive them/express them through drawings. This was a good way to explore my interest in user interactions via the web and see how I can bring my animations to life in an interactive/dynamic way.'
     },
+    'Lyric Visualizer (TouchDesigner) ': {
+            url: 'https://youtu.be/R65ykJ22izU',
+            skills: 'TouchDesigner, Python',
+            description: 'Lyric Visualizer for "not strong enough - boygenius" //Recently, the concerts I’ve been to have had really cool lyric visualizers so I wanted to make one for my favorite song. I tried to incorporate all the things touch designer does well like (1) audio reactive visuals (2) 3D geometry (3) live webcam input (4) feedback/distortion/effects. It was a really great way to learn all the fundamentals of touch designer!'
+        },
     '2D City (AR)':{
         url: 'https://youtube.com/shorts/Pgdrf1bA41g',
         skills: 'Augemented Reality, Adobe Aero, Animation, Procreate',
