@@ -1,0 +1,112 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevents right-side scroll */
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* gap: 0.5rem;  */
+  /* max-width: 100%; */
+  box-sizing: border-box;
+}
+
+.left {
+  display: flex;
+  /* transform:translate(-3.5%); */
+  /* flex-direction: column; */
+  /* align-items: center; */
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 3px solid black;
+  padding: 1.5rem;
+  width: 280px;
+  height: 400px;
+  background-color: white;
+  font-family: 'Gill Sans', sans-serif;
+  transform: translate(-20%,30%);
+  margin-left: 1rem;
+}
+
+.right h2 {
+  font-size: 2rem;
+  margin: 0;
+  border-bottom: 2px solid black;
+  padding-bottom: 0.5rem;
+}
+
+.section {
+  font-size: 1rem;
+}
+
+.section h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.section ul {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.section li {
+  margin-bottom: 0.4rem;
+}
+
+button {
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  border: 2px solid black;
+  background-color: #ffe6e6;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #ffcccc;
+}
+
+.game {
+  width: 1280px;
+  height: 720px;
+  background-image: url('images/background2.jpg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.overlay-button {
+  background-image: url('images/button.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  top: 24.5%;
+  left: 3.5%;
+  width: 6rem;
+  height: 7rem;
+  background-color: transparent;
+  border: transparent;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.overlay-button:hover {
+  background-color: #fff4;
+}
+

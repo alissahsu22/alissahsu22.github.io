@@ -36,6 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
             skills: 'TouchDesigner, Python',
             description: 'Lyric Visualizer for "not strong enough - boygenius"'
         },
+          'HABITat (Product Design/Hardware)':{
+            url: '../projects/techArtProjects/HABITat/PD_outline_Habitat.pdf',
+            skills: 'Arduino, Figma, Front-end dev',
+            description: 'HABITat is a tamogatchi-inspired, alexa-like in home device that rewards users for accomplishing eco-friendly goals.'
+        },
         'A Day in my Life: in Paris <3 (Web Experience)': {
             url: '../projects/techArtProjects/DayInMyLife/index.html',
             skills: 'HTML/CSS/JS, Animation, Procreate, Premiere Pro',

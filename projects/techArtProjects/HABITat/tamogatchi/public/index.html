@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1280, height=720, user-scalable=no">
+  <title>HABITat: Welcome Back!</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="wrapper">
+    <div class="left">
+      <div class="game" id="game"></div>
+      <button onclick="send('good')" class="overlay-button"></button>
+    </div>
+
+    <div class="right">
+      <h2>Notes</h2>
+      <div class="section">
+        <p>If user does a <strong>"bad"</strong> action:</p>
+        <button onclick="send('bad')">Bad</button>
+      </div>
+
+      <div class="section">
+        <h3>Examples</h3>
+        <ul>
+          <li>Turning off lights</li>
+          <li>Taking shower under 10 minutes</li>
+        </ul>
+      </div>
+    </div>
+
+<script>
+  function send(action) {
+    fetch(`/trigger?action=${action}`)
+      .then(() => updateMood()); // Update mood after sending action
+  }
+
+  function updateMood() {
+    fetch("/mood")
+      .then(res => res.json())
+      .then(data => {
+        const game = document.getElementById("game");
+        if (data.mood === "sad") {
+          game.style.backgroundImage = "url('/images/sadBackground.jpg')";
+        } else if (data.mood === "happy") {
+          game.style.backgroundImage = "url('/images/background2.jpg')";
+        } else {
+          game.style.backgroundImage = "url('/images/background2.jpg')";
+        }
+      });
+  }
+
+  // Fetch mood on page load
+  updateMood();
+</script>
+
+</body>
+</html>
+
+ <!-- <button onclick="send('good')">Good</button> -->
+    <!-- <button onclick="send('bad')">Bad</button> -->
+
+    
