@@ -16,7 +16,7 @@ function CategoryBar() {
   }, [location.pathname])
 
   useEffect(() => {
-    api.get('/categories')                        // ✅ was fetch('http://localhost:4000/categories')
+    api.get('/categories')                        
       .then(res => setCategories(res.data))
       .catch(console.error)
   }, [])

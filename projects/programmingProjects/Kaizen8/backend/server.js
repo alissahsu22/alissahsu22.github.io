@@ -5,35 +5,44 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
-const nodemailer = require('nodemailer');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// ------------------- Middleware -------------------
-app.use(cors({ origin: '*' })); // Allow all origins (can restrict later)
+// ------------------- CORS (Vercel frontend) -------------------
+// Set your Vercel URL here or via Render env var FRONTEND_ORIGIN
+const FRONTEND_ORIGIN =
+  process.env.FRONTEND_ORIGIN ||
+  'https://alissahsu22-github-io-njlq.vercel.app';
+
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN, // must be explicit when credentials are used
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-user'],
+  })
+);
 app.use(express.json());
 
 // ------------------- Database -------------------
 const db = new sqlite3.Database('./db.sqlite');
 
-// ------------------- Email Setup -------------------
+// ------------------- Email (optional) -------------------
 let transporter = null;
 if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
   const nodemailer = require('nodemailer');
   transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.EMAIL_USER, // from .env
-      pass: process.env.EMAIL_PASS  // from .env
-    }
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
   });
 }
 
-
 function sendReceiptEmail(to, orderSummary, total, timestamp) {
   if (!transporter) return;
-
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to,
@@ -43,13 +52,17 @@ function sendReceiptEmail(to, orderSummary, total, timestamp) {
       <p>Thank you for your order!</p>
       <p><strong>Order Date:</strong> ${timestamp}</p>
       <ul>
-        ${orderSummary.map(item => `<li>${item.title} × ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</li>`).join('')}
+        ${orderSummary
+          .map(
+            (item) =>
+              `<li>${item.title} × ${item.quantity} = $${(item.price * item.quantity).toFixed(2)}</li>`
+          )
+          .join('')}
       </ul>
       <p><strong>Total:</strong> $${total.toFixed(2)}</p>
       <p>Come again soon!</p>
-    `
+    `,
   };
-
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) console.error('❌ Email send error:', err);
     else console.log(`✅ Email sent: ${info.response}`);
@@ -59,21 +72,20 @@ function sendReceiptEmail(to, orderSummary, total, timestamp) {
 // ------------------- Discount Logic -------------------
 function applyDiscountTiers(productId) {
   db.get(`SELECT * FROM products WHERE id = ?`, [productId], (err, product) => {
-    if (err) return console.error('❌ Error getting product:', err);
+    if (err || !product) return console.error('❌ Error getting product:', err || 'not found');
+
     const tiers = JSON.parse(product.discountTiers || '[]');
-    const currentSales = product.salesCount;
-    const originalPrice = product.originalPrice;
+    const currentSales = product.salesCount || 0;
+    const originalPrice = product.originalPrice || product.price;
 
     let bestDiscount = 0;
     for (const tier of tiers) {
-      if (currentSales >= tier.sales && tier.percent > bestDiscount) {
-        bestDiscount = tier.percent;
-      }
+      if (currentSales >= tier.sales && tier.percent > bestDiscount) bestDiscount = tier.percent;
     }
 
     const newPrice = parseFloat((originalPrice * (1 - bestDiscount / 100)).toFixed(2));
-    db.run(`UPDATE products SET price = ? WHERE id = ?`, [newPrice, productId], (err) => {
-      if (err) return console.error('❌ Error updating price:', err);
+    db.run(`UPDATE products SET price = ? WHERE id = ?`, [newPrice, productId], (e) => {
+      if (e) return console.error('❌ Error updating price:', e);
       console.log(`✅ Product ${productId} now $${newPrice} (${bestDiscount}% off)`);
     });
   });
@@ -88,7 +100,7 @@ db.serialize(() => {
       image TEXT,
       price REAL,
       originalPrice REAL,
-      category TEXT,
+      category TEXT,           -- can be JSON array or comma-separated
       discountTiers TEXT,
       salesCount INTEGER,
       stock INTEGER,
@@ -127,54 +139,85 @@ function requireAdmin(req, res, next) {
 
   try {
     const user = JSON.parse(userHeader);
-    if (user.isAdmin) next();
-    else res.status(403).json({ error: 'Access denied: not admin' });
-  } catch (err) {
-    res.status(403).json({ error: 'Invalid user format' });
+    if (user.isAdmin) return next();
+    return res.status(403).json({ error: 'Access denied: not admin' });
+  } catch {
+    return res.status(403).json({ error: 'Invalid user format' });
   }
 }
 
 // ------------------- Routes -------------------
 
+// Health
+app.get('/', (_req, res) => {
+  res.send('Backend is running 🚀');
+});
+
 // Verify admin
 app.post('/verify-admin', (req, res) => {
   const { password } = req.body;
-  if (password === process.env.ADMIN_PASSWORD) {
-    res.json({ success: true });
-  } else {
-    res.status(401).json({ success: false, message: 'Unauthorized' });
-  }
+  if (password === process.env.ADMIN_PASSWORD) return res.json({ success: true });
+  return res.status(401).json({ success: false, message: 'Unauthorized' });
 });
 
-// Get products
-app.get('/products', (req, res) => {
-  const sql = `
-    SELECT p.*, GROUP_CONCAT(c.name) AS categories
-    FROM products p
-    LEFT JOIN product_categories pc ON p.id = pc.product_id
-    LEFT JOIN categories c ON pc.category_id = c.id
-    GROUP BY p.id
-    ORDER BY p.salesCount DESC
-  `;
-  db.all(sql, [], (err, rows) => {
+// Categories (derive from products.category)
+app.get('/categories', (_req, res) => {
+  db.all(`SELECT category FROM products`, [], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
-    const formatted = rows.map((row, index) => ({
-      ...row,
-      category: row.categories ? row.categories.split(',') : [],
-      rank: index + 1
-    }));
-    res.json(formatted);
+
+    const set = new Set();
+    rows.forEach((r) => {
+      const raw = r.category || '';
+      try {
+        const arr = JSON.parse(raw); // if stored as JSON array
+        if (Array.isArray(arr)) arr.forEach((c) => c && set.add(String(c).trim()));
+        else if (typeof arr === 'string') String(arr).split(',').forEach((c) => c && set.add(c.trim()));
+      } catch {
+        String(raw)
+          .split(',')
+          .map((c) => c.trim())
+          .filter(Boolean)
+          .forEach((c) => set.add(c));
+      }
+    });
+
+    res.json(Array.from(set).sort((a, b) => a.localeCompare(b)));
   });
 });
 
-// Get orders
-app.get('/orders', (req, res) => {
+// Products
+app.get('/products', (_req, res) => {
+  db.all(
+    `SELECT * FROM products ORDER BY COALESCE(rank, 999999), COALESCE(salesCount,0) DESC`,
+    [],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+
+      const formatted = rows.map((row, index) => {
+        let category = [];
+        try {
+          const parsed = JSON.parse(row.category || '[]');
+          if (Array.isArray(parsed)) category = parsed;
+          else if (typeof parsed === 'string') category = parsed.split(',').map((c) => c.trim()).filter(Boolean);
+        } catch {
+          category = String(row.category || '')
+            .split(',')
+            .map((c) => c.trim())
+            .filter(Boolean);
+        }
+        return { ...row, category, rank: row.rank || index + 1 };
+      });
+
+      res.json(formatted);
+    }
+  );
+});
+
+// Orders list
+app.get('/orders', (_req, res) => {
   db.all(`SELECT * FROM orders ORDER BY timestamp DESC`, [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
-    const formatted = rows.map(r => ({
-      ...r,
-      orderData: JSON.parse(r.orderData)
-    }));
+    const formatted = rows.map((r) => ({ ...r, orderData: JSON.parse(r.orderData || '[]') }));
     res.json(formatted);
   });
 });
@@ -182,56 +225,67 @@ app.get('/orders', (req, res) => {
 // Login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  db.get(`SELECT * FROM users WHERE email = ? AND password = ?`, [email, password], (err, user) => {
-    if (err) return res.status(500).json({ success: false, error: 'DB error' });
-    if (!user) return res.json({ success: false });
-    res.json({ success: true, user });
-  });
+  db.get(
+    `SELECT * FROM users WHERE email = ? AND password = ?`,
+    [email, password],
+    (err, user) => {
+      if (err) return res.status(500).json({ success: false, error: 'DB error' });
+      if (!user) return res.json({ success: false });
+      return res.json({ success: true, user });
+    }
+  );
 });
 
 // Signup
 app.post('/signup', (req, res) => {
   const { email, password, name } = req.body;
-  db.run(`INSERT INTO users (email, password, name) VALUES (?, ?, ?)`, [email, password, name], function (err) {
-    if (err) return res.status(400).send('User already exists');
-    res.json({ message: 'Signup successful', userId: this.lastID });
-  });
+  db.run(
+    `INSERT INTO users (email, password, name) VALUES (?, ?, ?)`,
+    [email, password, name],
+    function (err) {
+      if (err) return res.status(400).send('User already exists');
+      res.json({ message: 'Signup successful', userId: this.lastID });
+    }
+  );
 });
 
-// Get users
-app.get('/users', requireAdmin, (req, res) => {
+// Users (admin)
+app.get('/users', requireAdmin, (_req, res) => {
   db.all(`SELECT id, name, email, password FROM users`, [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
     res.json(rows);
   });
 });
 
-// Create new order
+// Create order
 app.post('/orders', (req, res) => {
   const { cartItems, total, name, email, address } = req.body;
   const timestamp = new Date().toISOString();
   const orderNumber = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
 
-  db.run(`
-    INSERT INTO orders (name, email, address, orderData, total, timestamp, orderNumber)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`,
+  db.run(
+    `INSERT INTO orders (name, email, address, orderData, total, timestamp, orderNumber)
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
     [name, email, address, JSON.stringify(cartItems), total, timestamp, orderNumber],
     function (err) {
       if (err) return res.status(500).send('❌ Failed to save order.');
-      cartItems.forEach(item => {
+
+      // Update products
+      cartItems.forEach((item) => {
         db.run(
-          'UPDATE products SET salesCount = salesCount + ?, stock = stock - ? WHERE id = ?',
+          'UPDATE products SET salesCount = COALESCE(salesCount,0) + ?, stock = COALESCE(stock,0) - ? WHERE id = ?',
           [item.quantity, item.quantity, item.id],
-          (err) => {
-            if (!err) applyDiscountTiers(item.id);
+          (e) => {
+            if (!e) applyDiscountTiers(item.id);
           }
         );
       });
 
-      db.all(`SELECT id FROM products ORDER BY salesCount DESC`, [], (err, rows) => {
-        if (!err) {
-          rows.forEach((row, index) => {
-            db.run(`UPDATE products SET rank = ? WHERE id = ?`, [index + 1, row.id]);
+      // Re-rank by sales
+      db.all(`SELECT id FROM products ORDER BY COALESCE(salesCount,0) DESC`, [], (e, rows) => {
+        if (!e) {
+          rows.forEach((row, idx) => {
+            db.run(`UPDATE products SET rank = ? WHERE id = ?`, [idx + 1, row.id]);
           });
         }
       });
@@ -242,13 +296,13 @@ app.post('/orders', (req, res) => {
   );
 });
 
-// Update sales & stock for a specific product
+// Update single product after add-to-cart
 app.post('/order/:id', (req, res) => {
   const productId = req.params.id;
   const { quantity } = req.body;
 
   db.run(
-    `UPDATE products SET salesCount = salesCount + ?, stock = stock - ? WHERE id = ?`,
+    `UPDATE products SET salesCount = COALESCE(salesCount,0) + ?, stock = COALESCE(stock,0) - ? WHERE id = ?`,
     [quantity, quantity, productId],
     (err) => {
       if (err) return res.status(500).send('Failed to update product.');
@@ -260,5 +314,6 @@ app.post('/order/:id', (req, res) => {
 
 // ------------------- Start Server -------------------
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`CORS origin allowed: ${FRONTEND_ORIGIN}`);
 });
