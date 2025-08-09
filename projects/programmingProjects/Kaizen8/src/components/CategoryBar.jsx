@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { FaBars } from 'react-icons/fa'
 import './CategoryBar.css'
+import api from '../api'                           // ✅ add
 
 function CategoryBar() {
   const navigate = useNavigate()
@@ -10,26 +11,15 @@ function CategoryBar() {
   const [categories, setCategories] = useState([])
 
   useEffect(() => {
-    // Set selected category based on the URL
     const match = location.pathname.match(/^\/category\/(.+)$/)
-    if (match) {
-      setSelectedCategory(match[1].toLowerCase())
-    } else {
-      setSelectedCategory('')
-    }
+    setSelectedCategory(match ? match[1].toLowerCase() : '')
   }, [location.pathname])
 
   useEffect(() => {
-    // Fetch unique categories from server
-    fetch('http://localhost:4000/categories')
-      .then(res => res.json())
-      .then(data => setCategories(data))
+    api.get('/categories')                        // ✅ was fetch('http://localhost:4000/categories')
+      .then(res => setCategories(res.data))
       .catch(console.error)
   }, [])
-
-  const goTo = (path) => {
-    navigate(path)
-  }
 
   const handleCategoryChange = (e) => {
     const selected = e.target.value
@@ -39,16 +29,9 @@ function CategoryBar() {
 
   return (
     <div className="category-bar">
-      <div
-        className={`category-item ${selectedCategory ? 'active' : ''}`}
-        style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-      >
+      <div className={`category-item ${selectedCategory ? 'active' : ''}`} style={{ display:'flex', alignItems:'center', gap:'5px' }}>
         <FaBars />
-        <select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          className="category-select"
-        >
+        <select value={selectedCategory} onChange={handleCategoryChange} className="category-select">
           <option value="" disabled>Categories</option>
           <option value="all">All Products</option>
           {categories.map(cat => (
@@ -59,23 +42,11 @@ function CategoryBar() {
         </select>
       </div>
 
-      <div className={`category-item ${location.pathname === '/best-sellers' ? 'active' : ''}`} onClick={() => goTo('/best-sellers')}>
-        Best Sellers
-      </div>
-
-      <div className={`category-item ${location.pathname === '/new-arrivals' ? 'active' : ''}`} onClick={() => goTo('/new-arrivals')}>
-        New Arrivals
-      </div>
-
-      <div className={`category-item ${location.pathname === '/deals' ? 'active' : ''}`} onClick={() => goTo('/deals')}>
-        Deals
-      </div>
-
-      <div className={`category-item ${location.pathname === '/our-story' ? 'active' : ''}`} onClick={() => goTo('/our-story')}>
-        Our Story
-      </div>
+      <div className={`category-item ${location.pathname === '/best-sellers' ? 'active' : ''}`} onClick={() => navigate('/best-sellers')}>Best Sellers</div>
+      <div className={`category-item ${location.pathname === '/new-arrivals' ? 'active' : ''}`} onClick={() => navigate('/new-arrivals')}>New Arrivals</div>
+      <div className={`category-item ${location.pathname === '/deals' ? 'active' : ''}`} onClick={() => navigate('/deals')}>Deals</div>
+      <div className={`category-item ${location.pathname === '/our-story' ? 'active' : ''}`} onClick={() => navigate('/our-story')}>Our Story</div>
     </div>
   )
 }
-
 export default CategoryBar

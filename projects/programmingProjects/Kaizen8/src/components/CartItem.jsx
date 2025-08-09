@@ -1,5 +1,6 @@
 import { useCart } from '/src/context/cartContext.jsx'
 import { useProducts } from '../context/ProductContext'
+import api from '../api'                           // ✅ add
 
 function CartItem({ item }) {
   const { removeFromCart, addToCart } = useCart()
@@ -7,13 +8,7 @@ function CartItem({ item }) {
 
   const handleAdd = async () => {
     addToCart(item)
-
-    await fetch(`http://localhost:4000/order/${item.id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quantity: 1 }),
-    })
-
+    await api.post(`/order/${item.id}`, { quantity: 1 })   // ✅ was fetch('http://localhost...')
     await refreshProducts()
   }
 
@@ -26,5 +21,4 @@ function CartItem({ item }) {
     </div>
   )
 }
-
 export default CartItem

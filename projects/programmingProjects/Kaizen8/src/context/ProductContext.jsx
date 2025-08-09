@@ -1,26 +1,37 @@
+// src/context/ProductContext.jsx
 import { createContext, useContext, useState, useEffect } from 'react'
-import axios from 'axios'
+import api from '../api' // ✅ uses VITE_API_URL or localhost fallback
 
 const ProductContext = createContext()
 
 export function ProductProvider({ children }) {
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
 
-  const fetchProducts = async () => {
-    try {
-      const res = await axios.get('http://localhost:4000/products')
-      setProducts(res.data)
-    } catch (error) {
-      console.error('Failed to fetch products:', error)
-    }
+  const refreshProducts = async () => {
+    const { data } = await api.get('/products')
+    setProducts(data)
+  }
+
+  const refreshCategories = async () => {
+    const { data } = await api.get('/categories')
+    setCategories(data)
   }
 
   useEffect(() => {
-    fetchProducts()
+    ;(async () => {
+      try {
+        await Promise.all([refreshProducts(), refreshCategories()])
+      } catch (err) {
+        console.error('Failed to load data:', err)
+      }
+    })()
   }, [])
 
   return (
-    <ProductContext.Provider value={{ products, refreshProducts: fetchProducts }}>
+    <ProductContext.Provider
+      value={{ products, categories, refreshProducts, refreshCategories }}
+    >
       {children}
     </ProductContext.Provider>
   )
