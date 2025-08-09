@@ -1,0 +1,36 @@
+.admin-dashboard {
+  padding: 2rem;
+}
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.order-card {
+  background: #f9f9f9;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.print-area {
+  background: white;
+  padding: 1rem;
+}
+
+button {
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}

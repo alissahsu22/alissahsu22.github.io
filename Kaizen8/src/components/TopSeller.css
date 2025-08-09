@@ -1,0 +1,21 @@
+.product-card .rank-tag {
+  position: absolute;
+  top: -10px;
+  
+}
+
+.product-card {
+  position: relative;
+}
+
+.product-card .discount-tag {
+  background-color: red;
+  color: white;
+  width:3rem;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  position: relative;
+  top: 30px;
+  right:-5px;
+  border-radius: 8px;
+}
