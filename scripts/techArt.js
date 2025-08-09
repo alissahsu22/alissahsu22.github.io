@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const projects = {
+        'Ecommerce Site (React + Node.js + Vite)   [3 day sprint]':{
+            url: '../projects/programmingProjects/Kaizen8',
+            skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
+            description: 'Ecommerce Site prototype'
+        },
         'In The Mind Palace (Animation)': {
             url: 'https://www.youtube.com/watch?v=kPwkQ5NfvDQ',
             skills: 'Animation, Procreate, Premiere Pro',

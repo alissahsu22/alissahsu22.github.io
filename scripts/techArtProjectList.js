@@ -1,13 +1,13 @@
 const projects = {
-    'In The Mind Palace (Animation)': {
-        url: 'https://www.youtube.com/watch?v=kPwkQ5NfvDQ',
-        skills: 'Animation, Procreate, Premiere Pro',
-        description: 'Step into my mind palace? // This is the first "full" animation I have ever done. It was really fun to do all the sound design, editing, and learn about the traditional 2D frame-by-frame animation process like storyboarding and character design. The "mind palace" is something my friends and I reference a lot, especially when one of us seems in a state. As a result, I wanted to show viewers what was in my mind palace at this time and it had to deal with the pressure to be special/make something of yourself that I feel is a universal experience. The pressure to do something special can make it feel like the way you live your life is pointless otherwise but knowing that being born is enough to validate your existence is a good takeaway msg. <3'
-    },
     'HABITat (Arduino + Product Design)   [3 day sprint]':{
         url: '../projects/techArtProjects/HABITat/PD_outline_Habitat.pdf',
         skills: 'Arduino, Figma, Front-end dev',
         description: 'HABITat is a tamogatchi-inspired, alexa-like in home device that rewards users for accomplishing eco-friendly goals. Product Design Write-up included. // After learning Arduino, I wanted to make something (even just in theory) that would serve a useful purpose and I thought it would be cool to try to create a product from start to finish.'
+    },
+    'Ecommerce Site (React + Node.js + Vite)   [3 day sprint]':{
+        url: '../projects/programmingProjects/Kaizen8',
+        skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
+        description: 'Developed a fully functional e-commerce site prototype for emerging department, featuring dynamic product listings, a shopping cart, and checkout flow. Implemented responsive UI with React and optimized build performance using Vite. Integrated Node.js backend for handling product data and user sessions, ensuring a seamless end-to-end shopping experience.'
     },
         'A Day in my Life: in Paris <3 (Web Experience)':{
         url: '../projects/techArtProjects/DayInMyLife/index.html',
@@ -28,6 +28,11 @@ const projects = {
         url: '../projects/techArtProjects/stainedGlassAngel/angel/index.html',
         skills: 'Three.js, JavaScript, HTML',
         description: "Inspired by stained glass and general beauty of Paris! <3 // I don't have the tools to do 3D rendering, but I still wanted to learn about working in a 3D space so I decided to use front-end 3D rendering tools like three.js. Paris is so beautiful and I love stained glass, so I wanted to express how beautiful Paris is in a 3D project. I made a weeping stained glass angel. I like the wings and if I was more experienced in 3D modeling I would've like to make a better body for the angel but I really had to simplify it given the limited shapes in three.js. This required a lot more math than I thought but it was still fun to do."
+    },
+        'In The Mind Palace (Animation)': {
+        url: 'https://www.youtube.com/watch?v=kPwkQ5NfvDQ',
+        skills: 'Animation, Procreate, Premiere Pro',
+        description: 'Step into my mind palace? // This is the first "full" animation I have ever done. It was really fun to do all the sound design, editing, and learn about the traditional 2D frame-by-frame animation process like storyboarding and character design. The "mind palace" is something my friends and I reference a lot, especially when one of us seems in a state. As a result, I wanted to show viewers what was in my mind palace at this time and it had to deal with the pressure to be special/make something of yourself that I feel is a universal experience. The pressure to do something special can make it feel like the way you live your life is pointless otherwise but knowing that being born is enough to validate your existence is a good takeaway msg. <3'
     },
     "Oh That's Sad (climate change short)":{
         url: 'https://youtu.be/QoIfUp9-NX4',
