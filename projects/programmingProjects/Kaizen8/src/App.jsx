@@ -1,19 +1,21 @@
-import { Routes, Route } from 'react-router-dom'
-import './App.css'
-import Home from './pages/home'
-import Cart from './pages/Cart'
-import ProductDetail from './pages/ProductDetail'
-import NavBar from './components/NavBar'
-import Account from './pages/Account'
-import SearchResults from './pages/SearchResults'
-import CategoryPage from './pages/CategoryPage'
-import CategoryBar from './components/CategoryBar'
-import Signup from './pages/SignUp'
-import Checkout from './pages/Checkout'
-import OrderConfirmation from './pages/OrderConfirmation'
-import VerifyAdmin from './pages/VerifyAdmin'
-import AdminDashboard from './pages/AdminDashboard'
-import MyOrders from './pages/myOrders'
+import { Routes, Route } from 'react-router-dom';
+import './App.css';
+
+import Home from './pages/Home.jsx';
+import Cart from './pages/Cart.jsx';
+import ProductDetail from './pages/ProductDetail.jsx';
+import NavBar from './components/NavBar.jsx';
+import Account from './pages/Account.jsx';
+import SearchResults from './pages/SearchResults.jsx';
+import CategoryPage from './pages/CategoryPage.jsx';
+import CategoryBar from './components/CategoryBar.jsx';
+import SignUp from './pages/SignUp.jsx';
+import Checkout from './pages/Checkout.jsx';
+import OrderConfirmation from './pages/OrderConfirmation.jsx';
+import VerifyAdmin from './pages/VerifyAdmin.jsx';
+import AdminDashboard from './pages/AdminDashboard.jsx';
+import MyOrders from './pages/MyOrders.jsx';
+
 
 
 
@@ -40,7 +42,7 @@ function App() {
         <Route path="/category/:category" element={<CategoryPage />} />
         
         <Route path="/myAccount" element={<Account />} /> 
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignUp />} />
 
         <Route path="/cart" element={<Cart />} /> 
         <Route path="/checkout" element={<Checkout />} />
