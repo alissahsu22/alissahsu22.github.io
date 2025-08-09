@@ -14,7 +14,7 @@ import Checkout from './pages/Checkout.jsx';
 import OrderConfirmation from './pages/OrderConfirmation.jsx';
 import VerifyAdmin from './pages/VerifyAdmin.jsx';
 import AdminDashboard from './pages/AdminDashboard.jsx';
-import MyOrders from './pages/MyOrders.jsx';
+import MyOrders from './pages/myOrders.jsx';
 
 
 
