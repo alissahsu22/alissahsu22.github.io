@@ -1,29 +1,34 @@
+// ------------------- Load Environment Variables -------------------
 require('dotenv').config();
 
+// ------------------- Dependencies -------------------
 const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const nodemailer = require('nodemailer');
-const app = express();
-const PORT = 4000;
 
-app.use(cors());
+const app = express();
+const PORT = process.env.PORT || 4000;
+
+// ------------------- Middleware -------------------
+app.use(cors({ origin: '*' })); // Allow all origins (can restrict later)
 app.use(express.json());
 
+// ------------------- Database -------------------
 const db = new sqlite3.Database('./db.sqlite');
 
 // ------------------- Email Setup -------------------
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'your_email@gmail.com',       // your Gmail
-    pass: 'your_app_password'           // your Gmail app password
+    user: process.env.EMAIL_USER,       // from .env
+    pass: process.env.EMAIL_PASS        // from .env
   }
 });
 
 function sendReceiptEmail(to, orderSummary, total, timestamp) {
   const mailOptions = {
-    from: 'your_email@gmail.com',
+    from: process.env.EMAIL_USER,
     to,
     subject: '🧾 Your Kaizen8 Order Receipt',
     html: `
@@ -39,15 +44,12 @@ function sendReceiptEmail(to, orderSummary, total, timestamp) {
   };
 
   transporter.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.error('❌ Email send error:', err);
-    } else {
-      console.log(`✅ Email sent: ${info.response}`);
-    }
+    if (err) console.error('❌ Email send error:', err);
+    else console.log(`✅ Email sent: ${info.response}`);
   });
 }
 
-// ------------------- Apply Discounts -------------------
+// ------------------- Discount Logic -------------------
 function applyDiscountTiers(productId) {
   db.get(`SELECT * FROM products WHERE id = ?`, [productId], (err, product) => {
     if (err) return console.error('❌ Error getting product:', err);
@@ -63,15 +65,10 @@ function applyDiscountTiers(productId) {
     }
 
     const newPrice = parseFloat((originalPrice * (1 - bestDiscount / 100)).toFixed(2));
-
-    db.run(
-      `UPDATE products SET price = ? WHERE id = ?`,
-      [newPrice, productId],
-      (err) => {
-        if (err) return console.error('❌ Error updating price:', err);
-        console.log(`✅ Product ${productId} now $${newPrice} (${bestDiscount}% off)`);
-      }
-    );
+    db.run(`UPDATE products SET price = ? WHERE id = ?`, [newPrice, productId], (err) => {
+      if (err) return console.error('❌ Error updating price:', err);
+      console.log(`✅ Product ${productId} now $${newPrice} (${bestDiscount}% off)`);
+    });
   });
 }
 
@@ -104,57 +101,42 @@ db.serialize(() => {
       orderNumber TEXT
     )
   `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE,
+      password TEXT,
+      name TEXT,
+      isAdmin INTEGER DEFAULT 0
+    )
+  `);
 });
 
-db.run(`
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    email TEXT UNIQUE,
-    password TEXT,
-    name TEXT,
-    isAdmin INTEGER DEFAULT 0
-  )
-`);
-
+// ------------------- Middleware for Admin Check -------------------
 function requireAdmin(req, res, next) {
-  const userHeader = req.headers['x-user']
-  if (!userHeader) return res.status(403).json({ error: 'No user provided' })
+  const userHeader = req.headers['x-user'];
+  if (!userHeader) return res.status(403).json({ error: 'No user provided' });
 
   try {
-    const user = JSON.parse(userHeader)
-    if (user.isAdmin) {
-      next()
-    } else {
-      res.status(403).json({ error: 'Access denied: not admin' })
-    }
+    const user = JSON.parse(userHeader);
+    if (user.isAdmin) next();
+    else res.status(403).json({ error: 'Access denied: not admin' });
   } catch (err) {
-    res.status(403).json({ error: 'Invalid user format' })
+    res.status(403).json({ error: 'Invalid user format' });
   }
 }
 
-app.post('/verify-admin', (req, res) => {
-  const { password } = req.body
-
-  // Replace with environment variable later
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
-
-  if (password === ADMIN_PASSWORD) {
-    res.json({ success: true })
-  } else {
-    res.status(401).json({ success: false, message: 'Unauthorized' })
-  }
-})
-
-
 // ------------------- Routes -------------------
 
-// Get categories
-app.get('/categories', (req, res) => {
-  const sql = `SELECT DISTINCT c.name FROM categories c ORDER BY c.name ASC`;
-  db.all(sql, [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows.map(row => row.name));
-  });
+// Verify admin
+app.post('/verify-admin', (req, res) => {
+  const { password } = req.body;
+  if (password === process.env.ADMIN_PASSWORD) {
+    res.json({ success: true });
+  } else {
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
 });
 
 // Get products
@@ -169,18 +151,16 @@ app.get('/products', (req, res) => {
   `;
   db.all(sql, [], (err, rows) => {
     if (err) return res.status(500).json({ error: err.message });
-
     const formatted = rows.map((row, index) => ({
       ...row,
       category: row.categories ? row.categories.split(',') : [],
       rank: index + 1
     }));
-
     res.json(formatted);
   });
 });
 
-// Get all past orders
+// Get orders
 app.get('/orders', (req, res) => {
   db.all(`SELECT * FROM orders ORDER BY timestamp DESC`, [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
@@ -192,29 +172,17 @@ app.get('/orders', (req, res) => {
   });
 });
 
-// Save a new order
+// Login
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  console.log('Trying login with:', email, password);
-
   db.get(`SELECT * FROM users WHERE email = ? AND password = ?`, [email, password], (err, user) => {
-    if (err) {
-      console.error('DB error:', err);
-      return res.status(500).json({ success: false, error: 'DB error' });
-    }
-
-    if (!user) {
-      console.log('❌ User not found');
-      return res.json({ success: false });
-    }
-
-    console.log('✅ Login success for', user.email);
+    if (err) return res.status(500).json({ success: false, error: 'DB error' });
+    if (!user) return res.json({ success: false });
     res.json({ success: true, user });
   });
 });
 
-
-
+// Signup
 app.post('/signup', (req, res) => {
   const { email, password, name } = req.body;
   db.run(`INSERT INTO users (email, password, name) VALUES (?, ?, ?)`, [email, password, name], function (err) {
@@ -223,69 +191,51 @@ app.post('/signup', (req, res) => {
   });
 });
 
-app.get('/users', (req, res) => {
+// Get users
+app.get('/users', requireAdmin, (req, res) => {
   db.all(`SELECT id, name, email, password FROM users`, [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
     res.json(rows);
   });
 });
 
-
-
-
+// Create new order
 app.post('/orders', (req, res) => {
   const { cartItems, total, name, email, address } = req.body;
   const timestamp = new Date().toISOString();
   const orderNumber = `ORD-${Math.floor(100000 + Math.random() * 900000)}`;
 
-  const stmt = db.prepare(`
+  db.run(`
     INSERT INTO orders (name, email, address, orderData, total, timestamp, orderNumber)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `);
+    VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [name, email, address, JSON.stringify(cartItems), total, timestamp, orderNumber],
+    function (err) {
+      if (err) return res.status(500).send('❌ Failed to save order.');
+      cartItems.forEach(item => {
+        db.run(
+          'UPDATE products SET salesCount = salesCount + ?, stock = stock - ? WHERE id = ?',
+          [item.quantity, item.quantity, item.id],
+          (err) => {
+            if (!err) applyDiscountTiers(item.id);
+          }
+        );
+      });
 
-  stmt.run(name, email, address, JSON.stringify(cartItems), total, timestamp, orderNumber, function (err) {
-    if (err) return res.status(500).send('❌ Failed to save order.');
-    console.log('✅ Order saved with ID', this.lastID);
-
-    // Update salesCount & stock
-    cartItems.forEach(item => {
-      db.run(
-        'UPDATE products SET salesCount = salesCount + ?, stock = stock - ? WHERE id = ?',
-        [item.quantity, item.quantity, item.id],
-        (err) => {
-          if (err) console.error(`❌ Failed to update product ${item.id}`, err);
-          applyDiscountTiers(item.id);
+      db.all(`SELECT id FROM products ORDER BY salesCount DESC`, [], (err, rows) => {
+        if (!err) {
+          rows.forEach((row, index) => {
+            db.run(`UPDATE products SET rank = ? WHERE id = ?`, [index + 1, row.id]);
+          });
         }
-      );
-    });
+      });
 
-    // Update ranks
-    db.all(`SELECT id FROM products ORDER BY salesCount DESC`, [], (err, rows) => {
-      if (!err) {
-        rows.forEach((row, index) => {
-          db.run(`UPDATE products SET rank = ? WHERE id = ?`, [index + 1, row.id]);
-        });
-      }
-    });
-
-    // Send Email
-    sendReceiptEmail(email, cartItems, total, timestamp);
-
-    res.send({
-      message: '✅ Order saved & email sent', orderNumber, timestamp,
-      name,
-      email,
-      cartItems,
-      total,
-      timestamp,
-      orderNumber
-    });
-  });
-
-  stmt.finalize();
+      sendReceiptEmail(email, cartItems, total, timestamp);
+      res.send({ message: '✅ Order saved & email sent', orderNumber, timestamp, name, email, cartItems, total });
+    }
+  );
 });
 
-// Update sales and stock for a specific product
+// Update sales & stock for a specific product
 app.post('/order/:id', (req, res) => {
   const productId = req.params.id;
   const { quantity } = req.body;
@@ -294,12 +244,7 @@ app.post('/order/:id', (req, res) => {
     `UPDATE products SET salesCount = salesCount + ?, stock = stock - ? WHERE id = ?`,
     [quantity, quantity, productId],
     (err) => {
-      if (err) {
-        console.error(`❌ Error updating product ${productId}`, err);
-        return res.status(500).send('Failed to update product.');
-      }
-
-      // Apply discount tiers after updating
+      if (err) return res.status(500).send('Failed to update product.');
       applyDiscountTiers(productId);
       res.send({ message: `✅ Product ${productId} updated` });
     }
