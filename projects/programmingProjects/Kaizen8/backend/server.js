@@ -182,20 +182,20 @@ app.post('/verify-admin', (req, res) => {
 
 // Categories (derive from products.category)
 app.get('/categories', (_req, res) => {
-  console.log('📦 [GET] /categories request received');
+  console.log('📦 [GET] /categories');
 
-  db.all(`SELECT category FROM products`, [], (err, rows) => {
+  // Select * so we don't reference a non-existent column in SQL
+  db.all(`SELECT * FROM products`, [], (err, rows) => {
     if (err) {
-      console.error('❌ Error loading categories from DB:', err.message);
+      console.error('❌ DB error loading products:', err.message);
       return res.status(500).json({ error: err.message });
     }
-
-    console.log(`✅ Retrieved ${rows.length} product rows`);
 
     const set = new Set();
 
     rows.forEach((r, idx) => {
-      const raw = r && r.category ? r.category : '';
+      // Use either `category` or legacy `categories` if present
+      const raw = (r.category ?? r.categories ?? '') || '';
       console.log(`   Row ${idx + 1} raw category:`, raw);
 
       try {
@@ -216,7 +216,6 @@ app.get('/categories', (_req, res) => {
 
     const categoriesArray = Array.from(set).sort((a, b) => a.localeCompare(b));
     console.log('📋 Final categories:', categoriesArray);
-
     res.json(categoriesArray);
   });
 });
