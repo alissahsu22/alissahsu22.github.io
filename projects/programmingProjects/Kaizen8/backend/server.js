@@ -182,28 +182,48 @@ app.post('/verify-admin', (req, res) => {
 
 // Categories (derive from products.category)
 app.get('/categories', (_req, res) => {
+  console.log('📦 [GET] /categories request received');
+
   db.all(`SELECT category FROM products`, [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error('❌ Error loading categories from DB:', err.message);
+      return res.status(500).json({ error: err.message });
+    }
+
+    console.log(`✅ Retrieved ${rows.length} product rows`);
 
     const set = new Set();
-    rows.forEach((r) => {
-      const raw = r.category || '';
+
+    rows.forEach((r, idx) => {
+      const raw = r && r.category ? r.category : '';
+      console.log(`   Row ${idx + 1} raw category:`, raw);
+
       try {
-        const arr = JSON.parse(raw);
-        if (Array.isArray(arr)) arr.forEach((c) => c && set.add(String(c).trim()));
-        else if (typeof arr === 'string') String(arr).split(',').forEach((c) => c && set.add(c.trim()));
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          parsed.forEach(c => c && set.add(String(c).trim()));
+        } else if (typeof parsed === 'string') {
+          parsed.split(',').forEach(c => c && set.add(c.trim()));
+        }
       } catch {
         String(raw)
           .split(',')
-          .map((c) => c.trim())
+          .map(c => c.trim())
           .filter(Boolean)
-          .forEach((c) => set.add(c));
+          .forEach(c => set.add(c));
       }
     });
 
-    res.json(Array.from(set).sort((a, b) => a.localeCompare(b)));
+    const categoriesArray = Array.from(set).sort((a, b) => a.localeCompare(b));
+    console.log('📋 Final categories:', categoriesArray);
+
+    res.json(categoriesArray);
   });
 });
+
+
+
+app.use('/images', express.static('public/images'));
 
 // Products
 app.get('/products', (_req, res) => {
@@ -213,25 +233,44 @@ app.get('/products', (_req, res) => {
     (err, rows) => {
       if (err) return res.status(500).json({ error: err.message });
 
+      const BASE_URL = process.env.PUBLIC_BASE_URL || 'https://alissahsu22-github-io.onrender.com';
+
       const formatted = rows.map((row, index) => {
+        // Parse categories
         let category = [];
         try {
           const parsed = JSON.parse(row.category || '[]');
           if (Array.isArray(parsed)) category = parsed;
-          else if (typeof parsed === 'string') category = parsed.split(',').map((c) => c.trim()).filter(Boolean);
+          else if (typeof parsed === 'string') category = parsed.split(',').map(c => c.trim()).filter(Boolean);
         } catch {
           category = String(row.category || '')
             .split(',')
-            .map((c) => c.trim())
+            .map(c => c.trim())
             .filter(Boolean);
         }
-        return { ...row, category, rank: row.rank || index + 1 };
+
+        // Normalize image URL
+        let image = row.image || '';
+        if (image.startsWith('/public/')) {
+          image = image.replace(/^\/public/, ''); // remove /public prefix if present
+        }
+        if (!/^https?:\/\//i.test(image)) {
+          image = `${BASE_URL}${image.startsWith('/') ? '' : '/'}${image}`;
+        }
+
+        return {
+          ...row,
+          image,
+          category,
+          rank: row.rank || index + 1
+        };
       });
 
       res.json(formatted);
     }
   );
 });
+
 
 // Orders list
 app.get('/orders', (_req, res) => {
