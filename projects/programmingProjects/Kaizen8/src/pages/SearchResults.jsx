@@ -4,10 +4,9 @@ import ProductCard from '../components/ProductCard'
 import { useCart } from '/src/context/cartContext.jsx'
 import { useNotification } from '../context/NotificationContext'
 import { useProducts } from '../context/ProductContext'
+import api from '../api'
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search)
-}
+function useQuery() { return new URLSearchParams(useLocation().search) }
 
 function SearchResults() {
   const { addToCart } = useCart()
@@ -17,21 +16,14 @@ function SearchResults() {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:4000/products')
-      .then(res => res.json())
-      .then(data => setProducts(data))
-      .catch(console.error)
+    api.get('/products').then(r => setProducts(r.data)).catch(console.error)
   }, [])
 
-  const filtered = products.filter(product =>
-    product.title.toLowerCase().includes(query.toLowerCase())
-  )
+  const filtered = products.filter(p => p.title.toLowerCase().includes(query.toLowerCase()))
 
   return (
     <div>
-      <h2 style={{ padding: '1rem', fontWeight: 'bold' }}>
-        Search results for "{query}"
-      </h2>
+      <h2 style={{ padding: '1rem', fontWeight: 'bold' }}>Search results for "{query}"</h2>
       {filtered.length === 0 ? (
         <p style={{ padding: '1rem' }}>No products found.</p>
       ) : (
@@ -46,23 +38,14 @@ function SearchResults() {
               image={product.image}
               rank={product.rank}
               salesCount={product.salesCount}
-              salesNeededForDiscount={product.salesNeededForDiscount}
               discountTiers={product.discountTiers}
               onAddToCart={async () => {
-  addToCart(product)
-  showNotification(`${product.title} added to cart!`)
-
-  await fetch(`http://localhost:4000/order/${product.id}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ quantity: 1 }),
-  })
-
-  product.salesCount += 1  // ✅ live update count for UI
-
-  await refreshProducts()
-}}
-
+                addToCart(product)
+                showNotification(`${product.title} added to cart!`)
+                await api.post(`/order/${product.id}`, { quantity: 1 })
+                product.salesCount += 1
+                await refreshProducts()
+              }}
             />
           ))}
         </div>
@@ -70,5 +53,4 @@ function SearchResults() {
     </div>
   )
 }
-
 export default SearchResults

@@ -1,22 +1,15 @@
 import { useCart } from '/src/context/cartContext.jsx'
 import { useEffect, useState } from 'react'
 import TopSellers from '../components/TopSellers'
+import api from '../api'
 
 function Home() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([])
   const { addToCart } = useCart()
-  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    fetch('http://localhost:4000/products')
-      .then(res => res.json())
-      .then(setProducts)
-      .catch(console.error);
-  }, []);
-
-  const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+    api.get('/products').then(r => setProducts(r.data)).catch(console.error)
+  }, [])
 
   return (
     <div>
@@ -24,5 +17,5 @@ function Home() {
     </div>
   )
 }
-
 export default Home
+

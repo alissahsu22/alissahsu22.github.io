@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '/src/context/cartContext.jsx'
 import './Checkout.css'
-import axios from 'axios'
 import { useState } from 'react'
 import { useProducts } from '../context/ProductContext'
 import { useNotification } from '../context/NotificationContext'
+import api from '../api'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -12,60 +12,34 @@ function Checkout() {
   const { refreshProducts } = useProducts()
   const { showNotification } = useNotification()
   const [loading, setLoading] = useState(false)
+  const [form, setForm] = useState({ name: '', email: '', address: '' })
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    address: ''
-  })
-
-  const handleChange = e => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
-  }
-
+  const handleChange = e => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
   const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
   const handleSubmit = async (e) => {
-  e.preventDefault()
-  setLoading(true)
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const order = { cartItems, total, ...form }
+      const response = await api.post('/orders', order)
+      const { orderNumber, timestamp } = response.data
 
-  try {
-    const order = {
-      cartItems,
-      total,
-      ...form
+      // Optional: update product stock/sales on server (already done in /orders)
+      await Promise.all(cartItems.map(item => api.post(`/order/${item.id}`, { quantity: item.quantity })))
+
+      await refreshProducts()
+      clearCart()
+      showNotification('Order placed successfully!')
+
+      navigate('/order-confirmation', { state: { ...order, orderNumber, timestamp } })
+    } catch (err) {
+      console.error(err)
+      showNotification('Error placing order.')
+    } finally {
+      setLoading(false)
     }
-
-    // Save order in backend
-    const response = await axios.post('http://localhost:4000/orders', order);
-     const { orderNumber, timestamp } = response.data;
-
-     navigate('/order-confirmation', {
-      state: { ...order, orderNumber, timestamp }
-    });
-
-
-
-
-    // Batch update stock/sales counts in parallel
-    await Promise.all(
-      cartItems.map(item =>
-        axios.post(`http://localhost:4000/order/${item.id}`, {
-          quantity: item.quantity
-        })
-      )
-    )
-
-    await refreshProducts()
-          clearCart()
-          showNotification('Order placed successfully!')
-        } catch (err) {
-          console.error(err)
-          showNotification('Error placing order.')
-        } finally {
-          setLoading(false)
-        }
-      }
+  }
 
 
   return (

@@ -1,39 +1,39 @@
 // src/pages/Signup.jsx
 import { useState } from 'react'
-import './Account.css' 
+import './Account.css'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-
+import api from '../api'   // ✅ use the centralized axios instance
 
 function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [err, setErr] = useState('')
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-  e.preventDefault()
+    e.preventDefault()
+    setErr('')
 
-  if (password !== confirmPassword) {
-    alert('Passwords do not match!')
-    return
+    if (password !== confirmPassword) {
+      setErr('Passwords do not match!')
+      return
+    }
+
+    try {
+      await api.post('/signup', {
+        email,
+        password,
+        name: email.split('@')[0] // or add a separate "name" input
+      })
+
+      alert('✅ Account created! You can now log in.')
+      navigate('/myAccount') // keep this if your route is /myAccount; otherwise use /account
+    } catch (error) {
+      console.error('Signup failed:', error)
+      setErr('❌ Signup failed. Email may already be in use.')
+    }
   }
-
-  try {
-    const res = await axios.post('http://localhost:4000/signup', {
-      email,
-      password,
-      name: email.split('@')[0] // or use a real name input if you want
-    })
-
-    alert('✅ Account created! You can now log in.')
-    navigate('/myAccount')
-  } catch (err) {
-    console.error('Signup failed:', err)
-    alert('❌ Signup failed. Email may already be in use.')
-  }
-}
-
 
   return (
     <div className="login-container">
@@ -64,11 +64,13 @@ function Signup() {
           required
         />
 
+        {err && <div className="error" style={{ marginTop: 8 }}>{err}</div>}
+
         <button type="submit">Create Account</button>
         <p style={{ fontSize: '0.9rem' }}>
           Already have an account?{' '}
           <span
-            onClick={() => navigate('/myAccount')}
+            onClick={() => navigate('/myAccount')} // or '/account' to match your route
             style={{ color: 'blue', cursor: 'pointer' }}
           >
             Log in

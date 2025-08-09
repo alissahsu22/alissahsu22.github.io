@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import api from "../api";
 import './VerifyAdmin.css'
 
 function VerifyAdmin() {
@@ -12,7 +12,7 @@ function VerifyAdmin() {
     e.preventDefault()
 
     try {
-      const res = await axios.post('http://localhost:4000/verify-admin', { password })
+      const res = await api.post("/verify-admin", { password })
       if (res.data.success) {
         localStorage.setItem('isAdminVerified', 'true')
         navigate('/admin')

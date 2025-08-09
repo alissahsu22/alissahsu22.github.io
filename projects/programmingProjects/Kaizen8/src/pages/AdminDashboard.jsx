@@ -1,31 +1,25 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { jsPDF } from 'jspdf'
 import './AdminDashboard.css'
 import { useNavigate } from 'react-router-dom'
+import api from '../api'
 
 function AdminDashboard() {
   const [orders, setOrders] = useState([])
   const [products, setProducts] = useState([])
-
+  const [users, setUsers] = useState([])
   const navigate = useNavigate()
-
-  useEffect(() => {
+useEffect(() => {
     const isVerified = localStorage.getItem('isAdminVerified')
-    if (isVerified !== 'true') {
-      navigate('/verify-admin')
-    }
+    if (isVerified !== 'true') navigate('/verify-admin')
   }, [navigate])
 
   useEffect(() => {
-    axios.get('http://localhost:4000/orders')
-      .then(res => setOrders(res.data))
-      .catch(err => console.error('Failed to fetch orders:', err))
-
-    axios.get('http://localhost:4000/products')
-      .then(res => setProducts(res.data))
-      .catch(err => console.error('Failed to fetch products:', err))
+    api.get('/orders').then(r => setOrders(r.data)).catch(err => console.error('orders:', err))
+    api.get('/products').then(r => setProducts(r.data)).catch(err => console.error('products:', err))
+    api.get('/users').then(r => setUsers(r.data)).catch(err => console.error('users:', err))
   }, [])
+  
 
   const downloadOrdersPDF = () => {
     const doc = new jsPDF()
@@ -121,16 +115,6 @@ function AdminDashboard() {
     link.download = 'Inventory_Report.csv'
     link.click()
   }
-
-  const [users, setUsers] = useState([]);
-
-    useEffect(() => {
-      axios.get('http://localhost:4000/users')
-        .then(res => setUsers(res.data))
-        .catch(err => console.error('Failed to fetch users:', err));
-    }, []);
-
-
   return (
     <div className="admin-dashboard">
       <h1>📋 Admin Dashboard</h1>

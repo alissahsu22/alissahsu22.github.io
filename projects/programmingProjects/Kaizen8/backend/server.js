@@ -18,15 +18,22 @@ app.use(express.json());
 const db = new sqlite3.Database('./db.sqlite');
 
 // ------------------- Email Setup -------------------
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,       // from .env
-    pass: process.env.EMAIL_PASS        // from .env
-  }
-});
+let transporter = null;
+if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  const nodemailer = require('nodemailer');
+  transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER, // from .env
+      pass: process.env.EMAIL_PASS  // from .env
+    }
+  });
+}
+
 
 function sendReceiptEmail(to, orderSummary, total, timestamp) {
+  if (!transporter) return;
+
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to,

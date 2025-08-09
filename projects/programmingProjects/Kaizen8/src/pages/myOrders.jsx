@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../api'
 
 function MyOrders() {
   const [orders, setOrders] = useState([])
@@ -7,16 +7,13 @@ function MyOrders() {
 
   useEffect(() => {
     if (!user) return
-    axios.get('http://localhost:4000/orders')
-      .then(res => {
-        const userOrders = res.data.filter(o => o.email === user.email)
-        setOrders(userOrders)
-      })
+    api.get('/orders')
+      .then(res => setOrders(res.data.filter(o => o.email === user.email)))
       .catch(err => console.error('Failed to fetch orders:', err))
-  }, [])
+  }, [user])
 
   if (!user) return <p>Please log in to view your orders.</p>
-
+  
   return (
     <div style={{ padding: '2rem' }}>
       <h2>📦 Your Orders</h2>
