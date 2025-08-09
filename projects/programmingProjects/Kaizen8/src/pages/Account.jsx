@@ -1,38 +1,33 @@
-import { useState } from 'react'
-import './Account.css'
-import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { useUser } from '../context/UserContext'
+import { useState } from "react";
+import "./Account.css";
+import { useNavigate } from "react-router-dom";
+import api from "../api";          // ⬅ use the client
+import { useUser } from "../context/UserContext";
 
 function Account() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate()
-  const { setUser } = useUser()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+  const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    setErr("");
 
     try {
-      const res = await axios.post('http://localhost:4000/login', {
-        email,
-        password
-      })
-
-      if (res.data.success) {
-        const loggedInUser = res.data.user
-        localStorage.setItem('user', JSON.stringify(loggedInUser))
-        setUser(loggedInUser) // This will update NavBar instantly
-        alert('✅ Login successful!')
-        navigate('/')
+      const res = await api.post("/login", { email, password }); // ⬅ fixed
+      if (res.data?.success) {
+        setUser(res.data.user);
+        navigate("/");
       } else {
-        alert('❌ Invalid credentials')
+        setErr("Invalid email or password.");
       }
-    } catch (err) {
-      console.error('Login failed:', err)
-      alert('❌ Login error')
+    } catch (e) {
+      console.error(e);
+      setErr("Couldn't log in. Please try again.");
     }
-  }
+  };
 
   return (
     <div className="login-container">
