@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import ProductCard from '../components/ProductCard'
-import { useCart } from '../context/CartContext'
+import { useCart } from '/src/context/cartContext.jsx'
 import { useNotification } from '../context/NotificationContext'
 import { useProducts } from '../context/ProductContext'
 

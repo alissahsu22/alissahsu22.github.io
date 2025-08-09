@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useCart } from '../context/CartContext'
+import { useCart } from '/src/context/cartContext.jsx'
 import './Checkout.css'
 import axios from 'axios'
 import { useState } from 'react'
