@@ -9,20 +9,43 @@ const sqlite3 = require('sqlite3').verbose();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-// ------------------- CORS (Vercel frontend) -------------------
-// Set your Vercel URL here or via Render env var FRONTEND_ORIGIN
-const FRONTEND_ORIGIN =
-  process.env.FRONTEND_ORIGIN ||
-  'https://alissahsu22-github-io-njlq.vercel.app';
+// ------------------- CORS (Prod + previews) -------------------
+const WHITELIST = [
+  'http://localhost:5173',
+  'https://alissahsu22-github-io-njlq.vercel.app', // your production frontend
+  process.env.FRONTEND_ORIGIN,                      // optional override in Render
+].filter(Boolean);
+
+// allow *.vercel.app previews (or tighten to your project slug if you prefer)
+function isAllowedOrigin(origin) {
+  if (!origin) return true; // same-origin/server-to-server
+  try {
+    const { hostname, protocol } = new URL(origin);
+    if (!/^https?:$/.test(protocol)) return false;
+    if (WHITELIST.includes(origin)) return true;
+    if (hostname.endsWith('.vercel.app')) return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
+app.use((req, res, next) => {
+  res.header('Vary', 'Origin'); // important for caches/CDNs
+  next();
+});
 
 app.use(
   cors({
-    origin: FRONTEND_ORIGIN, // must be explicit when credentials are used
-    credentials: true,
+    origin: (origin, cb) =>
+      cb(isAllowedOrigin(origin) ? null : new Error('Not allowed by CORS'), true),
+    credentials: true, // keep only if you actually use cookies/auth
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-user'],
+    optionsSuccessStatus: 200,
   })
 );
+
 app.use(express.json());
 
 // ------------------- Database -------------------
@@ -34,10 +57,7 @@ if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
   const nodemailer = require('nodemailer');
   transporter = nodemailer.createTransport({
     service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
+    auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
   });
 }
 
@@ -100,7 +120,7 @@ db.serialize(() => {
       image TEXT,
       price REAL,
       originalPrice REAL,
-      category TEXT,           -- can be JSON array or comma-separated
+      category TEXT,
       discountTiers TEXT,
       salesCount INTEGER,
       stock INTEGER,
@@ -169,7 +189,7 @@ app.get('/categories', (_req, res) => {
     rows.forEach((r) => {
       const raw = r.category || '';
       try {
-        const arr = JSON.parse(raw); // if stored as JSON array
+        const arr = JSON.parse(raw);
         if (Array.isArray(arr)) arr.forEach((c) => c && set.add(String(c).trim()));
         else if (typeof arr === 'string') String(arr).split(',').forEach((c) => c && set.add(c.trim()));
       } catch {
@@ -315,5 +335,5 @@ app.post('/order/:id', (req, res) => {
 // ------------------- Start Server -------------------
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`CORS origin allowed: ${FRONTEND_ORIGIN}`);
+  console.log('CORS whitelist:', WHITELIST);
 });
