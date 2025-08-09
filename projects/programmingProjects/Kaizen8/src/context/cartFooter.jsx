@@ -1,4 +1,4 @@
-import { useCart } from '../context/cartContext'
+import { useCart } from 'src/context/cartContext.jsx'
 
 function CartFooter() {
   const { cart } = useCart()
