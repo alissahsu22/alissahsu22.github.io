@@ -1,4 +1,4 @@
-import { useCart } from '../context/CartContext'
+import { useCart } from '/src/context/cartContext.jsx'
 import { useProducts } from '../context/ProductContext'
 
 function CartItem({ item }) {

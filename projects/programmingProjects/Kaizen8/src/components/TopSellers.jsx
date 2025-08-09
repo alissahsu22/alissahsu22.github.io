@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useCart } from '../context/CartContext'
+import { useCart } from '/src/context/cartContext.jsx'
 import { useNotification } from '../context/NotificationContext'
 import { useProducts } from '../context/ProductContext'
 import axios from 'axios'

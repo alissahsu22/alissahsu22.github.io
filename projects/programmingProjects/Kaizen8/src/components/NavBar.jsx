@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import logo from '../assets/logo.jpeg'
 import './NavBar.css'
 import { FaUser, FaSearch, FaShoppingCart } from 'react-icons/fa'
-import { useCart } from '../context/CartContext'
+import { useCart } from '/src/context/cartContext.jsx'
 import React from 'react'
 import { useUser } from '../context/UserContext'
 
