@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const projects = {
         'Ecommerce Site (React + Node.js + SQL)   [3 day sprint]':{
-            // url: '../projects/programmingProjects/Kaizen8',
+            url: 'https://alissahsu22-github-io-njlq.vercel.app/',
             skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
             description: 'Ecommerce Site prototype'
         },
