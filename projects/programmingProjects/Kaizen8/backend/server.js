@@ -16,7 +16,13 @@ const WHITELIST = [
   process.env.FRONTEND_ORIGIN,                      // optional override in Render
 ].filter(Boolean);
 
-app.use('/images', express.static('public/images'));
+
+const path = require('path');
+app.use(
+  '/images',
+  express.static(path.join(__dirname, 'public', 'images'))
+);
+
 
 // allow *.vercel.app previews (or tighten to your project slug if you prefer)
 function isAllowedOrigin(origin) {
