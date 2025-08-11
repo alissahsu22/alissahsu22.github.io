@@ -11,17 +11,14 @@ function TopSellers({ products }) {
   const { addToCart } = useCart()
   const { showNotification } = useNotification()
 
-  const handleAdd = async (product) => {
-    try {
-      addToCart(product)
-      showNotification(`${product.title} added to cart!`)
-      await api.post(`/order/${product.id}`, { quantity: 1 })   // ✅ was axios.post('http://localhost...')
-      product.salesCount += 1
-      await refreshProducts()
-    } catch (err) {
-      console.error('Failed to update sales:', err)
-    }
+async function handleAdd(product) {
+  try {
+    await addToCart(product, 1)          // CartContext will POST /order and refresh products
+    showNotification(`${product.title} added to cart!`)
+  } catch (err) {
+    console.error('Add failed:', err)
   }
+}
 
   const topThree = products.filter(p => p.rank <= 3).sort((a, b) => a.rank - b.rank)
 

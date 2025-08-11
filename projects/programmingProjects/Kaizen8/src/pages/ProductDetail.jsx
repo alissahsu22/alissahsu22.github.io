@@ -23,10 +23,8 @@ function ProductDetails() {
 
   const handleAdd = async () => {
     try {
-      addToCart(product)
+      await addToCart(product, 1) 
       showNotification(`${title} added to cart!`)
-      await api.post(`/order/${product.id}`, { quantity: 1 })
-      product.salesCount += 1
       await refreshProducts()
     } catch (err) {
       console.error('Failed to update sales:', err)

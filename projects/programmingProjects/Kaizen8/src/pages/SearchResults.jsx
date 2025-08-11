@@ -40,10 +40,8 @@ function SearchResults() {
               salesCount={product.salesCount}
               discountTiers={product.discountTiers}
               onAddToCart={async () => {
-                addToCart(product)
+                await addToCart(product, 1) 
                 showNotification(`${product.title} added to cart!`)
-                await api.post(`/order/${product.id}`, { quantity: 1 })
-                product.salesCount += 1
                 await refreshProducts()
               }}
             />

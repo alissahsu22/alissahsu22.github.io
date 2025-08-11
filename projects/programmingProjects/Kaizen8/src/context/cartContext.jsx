@@ -6,21 +6,16 @@ import { useProducts } from './ProductContext';
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
 
-// Use your backend base for fixing any relative image paths in saved carts
 const API_BASE =
   (import.meta.env && import.meta.env.VITE_API_BASE_URL) ||
   'https://alissahsu22-github-io.onrender.com';
 
-function normalizeImage(url) {
-  const img = String(url || '');
-  if (/^https?:\/\//i.test(img)) return img;
-  return `${API_BASE}${img.startsWith('/') ? '' : '/'}${img}`;
-}
+const normalizeImage = (u='') =>
+  /^https?:\/\//i.test(u) ? u : `${API_BASE}${u.startsWith('/') ? '' : '/'}${u}`;
 
 export const CartProvider = ({ children }) => {
   const { refreshProducts } = useProducts();
 
-  // Load from localStorage once (no hardcoded defaults)
   const [cartItems, setCartItems] = useState(() => {
     const saved = JSON.parse(localStorage.getItem('cart') || '[]');
     const migrated = saved.map(it => ({ ...it, image: normalizeImage(it.image) }));
@@ -30,64 +25,64 @@ export const CartProvider = ({ children }) => {
     return migrated;
   });
 
-  // Persist to localStorage
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
-  // Add (+ qty) and sync sales/stock on the server
-  const addToCart = async (product, qty = 1) => {
+  // Local-only updates (NO API) — use for hydration/initialization if needed
+  const addToCartLocal = (product, qty = 1) => {
     setCartItems(prev => {
       const i = prev.findIndex(p => p.id === product.id);
       if (i >= 0) {
         const next = [...prev];
-        const nextQty = next[i].quantity + qty;
-        const maxQty = product.stock ?? nextQty;
-        next[i] = { ...next[i], quantity: Math.min(nextQty, maxQty) };
+        next[i] = { ...next[i], quantity: next[i].quantity + qty };
         return next;
       }
       return [...prev, { ...product, image: normalizeImage(product.image), quantity: qty }];
     });
-
-    try {
-      await api.post(`/order/${product.id}`, { quantity: qty }); // +qty sale, -qty stock
-      await refreshProducts();
-    } catch (e) {
-      console.error('addToCart sync failed:', e);
-      // Optional: rollback UI if desired
-    }
   };
 
-  // Remove (- qty) and sync negative delta
-  const removeFromCart = async (product, qty = 1) => {
+  const removeFromCartLocal = (product, qty = 1) => {
     setCartItems(prev =>
       prev
         .map(p => (p.id === product.id ? { ...p, quantity: p.quantity - qty } : p))
         .filter(p => p.quantity > 0)
     );
+  };
 
+  // Server-synced actions — call these ONLY on user clicks
+  const addToCart = async (product, qty = 1) => {
+    addToCartLocal(product, qty);
     try {
-      await api.post(`/order/${product.id}`, { quantity: -qty }); // -qty sale, +qty stock
+      await api.post(`/order/${product.id}`, { quantity: qty });
       await refreshProducts();
     } catch (e) {
-      console.error('removeFromCart sync failed:', e);
-      // Optional: rollback UI if desired
+      console.error('addToCart sync failed:', e);
     }
   };
 
-  // Optional helpers
+  const removeFromCart = async (product, qty = 1) => {
+    removeFromCartLocal(product, qty);
+    try {
+      await api.post(`/order/${product.id}`, { quantity: -qty });
+      await refreshProducts();
+    } catch (e) {
+      console.error('removeFromCart sync failed:', e);
+    }
+  };
+
   const setQuantity = async (product, nextQty) => {
-    setCartItems(prev => {
-      const i = prev.findIndex(p => p.id === product.id);
-      if (i < 0) return prev;
-      const delta = nextQty - prev[i].quantity;
-      const next = [...prev];
-      next[i] = { ...next[i], quantity: Math.max(0, nextQty) };
-      return next.filter(p => p.quantity > 0);
-    });
+    // compute delta BEFORE state change to avoid stale read
+    const prevQty = cartItems.find(p => p.id === product.id)?.quantity ?? 0;
+    const delta = nextQty - prevQty;
+
+    setCartItems(prev =>
+      prev
+        .map(p => (p.id === product.id ? { ...p, quantity: Math.max(0, nextQty) } : p))
+        .filter(p => p.quantity > 0)
+    );
 
     try {
-      const delta = nextQty - (cartItems.find(p => p.id === product.id)?.quantity ?? 0);
       if (delta) {
         await api.post(`/order/${product.id}`, { quantity: delta });
         await refreshProducts();
@@ -100,7 +95,15 @@ export const CartProvider = ({ children }) => {
   const clearCart = () => setCartItems([]);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, setQuantity, clearCart }}>
+    <CartContext.Provider value={{
+      cartItems,
+      addToCart,        // user click -> server sync
+      removeFromCart,   // user click -> server sync
+      setQuantity,      // user change -> server sync
+      addToCartLocal,   // local-only (rarely needed)
+      removeFromCartLocal,
+      clearCart
+    }}>
       {children}
     </CartContext.Provider>
   );

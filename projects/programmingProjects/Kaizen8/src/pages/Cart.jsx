@@ -50,19 +50,30 @@ function Cart() {
                   </div>
                 </div>
 
-                <div className="quantity-controls">
-                  <button onClick={() => removeFromCart(item)}>-</button>
-                  <span>{item.quantity}</span>
+               <div className="quantity-controls">
                   <button
-                    onClick={() => addToCart(item)}
+                    onClick={async () => { await removeFromCart(item, 1); }}
+                    disabled={item.quantity <= 0}
+                    aria-label="Decrease quantity"
+                  >
+                    –
+                  </button>
+
+                  <span>{item.quantity}</span>
+
+                  <button
+                    onClick={async () => { await addToCart(item, 1); }}
                     disabled={item.quantity >= item.stock}
+                    aria-label="Increase quantity"
                   >
                     +
                   </button>
+
                   {item.quantity >= item.stock && (
                     <p className="stock-warning">No more in stock</p>
                   )}
                 </div>
+
               </div>
             )
           })}

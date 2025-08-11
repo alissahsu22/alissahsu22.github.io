@@ -7,8 +7,7 @@ function CartItem({ item }) {
   const { refreshProducts } = useProducts()
 
   const handleAdd = async () => {
-    addToCart(item)
-    await api.post(`/order/${item.id}`, { quantity: 1 })   // ✅ was fetch('http://localhost...')
+    await addToCart(item, 1)
     await refreshProducts()
   }
 
@@ -16,7 +15,7 @@ function CartItem({ item }) {
     <div className="cart-item">
       <h4>{item.title}</h4>
       <p>${item.price} x {item.quantity}</p>
-      <button onClick={() => removeFromCart(item)}>-</button>
+      <button onClick={() => removeFromCart(item, 1)}>-</button>
       <button onClick={handleAdd}>+</button>
     </div>
   )
