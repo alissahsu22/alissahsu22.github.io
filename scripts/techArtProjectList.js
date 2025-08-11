@@ -4,11 +4,11 @@ const projects = {
         skills: 'Arduino, Figma, Front-end dev',
         description: 'HABITat is a tamogatchi-inspired, alexa-like in home device that rewards users for accomplishing eco-friendly goals. Product Design Write-up included. // After learning Arduino, I wanted to make something (even just in theory) that would serve a useful purpose and I thought it would be cool to try to create a product from start to finish.'
     },
-    'Ecommerce Site (React + Node.js + Vite)   [3 day sprint]':{
-        url: '../projects/programmingProjects/Kaizen8',
-        skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
-        description: 'Developed a fully functional e-commerce site prototype for emerging department, featuring dynamic product listings, a shopping cart, and checkout flow. Implemented responsive UI with React and optimized build performance using Vite. Integrated Node.js backend for handling product data and user sessions, ensuring a seamless end-to-end shopping experience.'
-    },
+    // 'Ecommerce Site (React + Node.js + Vite)   [3 day sprint]':{
+    //     url: '../projects/programmingProjects/Kaizen8',
+    //     skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
+    //     description: 'Developed a fully functional e-commerce site prototype for emerging department, featuring dynamic product listings, a shopping cart, and checkout flow. Implemented responsive UI with React and optimized build performance using Vite. Integrated Node.js backend for handling product data and user sessions, ensuring a seamless end-to-end shopping experience.'
+    // },
         'A Day in my Life: in Paris <3 (Web Experience)':{
         url: '../projects/techArtProjects/DayInMyLife/index.html',
         skills: 'HTML/CSS/JS, Animation, Procreate, Premiere Pro',
