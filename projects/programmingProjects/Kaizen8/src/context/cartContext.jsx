@@ -1,72 +1,45 @@
-// /src/context/cartContext.jsx
-import { createContext, useContext, useEffect, useState } from 'react';
-
-const CartContext = createContext();
-export const useCart = () => useContext(CartContext);
-
-// Use your backend base to fix old relative image paths.
-// If you have Vite, set VITE_API_BASE_URL in .env (e.g., https://alissahsu22-github-io.onrender.com)
-const API_BASE =
-  (import.meta.env && import.meta.env.VITE_API_BASE_URL) ||
-  'https://alissahsu22-github-io.onrender.com';
-
-function normalizeImage(url) {
-  const img = String(url || '');
-  if (/^https?:\/\//i.test(img)) return img;
-  return `${API_BASE}${img.startsWith('/') ? '' : '/'}${img}`;
-}
+// cartContext.jsx
+import api from '../api';
+import { useProducts } from './ProductContext';
 
 export const CartProvider = ({ children }) => {
-  // 1) Load once from localStorage and migrate image URLs
-  const [cartItems, setCartItems] = useState(() => {
-    const saved = JSON.parse(localStorage.getItem('cart') || '[]');
-    const migrated = saved.map(it => ({ ...it, image: normalizeImage(it.image) }));
-    if (saved.length && JSON.stringify(saved) !== JSON.stringify(migrated)) {
-      localStorage.setItem('cart', JSON.stringify(migrated));
-    }
-    return migrated;
-  });
+  const { refreshProducts } = useProducts();
+  const [cartItems, setCartItems] = useState([]);
 
-  // 2) Persist on any change
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cartItems));
-  }, [cartItems]);
-
-  // 3) Actions
-  const addToCart = (product, qty = 1) => {
+  const addToCart = async (product, qty = 1) => {
     setCartItems(prev => {
-      const idx = prev.findIndex(p => p.id === product.id);
-      if (idx >= 0) {
-        const copy = [...prev];
-        const nextQty = copy[idx].quantity + qty;
-        const maxQty = product.stock ?? nextQty;
-        copy[idx] = { ...copy[idx], quantity: Math.min(nextQty, maxQty) };
-        return copy;
+      const existing = prev.find(item => item.id === product.id);
+      if (existing) {
+        return prev.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + qty }
+            : item
+        );
       }
-      return [
-        ...prev,
-        {
-          ...product,
-          image: normalizeImage(product.image),
-          quantity: qty,
-        },
-      ];
+      return [...prev, { ...product, quantity: qty }];
     });
+
+    await api.post(`/order/${product.id}`, { quantity: qty });
+    await refreshProducts();
   };
 
-  const setQuantity = (id, qty) =>
-    setCartItems(prev =>
-      prev
-        .map(p => (p.id === id ? { ...p, quantity: Math.max(0, qty) } : p))
-        .filter(p => p.quantity > 0)
-    );
+  const removeFromCart = async (product, qty = 1) => {
+    setCartItems(prev => {
+      return prev
+        .map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity - qty }
+            : item
+        )
+        .filter(item => item.quantity > 0);
+    });
 
-  const removeFromCart = (product) => setQuantity(product.id, (product.quantity ?? 1) - 1);
-
-  const clearCart = () => setCartItems([]);
+    await api.post(`/order/${product.id}`, { quantity: -qty });
+    await refreshProducts();
+  };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, setQuantity, removeFromCart, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
       {children}
     </CartContext.Provider>
   );
