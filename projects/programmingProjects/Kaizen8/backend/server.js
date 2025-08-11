@@ -16,6 +16,8 @@ const WHITELIST = [
   process.env.FRONTEND_ORIGIN,                      // optional override in Render
 ].filter(Boolean);
 
+app.use('/images', express.static('public/images'));
+
 // allow *.vercel.app previews (or tighten to your project slug if you prefer)
 function isAllowedOrigin(origin) {
   if (!origin) return true; // same-origin/server-to-server
@@ -222,7 +224,7 @@ app.get('/categories', (_req, res) => {
 
 
 
-app.use('/images', express.static('public/images'));
+
 
 // Products
 app.get('/products', (_req, res) => {
@@ -314,58 +316,6 @@ app.get('/users', requireAdmin, (_req, res) => {
     res.json(rows);
   });
 });
-
-// Admin reset: wipe orders and reset product counters/prices
-app.post('/admin/reset', requireAdmin, (_req, res) => {
-  // 1) delete orders
-  db.run(`DELETE FROM orders`, [], (e1) => {
-    if (e1) return res.status(500).json({ error: 'Failed to delete orders', detail: e1.message });
-
-    // 2) reset products
-    // NOTE: set stock back to a default if you want (e.g., 100). Comment out if not desired.
-    const RESET_STOCK_TO = process.env.RESET_STOCK_TO ? Number(process.env.RESET_STOCK_TO) : null;
-    const resetSql = RESET_STOCK_TO == null
-      ? `UPDATE products
-           SET salesCount = 0,
-               price = COALESCE(originalPrice, price),
-               rank = NULL`
-      : `UPDATE products
-           SET salesCount = 0,
-               price = COALESCE(originalPrice, price),
-               stock = ?,
-               rank = NULL`;
-
-    const params = RESET_STOCK_TO == null ? [] : [RESET_STOCK_TO];
-
-    db.run(resetSql, params, function (e2) {
-      if (e2) return res.status(500).json({ error: 'Failed to reset products', detail: e2.message });
-
-      // 3) re-rank by salesCount DESC
-      db.all(`SELECT id FROM products ORDER BY COALESCE(salesCount,0) DESC`, [], (e3, rows) => {
-        if (e3) return res.status(500).json({ error: 'Failed to fetch products for re-rank', detail: e3.message });
-
-        let pending = rows.length;
-        if (pending === 0) {
-          return res.json({ message: 'Reset complete (no products found)', deletedOrders: this.changes });
-        }
-        rows.forEach((row, idx) => {
-          db.run(`UPDATE products SET rank = ? WHERE id = ?`, [idx + 1, row.id], (e4) => {
-            if (e4) console.error('Rank update error:', e4.message);
-            if (--pending === 0) {
-              res.json({
-                message: '✅ Reset complete',
-                deletedOrders: this.changes,
-                productsReset: true,
-                stockSetTo: RESET_STOCK_TO,
-              });
-            }
-          });
-        });
-      });
-    });
-  });
-});
-
 
 // Create order
 app.post('/orders', (req, res) => {
