@@ -17,13 +17,13 @@ const WHITELIST = [
 ].filter(Boolean);
 
 
-// const path = require('path');
-// app.use(
-//   '/images',
-//   express.static(path.join(__dirname, 'public', 'images'))
-// );
+const path = require('path');
+app.use(
+  '/images',
+  express.static(path.join(__dirname, 'public', 'images'))
+);
 
-// app.use('/images', express.static('public/images'));
+app.use('/images', express.static('public/images'));
 
 // allow *.vercel.app previews (or tighten to your project slug if you prefer)
 function isAllowedOrigin(origin) {
