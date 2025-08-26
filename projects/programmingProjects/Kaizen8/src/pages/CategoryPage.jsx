@@ -36,7 +36,6 @@ function CategoryPage() {
             onAddToCart={async () => {
               await addToCart(product, 1)
               showNotification(`${product.title} added to cart!`)
-
               await refreshProducts()
             }}
           />

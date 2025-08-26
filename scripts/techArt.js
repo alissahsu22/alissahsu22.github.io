@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
             skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
             description: 'Ecommerce Site prototype'
         },
+        'Are We Together In Every Universe? (Experience Design)':{
+        url: '../projects/techArtProjects/AreWeTg_exp/experience.pdf',
+        skills: 'Canva, TouchDesigner',
+        description: 'Immersive Experience slide deck'
+    },
         'In The Mind Palace (Animation)': {
             url: 'https://www.youtube.com/watch?v=kPwkQ5NfvDQ',
             skills: 'Animation, Procreate, Premiere Pro',

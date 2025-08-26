@@ -1,4 +1,9 @@
 const projects = {
+     'Are We Together In Every Universe? (Experience Design)':{
+        url: '../projects/techArtProjects/AreWeTg_exp/experience.pdf',
+        skills: 'Canva, TouchDesigner',
+        description: 'Are We Together is an immersive experience that could be used for product/brand launches that reconnects people to their loved ones.'
+    },
     'HABITat (Arduino + Product Design)   [3 day sprint]':{
         url: '../projects/techArtProjects/HABITat/PD_outline_Habitat.pdf',
         skills: 'Arduino, Figma, Front-end dev',
