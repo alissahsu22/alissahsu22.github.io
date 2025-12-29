@@ -78,7 +78,7 @@ function main(){
             
             setTimeout(() => {
                 console.log("Changing src attribute of itemImg. Current time: 9.2 seconds.");
-                itemImg.src = 'images/player2.jpeg';
+                itemImg.src = 'images/player2.png';
             }, 9200);
             
             setTimeout(() => {

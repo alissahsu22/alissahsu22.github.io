@@ -6,7 +6,7 @@ body{
   }
   
 #container{
-    background-image: url('images/background.jpeg');
+    background-image: url('images/background.png');
     background-size: 100vw 100vh;
     position: absolute;
     top: 0;
@@ -70,7 +70,7 @@ video {
 
   
   #player{
-    background-image: url('images/player.jpeg');
+    background-image: url('images/player.png');
     background-position: 1rem;
     background-size: 100px 200px;
     background-repeat: no-repeat;
@@ -105,7 +105,7 @@ video {
 }
 
 .hand{
-    background-image: url('images/hand.jpeg');
+    background-image: url('images/hand.png');
     filter: grayscale(90%);
     background-size: 4rem 5rem;
     background-repeat: no-repeat;
