@@ -8,6 +8,40 @@ body{
     overflow:hidden;
 }
 
+#instructions {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px 25px;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2rem;
+    text-align: center;
+    pointer-events: none;
+}
+
+#instructions p {
+    margin: 0;
+}
+
+footer {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+    pointer-events: none;
+}
+
 #myCanvas{
     background-color: black;
     z-index: -10
