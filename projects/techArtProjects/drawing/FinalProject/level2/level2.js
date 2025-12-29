@@ -12,14 +12,14 @@ class Player {
       this.mouseUpHandler = this.mouseUp.bind(this);
 
       this.playerElement.addEventListener('mousedown', this.mouseDownHandler);
-      this.playerElement.style.backgroundImage = 'url(images/player.png)';
+      this.playerElement.style.backgroundImage = 'url(images/player.jpeg)';
   }
 
   mouseDown(e) {
       this.startX = e.clientX;
       this.startY = e.clientY;
 
-      this.playerElement.style.backgroundImage = 'url(images/player2.png)';
+      this.playerElement.style.backgroundImage = 'url(images/player2.jpeg)';
       this.playerElement.style.filter = 'drop-shadow(10px 3px rgb(0, 0, 0))';
 
       document.addEventListener('mousemove', this.mouseMoveHandler);
@@ -92,7 +92,7 @@ class Player {
 
 
   mouseUp(e) {
-      this.playerElement.style.backgroundImage = 'url(images/player.png)';
+      this.playerElement.style.backgroundImage = 'url(images/player.jpeg)';
       this.playerElement.style.filter = 'none';
       document.removeEventListener('mousemove', this.mouseMoveHandler);
       document.removeEventListener('mouseup', this.mouseUpHandler);

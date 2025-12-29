@@ -23,19 +23,19 @@ let pxScale = window.devicePixelRatio;
 
 const player = new Player({
     position: {x:0, y:0},
-    imageSrc: "images/runRight.png",
+    imageSrc: "images/runRight.jpeg",
 
     animations: {
         idleRight: {
-          imageSrc: "images/idle.png",
+          imageSrc: "images/idle.jpeg",
           loop: true,
         },
         idleLeft: {
-          imageSrc: "images/idle.png",
+          imageSrc: "images/idle.jpeg",
           loop: true,
         },
         enterDoor: {
-          imageSrc: "images/enterDoor.png",
+          imageSrc: "images/enterDoor.jpeg",
           loop: false,
           onComplete: ()=>{
             
@@ -49,12 +49,12 @@ const player = new Player({
           }
         },
         runRight: {
-            imageSrc: "images/runRight.png",
+            imageSrc: "images/runRight.jpeg",
             loop: true,
         },
 
         runLeft: {
-            imageSrc: "images/runLeft.png",
+            imageSrc: "images/runLeft.jpeg",
             loop: true,
         },
     }
@@ -71,7 +71,7 @@ const doors = [
         x: doorX - Xrandom,
         y: doorY - Yrandom ,
       },
-      imageSrc: 'images/doorOpen.png',
+      imageSrc: 'images/doorOpen.jpeg',
       frameRate: 5,
       frameBuffer: 5,
       loop: false,
