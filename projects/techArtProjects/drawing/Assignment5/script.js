@@ -1,4 +1,3 @@
-
 const canvas = document.querySelector('canvas');
 const context = canvas.getContext('2d');
 const image = document.querySelector('img')
@@ -21,7 +20,7 @@ function setup() {
 }
 
 
-function draw() {
+function draw() {l
     context.drawImage(image, 0, 0, width, height);
   
     let pixels = context.getImageData(0, 0, width * pxScale, height * pxScale);
