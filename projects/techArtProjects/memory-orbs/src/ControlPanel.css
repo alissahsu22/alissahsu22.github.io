@@ -1,0 +1,64 @@
+.controls-panel {
+  position: fixed;
+  top:1rem;
+  right: 1rem;
+  z-index: 100;
+
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  padding: 16px 18px;
+  border-radius: 14px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.15);
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111;
+
+  width: 220px;
+}
+
+.controls-panel label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+
+.controls-panel input[type="range"] {
+  width: 100%;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    #6a5cff,
+    #9c8cff
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+.controls-panel input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #6a5cff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.controls-panel input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #6a5cff;
+  cursor: pointer;
+}
