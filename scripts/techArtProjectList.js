@@ -1,6 +1,6 @@
 const projects = {
     'Memory-orbs (Three.JS)':{
-        url: 'https://alissahsu22-github-io.vercel.app/',
+        url: 'https://alissahsu22-github-frx5ivsrd-alissas-projects-a080c4b8.vercel.app/',
         skills: 'three.js, react',
         description: 'click on the orbs to activate a memory'
     },
@@ -15,7 +15,7 @@ const projects = {
         description: 'HABITat is a tamogatchi-inspired, alexa-like in home device that rewards users for accomplishing eco-friendly goals. Product Design Write-up included. // After learning Arduino, I wanted to make something (even just in theory) that would serve a useful purpose and I thought it would be cool to try to create a product from start to finish.'
     },
     'Ecommerce Site (React + Node.js + SQL)   [3 day sprint]':{
-        url: 'https://alissahsu22-github-io-njlq.vercel.app/',
+        url: 'https://alissahsu22-github-io-njlq-per1ut9u9-alissas-projects-a080c4b8.vercel.app/',
         skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
         description: 'Developed a fully functional e-commerce site prototype for emerging department, featuring dynamic product listings, a shopping cart, and checkout flow. Implemented responsive UI with React and optimized build performance using Vite. Integrated Node.js backend for handling product data and user sessions, ensuring a seamless end-to-end shopping experience.'
     },

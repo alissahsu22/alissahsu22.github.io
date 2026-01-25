@@ -27,12 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const projects = {
         'Memory-orbs (Three.JS + React)':{
-            url: 'https://alissahsu22-github-io.vercel.app/',
+            url: 'https://alissahsu22-github-frx5ivsrd-alissas-projects-a080c4b8.vercel.app/',
             skills: 'three.js, react',
             description: 'click on the orbs to activate a memory'
         },
         'Ecommerce Site (React + Node.js + SQL)   [3 day sprint]':{
-            url: 'https://alissahsu22-github-io-njlq.vercel.app/',
+            url: 'https://alissahsu22-github-io-njlq-per1ut9u9-alissas-projects-a080c4b8.vercel.app/',
             skills: 'React, Node.js, Vite, HTML/CSS/JS, API integration, responsive design',
             description: 'Ecommerce Site prototype'
         },
