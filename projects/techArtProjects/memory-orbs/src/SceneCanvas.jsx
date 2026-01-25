@@ -7,7 +7,7 @@ function SceneCanvas({orbitSpeed}){
 
     useEffect( ()=>{
         orbitSpeedRef.current = orbitSpeed
-        console.log('orbitSpeed updated:', orbitSpeed)
+        // console.log('orbitSpeed updated:', orbitSpeed)
     }, [orbitSpeed])
 
     useEffect(() => {

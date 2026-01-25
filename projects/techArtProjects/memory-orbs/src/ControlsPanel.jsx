@@ -16,7 +16,7 @@ function ControlsPanel({ orbitSpeed, setOrbitSpeed }) {
         step="1"
         value={orbitSpeed}
         onChange={(e) => {
-        console.log('slider value:', e.target.value)
+        // console.log('slider value:', e.target.value)
         setOrbitSpeed(Number(e.target.value))
       }}
       />
