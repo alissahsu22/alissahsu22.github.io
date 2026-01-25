@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { memories } from './data.js'
 
-export function createScene({ canvas, orbitSpeedRef }) {
+export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
   if (!canvas) return
 
   const sizes = {
@@ -39,8 +39,15 @@ export function createScene({ canvas, orbitSpeedRef }) {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
   const controls = new OrbitControls(camera, renderer.domElement)
+  const loadingManager = new THREE.LoadingManager()
 
-  const textureLoader = new THREE.TextureLoader()
+  loadingManager.onLoad = () => {
+    console.log('All assets loaded')
+    if (onLoaded) onLoaded()
+  }
+
+  const textureLoader = new THREE.TextureLoader(loadingManager)
+  const gltfLoader = new GLTFLoader(loadingManager)
 
   const floorAlpha = textureLoader.load('/textures/floor/alpha.jpg')
   const floorColorTexture = textureLoader.load('/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.jpg')
@@ -81,8 +88,6 @@ export function createScene({ canvas, orbitSpeedRef }) {
   floor.rotation.x = -Math.PI * 0.5
   floor.receiveShadow = true
   scene.add(floor)
-
-  const gltfLoader = new GLTFLoader()
 
   gltfLoader.load(
     '/models/old-tv/tv-final.glb',
@@ -145,6 +150,7 @@ export function createScene({ canvas, orbitSpeedRef }) {
     video.muted = true
     video.loop = true
     video.playsInline = true
+    video.preload = 'none'
 
     video.addEventListener('loadeddata', () => {
       videoTexture = new THREE.VideoTexture(video)

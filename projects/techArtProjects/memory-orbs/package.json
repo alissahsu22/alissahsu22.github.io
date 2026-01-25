@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "deploy": "vercel --prod"
   },
+
   "dependencies": {
+    "vite": "^5.x.x",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "three": "^0.182.0"

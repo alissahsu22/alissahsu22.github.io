@@ -1,24 +1,24 @@
-import {createScene} from './three/scene.js'
+import { createScene } from './three/scene.js'
 import { useEffect, useRef } from 'react'
 
-function SceneCanvas({orbitSpeed}){
-    const canvasRef = useRef(null)
-    const orbitSpeedRef = useRef(orbitSpeed)
+function SceneCanvas({ orbitSpeed, onLoaded }) {
+  const canvasRef = useRef(null)
+  const orbitSpeedRef = useRef(orbitSpeed)
 
-    useEffect( ()=>{
-        orbitSpeedRef.current = orbitSpeed
-        // console.log('orbitSpeed updated:', orbitSpeed)
-    }, [orbitSpeed])
+  useEffect(() => {
+    orbitSpeedRef.current = orbitSpeed
+  }, [orbitSpeed])
 
-    useEffect(() => {
-        if (!canvasRef.current) return
+  useEffect(() => {
+    if (!canvasRef.current) return
 
-        const cleanup = createScene({
-        canvas: canvasRef.current,
-        orbitSpeedRef
-        })
+    const cleanup = createScene({
+      canvas: canvasRef.current,
+      orbitSpeedRef,
+      onLoaded   
+    })
 
-        return cleanup
+    return cleanup
   }, [])
 
   return (
@@ -32,7 +32,6 @@ function SceneCanvas({orbitSpeed}){
       }}
     />
   )
-
 }
 
 export default SceneCanvas

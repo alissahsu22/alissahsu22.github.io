@@ -1,20 +1,27 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 import SceneCanvas from './SceneCanvas.jsx'
 import ControlsPanel from './ControlsPanel.jsx'
+import LoadingOverlay from './LoadingOverlay.jsx'
 
 function App() {
   const [orbitSpeed, setOrbitSpeed] = useState(1)
-
-  useEffect(() => {
-    console.log('App orbitSpeed:', orbitSpeed)
-  }, [orbitSpeed])
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <>
-     <SceneCanvas orbitSpeed={orbitSpeed}/>
-     <ControlsPanel orbitSpeed={orbitSpeed} setOrbitSpeed = {setOrbitSpeed}/>
-     </>
+      {!isLoaded && <LoadingOverlay />}
+
+      <SceneCanvas
+        orbitSpeed={orbitSpeed}
+        onLoaded={() => setIsLoaded(true)}
+      />
+
+      <ControlsPanel
+        orbitSpeed={orbitSpeed}
+        setOrbitSpeed={setOrbitSpeed}
+      />
+    </>
   )
 }
 
