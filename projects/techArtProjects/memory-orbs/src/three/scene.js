@@ -11,6 +11,12 @@ export function createScene({ canvas, orbitSpeedRef }) {
       height: window.innerHeight
   }
 
+  const OrbColors = {
+    base: '#fffad6',
+    secondary: '#fff39b',
+    third: '#fffad6'
+  }
+
   const scene = new THREE.Scene()
   let animationId 
 
@@ -83,7 +89,6 @@ export function createScene({ canvas, orbitSpeedRef }) {
     (gltf) => {
       const tv = gltf.scene
 
-      // scale + position (you WILL tweak these)
       tv.scale.set(1, 1, 1)
       tv.position.set(0.7, 0.25, 1)
 
@@ -105,7 +110,7 @@ export function createScene({ canvas, orbitSpeedRef }) {
   const tvFace = new THREE.Mesh(
       new THREE.PlaneGeometry(2.5, 1.7), 
       new THREE.MeshStandardMaterial({
-        color: 'black',
+        color: new THREE.Color('#004cff'),
         emissive: new THREE.Color('#004cff'),
         emissiveIntensity: 0.5,
       })
@@ -114,22 +119,103 @@ export function createScene({ canvas, orbitSpeedRef }) {
 
   scene.add(tvFace)
 
-  // tvFace.material.color.set('red')
+  const raycaster = new THREE.Raycaster()
+  const mouse = new THREE.Vector2()
 
-  const video = document.createElement('video')
-  video.src = './videos/test.mp4'
-  video.loop = true
-  video.muted = true
-  video.playsInline = true
+  let hoveredOrb = null
+  let activeVideo = null
+  let videoTexture = null
 
-  const videoTexture = new THREE.VideoTexture(video)
+  function playMemoryVideo(memory) {
+    console.log('playv video')
 
-  tvFace.material.map = videoTexture
-  tvFace.material.emissiveMap = videoTexture
-  tvFace.material.emissiveIntensity = 1.5
-  tvFace.material.needsUpdate = true
+    if (activeVideo) {
+      const currentVideoSrc = activeVideo.src
 
-  video.play()
+      // if same 
+      if (currentVideoSrc.includes(memory.video)) {
+          return
+      }
+    }
+
+    stopVideo()
+
+    const video = document.createElement('video')
+    video.src = memory.video
+    video.muted = true
+    video.loop = true
+    video.playsInline = true
+
+    video.addEventListener('loadeddata', () => {
+      videoTexture = new THREE.VideoTexture(video)
+      videoTexture.colorSpace = THREE.SRGBColorSpace
+    
+      tvFace.material.map = videoTexture
+      tvFace.material.emissiveMap = videoTexture
+
+      tvFace.material.emissive.set(memory.color)
+      tvFace.material.emissiveIntensity = 1.5
+
+      tvFace.material.needsUpdate = true
+
+      video.play()
+    })
+
+    activeVideo = video
+  }
+
+  function stopVideo() {
+    if (activeVideo) {
+      activeVideo.pause()
+      activeVideo.src = ''
+      activeVideo.load()
+      activeVideo = null
+    }
+
+    if (videoTexture) {
+      videoTexture.dispose()
+      videoTexture = null
+    }
+    tvFace.material.map = null
+    tvFace.material.emissiveMap = null
+    tvFace.material.emissive = new THREE.Color('#004cff')
+    tvFace.material.emissiveIntensity = 0.5
+    tvFace.material.needsUpdate = true
+  }
+
+  window.addEventListener('mousemove', onHover)
+
+  function onHover(event) {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+
+    raycaster.setFromCamera(mouse, camera)
+
+    const intersects = raycaster.intersectObjects(orbGroup.children, true)
+
+    if (intersects.length > 0) {
+      let orb = intersects[0].object
+
+      while (orb.parent && !orb.userData?.radius) {
+        orb = orb.parent
+      }
+
+      if (hoveredOrb !== orb) {
+        if (hoveredOrb) {
+          hoveredOrb.userData.isHovered = false
+        }
+
+        hoveredOrb = orb
+        orb.userData.isHovered = true
+
+        playMemoryVideo(orb.userData)
+      }
+    } else if (hoveredOrb) {
+      hoveredOrb.userData.isHovered = false
+      hoveredOrb = null
+      stopVideo()
+    }
+  }
 
 
   // Ambient light
@@ -173,7 +259,8 @@ export function createScene({ canvas, orbitSpeedRef }) {
         opacity: 0.9,
         metalness: 1,
         roughness: 0.5,
-        emissive: new THREE.Color(color),
+        // emissive: new THREE.Color(color),
+        emissive: OrbColors.base,
         emissiveIntensity: 0.3
       })
 
@@ -189,13 +276,15 @@ export function createScene({ canvas, orbitSpeedRef }) {
           floatSpeed: 0.5 + Math.random(),
           floatHeight: 0.2 + Math.random() * 0.3,
           baseY: 2, 
-          phase: Math.random() * Math.PI * 2
+          phase: Math.random() * Math.PI * 2, 
+          isHovered: false,
     }
 
       const glow = new THREE.Mesh(
           orbShape,
           new THREE.MeshBasicMaterial({
-              color,
+              // color,
+              color:OrbColors.secondary,
               transparent: true,
               opacity: 0.16,
               blending: THREE.AdditiveBlending,
@@ -206,11 +295,11 @@ export function createScene({ canvas, orbitSpeedRef }) {
       glow.scale.set(1.25, 1.25, 1.25)
       orb.add(glow)
 
-
       const glowOuter = new THREE.Mesh(
           orbShape,
           new THREE.MeshBasicMaterial({
-              color,
+              // color,
+               color: OrbColors.third,
               transparent: true,
               opacity: 0.1,
               blending: THREE.AdditiveBlending,
@@ -220,11 +309,15 @@ export function createScene({ canvas, orbitSpeedRef }) {
       glowOuter.scale.set(1.7, 1.7, 1.7)
       orb.add(glowOuter)
 
-      const lightGlow = new THREE.PointLight(color, 6)
-      lightGlow.castShadow = true
+      const lightGlow = new THREE.PointLight(OrbColors.base, 6)
+      // lightGlow.castShadow = true
       orb.add(lightGlow)
 
       orbGroup.add(orb)
+
+      orb.userData.glow = glow
+      orb.userData.glowOuter = glowOuter
+      orb.userData.lightGlow = lightGlow
   }
 
   scene.add(orbGroup)
@@ -236,26 +329,53 @@ export function createScene({ canvas, orbitSpeedRef }) {
 
     for (const orb of orbGroup.children) {
       const d = orb.userData
+      const glow = d.glow
+      const glowOuter = d.glowOuter
+      const lightGlow = d.lightGlow
 
-      // Orbit
-      d.angle += d.speed * 0.01 * orbitSpeedRef.current
+      const pulse = 0.5 + Math.sin(elapsedTime * 2 + d.phase) * 0.5
 
-      orb.position.x = Math.cos(d.angle+ d.phase) * d.radius
-      orb.position.z = Math.sin(d.angle+ d.phase) * d.radius
+      if (d.isHovered) {
+        orb.material.emissive.set(d.color)
+        orb.material.emissiveIntensity = 0.9
 
-      // Vertical float
+        glow.material.color.set(d.color)
+        glowOuter.material.color.set(d.color)
+
+        glow.material.opacity = 0.25 + pulse * 0.1
+        glowOuter.material.opacity = 0.18 + pulse * 0.08
+
+        glow.scale.setScalar(1.3 + pulse * 0.05)
+        glowOuter.scale.setScalar(1.75 + pulse * 0.08)
+
+        lightGlow.color.set(d.color)
+      } 
+      else {
+        orb.material.emissive.set(OrbColors.base)
+        orb.material.emissiveIntensity = 0.5
+
+        glow.material.color.set(OrbColors.secondary)
+        glowOuter.material.color.set(OrbColors.secondary)
+
+        glow.material.opacity = 0.12 + pulse * 0.05
+        glowOuter.material.opacity = 0.08 + pulse * 0.04
+
+        glow.scale.setScalar(1.25 + pulse * 0.03)
+        glowOuter.scale.setScalar(1.7 + pulse * 0.05)
+
+        lightGlow.color.set(OrbColors.base)
+
+        d.angle += d.speed * 0.01 * orbitSpeedRef.current
+      }
+
+      orb.position.x = Math.cos(d.angle + d.phase) * d.radius
+      orb.position.z = Math.sin(d.angle + d.phase) * d.radius
       orb.position.y =
         d.baseY +
         Math.sin(elapsedTime * d.floatSpeed + d.angle + d.phase) *
         d.floatHeight
+      }
 
-      // pulse light 
-      const pulse = 0.5 + Math.sin(elapsedTime * 2 + d.phase) * 0.5
-      orb.material.emissiveIntensity = 0.8 + pulse * 0.3
-      orb.children[0].material.opacity = 0.04 + pulse * 0.03
-      orb.children[1].material.opacity = 0.02 + pulse * 0.02
-
-    }
 
     renderer.render(scene, camera)
     animationId = requestAnimationFrame(tick)
