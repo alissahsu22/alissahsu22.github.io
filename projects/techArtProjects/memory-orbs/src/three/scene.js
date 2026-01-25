@@ -150,7 +150,7 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
     video.muted = true
     video.loop = true
     video.playsInline = true
-    video.preload = 'none'
+    // video.preload = 'none'
 
     video.addEventListener('loadeddata', () => {
       videoTexture = new THREE.VideoTexture(video)
