@@ -1,4 +1,9 @@
 const projects = {
+    'Memory-orbs (Three.JS)':{
+        url: 'https://alissahsu22-github-io.vercel.app/',
+        skills: 'three.js, react',
+        description: 'click on the orbs to activate a memory'
+    },
      'Are We Together In Every Universe? (Experience Design)':{
         url: '../projects/techArtProjects/AreWeTg_exp/experience.pdf',
         skills: 'Canva, TouchDesigner',
