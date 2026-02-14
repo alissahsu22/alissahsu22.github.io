@@ -328,10 +328,24 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
 
   scene.add(orbGroup)
 
-  const tick = () =>
-  {
+const tick = () => {
     controls.update()
     const elapsedTime = clock.getElapsedTime()
+
+    let hoveredColor = null
+    for (const orb of orbGroup.children) {
+      if (orb.userData.isHovered) {
+        hoveredColor = orb.userData.color
+        break
+      }
+    }
+
+    const lightColor = hoveredColor ?? '#ffffff'
+    ambientLight.color.set(lightColor)
+    directionalLight.color.set(lightColor)
+
+    ambientLight.intensity = hoveredColor ? 0.65 : 0.5
+    directionalLight.intensity = hoveredColor ? 1.7 : 1.5
 
     for (const orb of orbGroup.children) {
       const d = orb.userData
@@ -341,35 +355,28 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
 
       const pulse = 0.5 + Math.sin(elapsedTime * 2 + d.phase) * 0.5
 
+      const emissiveColor = d.isHovered ? d.color : OrbColors.base
+      const glowColor     = d.isHovered ? d.color : OrbColors.secondary
+      const outerColor    = d.isHovered ? d.color : OrbColors.third
+
+      orb.material.emissive.set(emissiveColor)
+      orb.material.emissiveIntensity = d.isHovered ? 0.9 : 0.5
+
+      glow.material.color.set(glowColor)
+      glowOuter.material.color.set(outerColor)
+
+      lightGlow.color.set(d.isHovered ? d.color : OrbColors.base)
+
       if (d.isHovered) {
-        orb.material.emissive.set(d.color)
-        orb.material.emissiveIntensity = 0.9
-
-        glow.material.color.set(d.color)
-        glowOuter.material.color.set(d.color)
-
         glow.material.opacity = 0.25 + pulse * 0.1
         glowOuter.material.opacity = 0.18 + pulse * 0.08
-
         glow.scale.setScalar(1.3 + pulse * 0.05)
         glowOuter.scale.setScalar(1.75 + pulse * 0.08)
-
-        lightGlow.color.set(d.color)
-      } 
-      else {
-        orb.material.emissive.set(OrbColors.base)
-        orb.material.emissiveIntensity = 0.5
-
-        glow.material.color.set(OrbColors.secondary)
-        glowOuter.material.color.set(OrbColors.secondary)
-
+      } else {
         glow.material.opacity = 0.12 + pulse * 0.05
         glowOuter.material.opacity = 0.08 + pulse * 0.04
-
         glow.scale.setScalar(1.25 + pulse * 0.03)
         glowOuter.scale.setScalar(1.7 + pulse * 0.05)
-
-        lightGlow.color.set(OrbColors.base)
 
         d.angle += d.speed * 0.01 * orbitSpeedRef.current
       }
@@ -380,12 +387,11 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
         d.baseY +
         Math.sin(elapsedTime * d.floatSpeed + d.angle + d.phase) *
         d.floatHeight
-      }
-
+    }
 
     renderer.render(scene, camera)
     animationId = requestAnimationFrame(tick)
-  }
+}
 
   tick()
 
