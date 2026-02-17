@@ -1,28 +1,39 @@
 import { useState } from 'react'
-import './App.css'
-import SceneCanvas from './SceneCanvas.jsx'
-import ControlsPanel from './ControlsPanel.jsx'
-import LoadingOverlay from './LoadingOverlay.jsx'
+import SceneCanvas from './SceneCanvas'
+import ControlsPanel from './ControlsPanel'
 
-function App() {
+export default function App() {
   const [orbitSpeed, setOrbitSpeed] = useState(1)
-  const [isLoaded, setIsLoaded] = useState(false)
+
+  const [fogEnabled, setFogEnabled] = useState(true)
+  const [fogDensity, setFogDensity] = useState(0.025)
+
+  const [floatiness, setFloatiness] = useState(1) 
+  const [glowStrength, setGlowStrength] = useState(1.5) 
 
   return (
     <>
-      {!isLoaded && <LoadingOverlay />}
-
       <SceneCanvas
         orbitSpeed={orbitSpeed}
-        onLoaded={() => setIsLoaded(true)}
+        fogEnabled={fogEnabled}
+        fogDensity={fogDensity}
+        floatiness={floatiness}
+        glowStrength={glowStrength}
       />
 
       <ControlsPanel
         orbitSpeed={orbitSpeed}
         setOrbitSpeed={setOrbitSpeed}
+        fogEnabled={fogEnabled}
+        setFogEnabled={setFogEnabled}
+        fogDensity={fogDensity}
+        setFogDensity={setFogDensity}
+        floatiness={floatiness}
+        setFloatiness={setFloatiness}
+        glowStrength={glowStrength}
+        setGlowStrength={setGlowStrength}
       />
     </>
   )
 }
 
-export default App

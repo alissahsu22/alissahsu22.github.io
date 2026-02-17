@@ -3,12 +3,14 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { memories } from './data.js'
 
-export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
+export function createScene({ canvas, controlsRef, onLoaded }) {
   if (!canvas) return
 
+  const getParams = () => controlsRef?.current
+
   const sizes = {
-      width: window.innerWidth,
-      height: window.innerHeight
+    width: window.innerWidth,
+    height: window.innerHeight
   }
 
   const OrbColors = {
@@ -18,82 +20,82 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
   }
 
   const scene = new THREE.Scene()
-  let animationId 
+  let animationId
 
-  // scene.fog = new THREE.FogExp2('#020208', 0.06)
-
+  // Camera
   const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-  camera.position.x = 4
-  camera.position.y = 6
-  camera.position.z = 13
+  camera.position.set(4, 6, 13)
   scene.add(camera)
 
-  const renderer = new THREE.WebGLRenderer({
-      canvas: canvas
-  })
-
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ canvas })
   renderer.setSize(sizes.width, sizes.height)
   renderer.setPixelRatio(Math.min(2, window.devicePixelRatio))
   renderer.outputColorSpace = THREE.SRGBColorSpace
   renderer.shadowMap.enabled = true
   renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
-  const controls = new OrbitControls(camera, renderer.domElement)
-  const loadingManager = new THREE.LoadingManager()
+  scene.fog = new THREE.FogExp2('#020208', 0.025)
+  renderer.setClearColor('#020208', 1)
 
+  // Controls
+  const orbitControls = new OrbitControls(camera, renderer.domElement)
+  orbitControls.enableDamping = true
+
+  // Loading manager
+  const loadingManager = new THREE.LoadingManager()
   loadingManager.onLoad = () => {
     console.log('All assets loaded')
-    if (onLoaded) onLoaded()
+    onLoaded?.()
   }
 
   const textureLoader = new THREE.TextureLoader(loadingManager)
   const gltfLoader = new GLTFLoader(loadingManager)
 
+  // ---------- Textures / Floor ----------
   const floorAlpha = textureLoader.load('/textures/floor/alpha.jpg')
-  const floorColorTexture = textureLoader.load('/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.jpg')
-  const floorARMTexture = textureLoader.load('/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.jpg')
-  const floorNormalTexture = textureLoader.load('/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.png')
-  const floorDisplacementTexture = textureLoader.load('/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.png')
+  const floorColorTexture = textureLoader.load(
+    '/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_diff_1k.jpg'
+  )
+  const floorARMTexture = textureLoader.load(
+    '/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_arm_1k.jpg'
+  )
+  const floorNormalTexture = textureLoader.load(
+    '/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_nor_gl_1k.png'
+  )
+  const floorDisplacementTexture = textureLoader.load(
+    '/textures/floor/coast_sand_rocks_02_1k/coast_sand_rocks_02_disp_1k.png'
+  )
+
   floorColorTexture.colorSpace = THREE.SRGBColorSpace
 
-  floorColorTexture.repeat.set(8, 8)
-  floorARMTexture.repeat.set(8, 8)
-  floorNormalTexture.repeat.set(8, 8)
-  floorDisplacementTexture.repeat.set(8, 8)
-
-  floorColorTexture.wrapS = THREE.RepeatWrapping
-  floorARMTexture.wrapS = THREE.RepeatWrapping
-  floorNormalTexture.wrapS = THREE.RepeatWrapping
-  floorDisplacementTexture.wrapS = THREE.RepeatWrapping
-
-  floorColorTexture.wrapT = THREE.RepeatWrapping
-  floorARMTexture.wrapT = THREE.RepeatWrapping
-  floorNormalTexture.wrapT = THREE.RepeatWrapping
-  floorDisplacementTexture.wrapT = THREE.RepeatWrapping
+  for (const tex of [floorColorTexture, floorARMTexture, floorNormalTexture, floorDisplacementTexture]) {
+    tex.repeat.set(8, 8)
+    tex.wrapS = THREE.RepeatWrapping
+    tex.wrapT = THREE.RepeatWrapping
+  }
 
   const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(20,20,100,100),
-      new THREE.MeshStandardMaterial({
-          alphaMap:floorAlpha,
-          map:floorColorTexture,
-          transparent:true,
-          // aoMap: floorARMTexture,
-          roughnessMap: floorARMTexture,
-          // metalnessMap: floorARMTexture,
-          normalMap: floorNormalTexture,
-          displacementMap: floorDisplacementTexture,
-          displacementScale: 0.3,
-      })
+    new THREE.PlaneGeometry(20, 20, 100, 100),
+    new THREE.MeshStandardMaterial({
+      alphaMap: floorAlpha,
+      map: floorColorTexture,
+      transparent: true,
+      roughnessMap: floorARMTexture,
+      normalMap: floorNormalTexture,
+      displacementMap: floorDisplacementTexture,
+      displacementScale: 0.3
+    })
   )
   floor.rotation.x = -Math.PI * 0.5
   floor.receiveShadow = true
   scene.add(floor)
 
+  // ---------- TV Model ----------
   gltfLoader.load(
     '/models/old-tv/tv-final.glb',
     (gltf) => {
       const tv = gltf.scene
-
       tv.scale.set(1, 1, 1)
       tv.position.set(0.7, 0.25, 1)
 
@@ -112,18 +114,18 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
     }
   )
 
-  const tvFace = new THREE.Mesh(
-      new THREE.PlaneGeometry(2.5, 1.7), 
-      new THREE.MeshStandardMaterial({
-        color: new THREE.Color('#004cff'),
-        emissive: new THREE.Color('#004cff'),
-        emissiveIntensity: 0.5,
-      })
-  )
-  tvFace.position.set(0.7, 1.6, 2.141) 
+  // TV screen plane
+  const tvFaceMaterial = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#004cff'),
+    emissive: new THREE.Color('#004cff'),
+    emissiveIntensity: 0.5
+  })
 
+  const tvFace = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.7), tvFaceMaterial)
+  tvFace.position.set(0.7, 1.6, 2.141)
   scene.add(tvFace)
 
+  // ---------- Raycasting / Hover / Video ----------
   const raycaster = new THREE.Raycaster()
   const mouse = new THREE.Vector2()
 
@@ -131,48 +133,11 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
   let activeVideo = null
   let videoTexture = null
 
-  function playMemoryVideo(memory) {
-    console.log('playv video')
-
-    if (activeVideo) {
-      const currentVideoSrc = activeVideo.src
-
-      // if same 
-      if (currentVideoSrc.includes(memory.video)) {
-          return
-      }
-    }
-
-    stopVideo()
-
-    const video = document.createElement('video')
-    video.src = memory.video
-    video.muted = true
-    video.loop = true
-    video.playsInline = true
-    // video.preload = 'none'
-
-    video.addEventListener('loadeddata', () => {
-      videoTexture = new THREE.VideoTexture(video)
-      videoTexture.colorSpace = THREE.SRGBColorSpace
-    
-      tvFace.material.map = videoTexture
-      tvFace.material.emissiveMap = videoTexture
-
-      tvFace.material.emissive.set(memory.color)
-      tvFace.material.emissiveIntensity = 1.5
-
-      tvFace.material.needsUpdate = true
-
-      video.play()
-    })
-
-    activeVideo = video
-  }
-
   function stopVideo() {
     if (activeVideo) {
-      activeVideo.pause()
+      try {
+        activeVideo.pause()
+      } catch {}
       activeVideo.src = ''
       activeVideo.load()
       activeVideo = null
@@ -182,18 +147,139 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
       videoTexture.dispose()
       videoTexture = null
     }
-    tvFace.material.map = null
-    tvFace.material.emissiveMap = null
-    tvFace.material.emissive = new THREE.Color('#004cff')
-    tvFace.material.emissiveIntensity = 0.5
-    tvFace.material.needsUpdate = true
+
+    tvFaceMaterial.map = null
+    tvFaceMaterial.emissiveMap = null
+    tvFaceMaterial.emissive.set('#004cff')
+    tvFaceMaterial.emissiveIntensity = 0.5
+    tvFaceMaterial.needsUpdate = true
   }
 
-  window.addEventListener('mousemove', onHover)
+  function playMemoryVideo(memory) {
+    if (activeVideo && activeVideo.dataset.key === memory.video) return
+
+    stopVideo()
+
+    const video = document.createElement('video')
+    video.src = memory.video
+    video.dataset.key = memory.video
+    video.muted = true
+    video.loop = true
+    video.playsInline = true
+    video.crossOrigin = 'anonymous'
+
+    const onLoadedData = () => {
+      video.removeEventListener('loadeddata', onLoadedData)
+
+      videoTexture = new THREE.VideoTexture(video)
+      videoTexture.colorSpace = THREE.SRGBColorSpace
+
+      tvFaceMaterial.map = videoTexture
+      tvFaceMaterial.emissiveMap = videoTexture
+      tvFaceMaterial.emissive.set(memory.color)
+      tvFaceMaterial.emissiveIntensity = 1.5
+      tvFaceMaterial.needsUpdate = true
+
+      video.play().catch(() => {
+
+      })
+    }
+
+    video.addEventListener('loadeddata', onLoadedData)
+    activeVideo = video
+  }
+
+  // ---------- Lights ----------
+  const ambientLight = new THREE.AmbientLight('#ffffff', 0.5)
+  scene.add(ambientLight)
+
+  const directionalLight = new THREE.DirectionalLight('#ffffff', 1.5)
+  directionalLight.castShadow = true
+  directionalLight.position.set(3, 2, -8)
+  scene.add(directionalLight)
+
+  // ---------- Orbs ----------
+  const orbShape = new THREE.SphereGeometry(0.5, 32, 32)
+  const orbGroup = new THREE.Group()
+  scene.add(orbGroup)
+
+  for (const key in memories) {
+    const { name, color, video } = memories[key]
+
+    const material = new THREE.MeshStandardMaterial({
+      color: '#ffffff',
+      transparent: true,
+      opacity: 0.9,
+      metalness: 1,
+      roughness: 0.5,
+      emissive: new THREE.Color(OrbColors.base),
+      emissiveIntensity: 0.3,
+      depthWrite: false,    
+    })
+
+    const orb = new THREE.Mesh(orbShape, material)
+
+    orb.userData = {
+      name,
+      color,
+      video,
+      radius: 5 + Math.random() * 1.5,
+      angle: Math.random() * Math.PI * 2,
+      speed: 0.2 + Math.random() * 0.8,
+      floatSpeed: 0.5 + Math.random(),
+      floatHeight: 0.2 + Math.random() * 0.3,
+      baseY: 2,
+      phase: Math.random() * Math.PI * 2,
+      isHovered: false,
+      glow: null,
+      glowOuter: null,
+      lightGlow: null
+    }
+
+    const glow = new THREE.Mesh(
+      orbShape,
+      new THREE.MeshBasicMaterial({
+        color: new THREE.Color(OrbColors.secondary),
+        transparent: true,
+        opacity: 0.16,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      })
+    )
+    glow.scale.set(1.25, 1.25, 1.25)
+    orb.add(glow)
+
+    const glowOuter = new THREE.Mesh(
+      orbShape,
+      new THREE.MeshBasicMaterial({
+        color: new THREE.Color(OrbColors.third),
+        transparent: true,
+        opacity: 0.1,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      })
+    )
+    glowOuter.scale.set(1.7, 1.7, 1.7)
+    orb.add(glowOuter)
+
+    const lightGlow = new THREE.PointLight(OrbColors.base, 6)
+    orb.add(lightGlow)
+
+    orb.userData.glow = glow
+    orb.userData.glowOuter = glowOuter
+    orb.userData.lightGlow = lightGlow
+
+    orb.renderOrder = 1
+    glow.renderOrder = 2
+    glowOuter.renderOrder = 3
+
+    orbGroup.add(orb)
+  }
 
   function onHover(event) {
-    mouse.x = (event.clientX / sizes.width) * 2 - 1
-    mouse.y = -(event.clientY / sizes.height) * 2 + 1
+    const rect = renderer.domElement.getBoundingClientRect()
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1
+    mouse.y = -(((event.clientY - rect.top) / rect.height) * 2 - 1)
 
     raycaster.setFromCamera(mouse, camera)
 
@@ -207,14 +293,12 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
       }
 
       if (hoveredOrb !== orb) {
-        if (hoveredOrb) {
-          hoveredOrb.userData.isHovered = false
-        }
+        if (hoveredOrb) hoveredOrb.userData.isHovered = false
 
         hoveredOrb = orb
-        orb.userData.isHovered = true
+        hoveredOrb.userData.isHovered = true
 
-        playMemoryVideo(orb.userData)
+        playMemoryVideo(hoveredOrb.userData)
       }
     } else if (hoveredOrb) {
       hoveredOrb.userData.isHovered = false
@@ -223,18 +307,9 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
     }
   }
 
+  window.addEventListener('mousemove', onHover)
 
-  // Ambient light
-  const ambientLight = new THREE.AmbientLight('#ffffff', 0.5)
-  scene.add(ambientLight)
-
-  // Directional light
-  const directionalLight = new THREE.DirectionalLight('#ffffff', 1.5)
-  directionalLight.castShadow = true
-  directionalLight.position.set(3, 2, -8)
-  scene.add(directionalLight)
-
-  const onResize = () => {
+  function onResize() {
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
 
@@ -247,172 +322,133 @@ export function createScene({ canvas, orbitSpeedRef, onLoaded }) {
 
   window.addEventListener('resize', onResize)
 
-
+  // ---------- Animation loop ----------
   const clock = new THREE.Clock()
 
-  const orbShape = new THREE.SphereGeometry(0.5)
+  const DEFAULT_PARAMS = {
+    fogEnabled: true,
+    fogDensity: 0.025,
+    glowStrength: 1,
+    orbitSpeed: 1,
+    floatiness: 1
+  }
+const tick = () => {
+  const time = clock.getElapsedTime()
+  orbitControls.update()
 
-  const orbGroup = new THREE.Group()
+  const params = getParams() ?? DEFAULT_PARAMS
 
-  // poss can make orbs red? (scarier)
-  
-  for(const key in memories){
-      const {name, color, video} = memories[key]
-
-      const material = new THREE.MeshStandardMaterial({
-        color: '#ffffff',
-        transparent: true, 
-        opacity: 0.9,
-        metalness: 1,
-        roughness: 0.5,
-        // emissive: new THREE.Color(color),
-        emissive: OrbColors.base,
-        emissiveIntensity: 0.3
-      })
-
-
-      const orb = new THREE.Mesh(orbShape, material)
-      orb.userData = {
-          name: name, 
-          color: color, 
-          video: video, 
-          radius: 5 + Math.random() * 1.5,
-          angle: Math.random() * Math.PI * 2,
-          speed: 0.2 + Math.random() * 0.8,
-          floatSpeed: 0.5 + Math.random(),
-          floatHeight: 0.2 + Math.random() * 0.3,
-          baseY: 2, 
-          phase: Math.random() * Math.PI * 2, 
-          isHovered: false,
-    }
-
-      const glow = new THREE.Mesh(
-          orbShape,
-          new THREE.MeshBasicMaterial({
-              // color,
-              color:OrbColors.secondary,
-              transparent: true,
-              opacity: 0.16,
-              blending: THREE.AdditiveBlending,
-              depthWrite: false
-          })
-      )
-      
-      glow.scale.set(1.25, 1.25, 1.25)
-      orb.add(glow)
-
-      const glowOuter = new THREE.Mesh(
-          orbShape,
-          new THREE.MeshBasicMaterial({
-              // color,
-               color: OrbColors.third,
-              transparent: true,
-              opacity: 0.1,
-              blending: THREE.AdditiveBlending,
-              depthWrite: false
-          })
-      )
-      glowOuter.scale.set(1.7, 1.7, 1.7)
-      orb.add(glowOuter)
-
-      const lightGlow = new THREE.PointLight(OrbColors.base, 6)
-      // lightGlow.castShadow = true
-      orb.add(lightGlow)
-
-      orbGroup.add(orb)
-
-      orb.userData.glow = glow
-      orb.userData.glowOuter = glowOuter
-      orb.userData.lightGlow = lightGlow
+  if (params.fogEnabled) {
+    if (!scene.fog) scene.fog = new THREE.FogExp2('#020208', params.fogDensity)
+    scene.fog.density = params.fogDensity
+  } else {
+    scene.fog = null
   }
 
-  scene.add(orbGroup)
+  const hoveredColor = hoveredOrb?.userData?.color ?? null
+  const lightColor = hoveredColor ?? '#ffffff'
 
-const tick = () => {
-    controls.update()
-    const elapsedTime = clock.getElapsedTime()
+  ambientLight.color.set(lightColor)
+  directionalLight.color.set(lightColor)
 
-    let hoveredColor = null
-    for (const orb of orbGroup.children) {
-      if (orb.userData.isHovered) {
-        hoveredColor = orb.userData.color
-        break
-      }
+  ambientLight.intensity = hoveredColor ? 0.65 : 0.5
+  directionalLight.intensity = hoveredColor ? 1.7 : 1.5
+
+  const glowMult = params.glowStrength
+
+  for (const orb of orbGroup.children) {
+    const d = orb.userData
+    const glow = d.glow
+    const glowOuter = d.glowOuter
+    const lightGlow = d.lightGlow
+
+    const pulse = 0.5 + Math.sin(time * 2 + d.phase) * 0.5
+
+    const emissiveColor = d.isHovered ? d.color : OrbColors.base
+    const glowColor     = d.isHovered ? d.color : OrbColors.secondary
+    const outerColor    = d.isHovered ? d.color : OrbColors.third
+
+    orb.material.emissive.set(emissiveColor)
+    orb.material.emissiveIntensity = d.isHovered ? 0.9 : 0.5
+
+    glow.material.color.set(glowColor)
+    glowOuter.material.color.set(outerColor)
+
+    lightGlow.color.set(d.isHovered ? d.color : OrbColors.base)
+
+    // Original baseline glow, but multiplied by slider ALWAYS
+    const inner = (0.12 + pulse * 0.05) * glowMult
+    const outer = (0.08 + pulse * 0.04) * glowMult
+
+    glow.material.opacity = inner
+    glowOuter.material.opacity = outer
+
+    // Keep original scale feel; slightly boost with glowStrength so it’s visible
+    if (d.isHovered) {
+      glow.scale.setScalar(1.3 + pulse * 0.05 + glowMult * 0.02)
+      glowOuter.scale.setScalar(1.75 + pulse * 0.08 + glowMult * 0.03)
+    } else {
+      glow.scale.setScalar(1.25 + pulse * 0.03 + glowMult * 0.02)
+      glowOuter.scale.setScalar(1.7 + pulse * 0.05 + glowMult * 0.03)
+
+      d.angle += d.speed * 0.01 * params.orbitSpeed
     }
 
-    const lightColor = hoveredColor ?? '#ffffff'
-    ambientLight.color.set(lightColor)
-    directionalLight.color.set(lightColor)
+    // Make the point light respond a bit too (helps “glow” feel without bloom)
+    lightGlow.intensity = (d.isHovered ? 8 : 6) * (0.6 + glowMult * 0.5)
 
-    ambientLight.intensity = hoveredColor ? 0.65 : 0.5
-    directionalLight.intensity = hoveredColor ? 1.7 : 1.5
+    // Orbit
+    orb.position.x = Math.cos(d.angle + d.phase) * d.radius
+    orb.position.z = Math.sin(d.angle + d.phase) * d.radius
 
-    for (const orb of orbGroup.children) {
-      const d = orb.userData
-      const glow = d.glow
-      const glowOuter = d.glowOuter
-      const lightGlow = d.lightGlow
+    // Float
+    orb.position.y =
+      d.baseY +
+      Math.sin(time * d.floatSpeed + d.phase) *
+      (d.floatHeight * params.floatiness)
+  }
 
-      const pulse = 0.5 + Math.sin(elapsedTime * 2 + d.phase) * 0.5
-
-      const emissiveColor = d.isHovered ? d.color : OrbColors.base
-      const glowColor     = d.isHovered ? d.color : OrbColors.secondary
-      const outerColor    = d.isHovered ? d.color : OrbColors.third
-
-      orb.material.emissive.set(emissiveColor)
-      orb.material.emissiveIntensity = d.isHovered ? 0.9 : 0.5
-
-      glow.material.color.set(glowColor)
-      glowOuter.material.color.set(outerColor)
-
-      lightGlow.color.set(d.isHovered ? d.color : OrbColors.base)
-
-      if (d.isHovered) {
-        glow.material.opacity = 0.25 + pulse * 0.1
-        glowOuter.material.opacity = 0.18 + pulse * 0.08
-        glow.scale.setScalar(1.3 + pulse * 0.05)
-        glowOuter.scale.setScalar(1.75 + pulse * 0.08)
-      } else {
-        glow.material.opacity = 0.12 + pulse * 0.05
-        glowOuter.material.opacity = 0.08 + pulse * 0.04
-        glow.scale.setScalar(1.25 + pulse * 0.03)
-        glowOuter.scale.setScalar(1.7 + pulse * 0.05)
-
-        d.angle += d.speed * 0.01 * orbitSpeedRef.current
-      }
-
-      orb.position.x = Math.cos(d.angle + d.phase) * d.radius
-      orb.position.z = Math.sin(d.angle + d.phase) * d.radius
-      orb.position.y =
-        d.baseY +
-        Math.sin(elapsedTime * d.floatSpeed + d.angle + d.phase) *
-        d.floatHeight
-    }
-
-    renderer.render(scene, camera)
-    animationId = requestAnimationFrame(tick)
+  renderer.render(scene, camera)
+  animationId = requestAnimationFrame(tick)
 }
+
 
   tick()
 
+  // ---------- Cleanup ----------
   return () => {
     cancelAnimationFrame(animationId)
-    window.removeEventListener('resize', onResize)
 
-    controls.dispose()
+    window.removeEventListener('resize', onResize)
+    window.removeEventListener('mousemove', onHover)
+
+    stopVideo()
+
+    orbitControls.dispose()
     renderer.dispose()
 
-    scene.traverse(obj => {
+    scene.traverse((obj) => {
       if (obj.geometry) obj.geometry.dispose()
+
       if (obj.material) {
         if (Array.isArray(obj.material)) {
-          obj.material.forEach(m => m.dispose())
+          obj.material.forEach((m) => m.dispose())
         } else {
           obj.material.dispose()
         }
       }
     })
-  }
 
+    for (const tex of [
+      floorAlpha,
+      floorColorTexture,
+      floorARMTexture,
+      floorNormalTexture,
+      floorDisplacementTexture
+    ]) {
+      tex?.dispose?.()
+    }
+  }
 }
+
 

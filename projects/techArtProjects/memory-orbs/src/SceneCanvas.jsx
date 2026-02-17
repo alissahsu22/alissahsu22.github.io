@@ -1,37 +1,43 @@
-import { createScene } from './three/scene.js'
 import { useEffect, useRef } from 'react'
+import { createScene } from './three/scene'
 
-function SceneCanvas({ orbitSpeed, onLoaded }) {
+export default function SceneCanvas({
+  orbitSpeed,
+  fogEnabled,
+  fogDensity,
+  floatiness,
+  glowStrength,
+}) {
   const canvasRef = useRef(null)
-  const orbitSpeedRef = useRef(orbitSpeed)
+
+  const controlsRef = useRef({
+    orbitSpeed,
+    fogEnabled,
+    fogDensity,
+    floatiness,
+    glowStrength,
+  })
 
   useEffect(() => {
-    orbitSpeedRef.current = orbitSpeed
-  }, [orbitSpeed])
+    controlsRef.current = {
+      orbitSpeed,
+      fogEnabled,
+      fogDensity,
+      floatiness,
+      glowStrength,
+    }
+  }, [orbitSpeed, fogEnabled, fogDensity, floatiness, glowStrength])
 
   useEffect(() => {
     if (!canvasRef.current) return
 
     const cleanup = createScene({
       canvas: canvasRef.current,
-      orbitSpeedRef,
-      onLoaded   
+      controlsRef,
     })
 
     return cleanup
   }, [])
 
-  return (
-    <canvas
-      ref={canvasRef}
-      id="webgl"
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'block'
-      }}
-    />
-  )
+  return <canvas ref={canvasRef} style={{ width: '100%', height: '100%', display: 'block' }} />
 }
-
-export default SceneCanvas
