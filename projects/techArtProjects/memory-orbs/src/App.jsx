@@ -4,12 +4,12 @@ import ControlsPanel from './ControlsPanel'
 
 export default function App() {
   const [orbitSpeed, setOrbitSpeed] = useState(1)
-
   const [fogEnabled, setFogEnabled] = useState(true)
   const [fogDensity, setFogDensity] = useState(0.025)
+  const [floatiness, setFloatiness] = useState(1)
+  const [glowStrength, setGlowStrength] = useState(1)
 
-  const [floatiness, setFloatiness] = useState(1) 
-  const [glowStrength, setGlowStrength] = useState(1.5) 
+  const [panelOpen, setPanelOpen] = useState(true) 
 
   return (
     <>
@@ -32,8 +32,9 @@ export default function App() {
         setFloatiness={setFloatiness}
         glowStrength={glowStrength}
         setGlowStrength={setGlowStrength}
+        panelOpen={panelOpen}
+        setPanelOpen={setPanelOpen}
       />
     </>
   )
 }
-
