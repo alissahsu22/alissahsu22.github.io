@@ -44,9 +44,10 @@ export function createScene({ canvas, controlsRef, onLoaded }) {
 
   // Loading manager
   const loadingManager = new THREE.LoadingManager()
+  
   loadingManager.onLoad = () => {
     console.log('All assets loaded')
-    onLoaded?.()
+    if (onLoaded) onLoaded()
   }
 
   const textureLoader = new THREE.TextureLoader(loadingManager)

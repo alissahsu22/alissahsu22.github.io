@@ -41,21 +41,35 @@ export default function ControlsPanel({
             />
           </div>
 
-          <div className={`row ${!fogEnabled ? 'disabled' : ''}`}>
+          <div className="row">
             <div className="rowTop">
               <span>Fog</span>
-              <span className="value">{fogDensity.toFixed(3)}</span>
+              <label className="toggle">
+                <input
+                  type="checkbox"
+                  checked={fogEnabled}
+                  onChange={(e) => setFogEnabled(e.target.checked)}
+                />
+                <span className="toggleLabel">{fogEnabled ? 'On' : 'Off'}</span>
+              </label>
             </div>
-            <input
-              className="slider"
-              type="range"
-              min="0"
-              max="0.12"
-              step="0.002"
-              value={fogDensity}
-              onChange={(e) => setFogDensity(Number(e.target.value))}
-              disabled={!fogEnabled}
-            />
+
+            <div className={`row ${!fogEnabled ? 'disabled' : ''}`}>
+              <div className="rowTop">
+                <span>Fog Density</span>
+                <span className="value">{fogDensity.toFixed(3)}</span>
+              </div>
+              <input
+                className="slider"
+                type="range"
+                min="0"
+                max="0.12"
+                step="0.002"
+                value={fogDensity}
+                onChange={(e) => setFogDensity(Number(e.target.value))}
+                disabled={!fogEnabled}
+              />
+            </div>
           </div>
 
           <div className="row">
@@ -94,3 +108,4 @@ export default function ControlsPanel({
     </div>
   )
 }
+
