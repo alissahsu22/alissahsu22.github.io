@@ -1,0 +1,24 @@
+{
+  "entries": [
+    {
+      "id": "blue",
+      "model": "blue/gesture-model.json",
+      "meta": "blue/gesture-model.meta.json"
+    },
+    {
+      "id": "red",
+      "model": "red/gesture-model.json",
+      "meta": "red/gesture-model.meta.json"
+    },
+    {
+      "id": "purple",
+      "model": "purple/gesture-model.json",
+      "meta": "purple/gesture-model.meta.json"
+    },
+    {
+      "id": "infinite_void",
+      "model": "infinite_void/gesture-model.json",
+      "meta": "infinite_void/gesture-model.meta.json"
+    }
+  ]
+}
